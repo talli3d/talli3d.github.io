@@ -1,0 +1,20 @@
+{
+  "name": "Talli 3D Printing",
+  "short_name": "Talli",
+  "description": "Order custom 3D prints from Talli in the UAE.",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f6f5",
+  "theme_color": "#0f766e",
+  "lang": "en",
+  "dir": "auto",
+  "icons": [
+    {"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Order a print", "short_name": "Order", "url": "/order?source=app", "icons": [{"src": "/icon-192.png", "sizes": "192x192"}]}
+  ]
+}

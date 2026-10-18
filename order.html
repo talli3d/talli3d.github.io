@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Talli 3D Printing – Order</title>
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="description" content="Tell Talli 3D Printing what you'd like printed: pictures, size, colours and quantity.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Talli 3D Printing">
+<meta property="og:title" content="Order a 3D print from Talli">
+<meta property="og:description" content="Send your idea, pictures and size in a few taps. We reply on WhatsApp.">
+<meta property="og:image" content="https://talli3d.github.io/talli/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap">
+<style>
+:root{--ink:#14201d;--muted:#5b6b67;--line:#dfe5e3;--teal:#0f766e;--teal-soft:#e3f2ef;--orange:#c2410c;--bg:#f4f6f5;--card:#fff;--red:#b42318}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "IBM Plex Sans",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+html[lang=ar] body{font-family:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:16px max(14px,env(safe-area-inset-right)) 120px max(14px,env(safe-area-inset-left))}
+header{display:flex;align-items:center;gap:12px;margin:4px 0 12px}
+.logo{width:44px;height:44px;border-radius:12px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font:700 22px "Bricolage Grotesque",sans-serif;flex:none}
+h1{font:700 20px/1.15 "Bricolage Grotesque",sans-serif;margin:0}
+html[lang=ar] h1{font-family:"IBM Plex Sans Arabic",sans-serif}
+.sub{color:var(--muted);font-size:13px}
+.lang{flex:none;min-height:36px;padding:0 14px;border-radius:18px;border:1.5px solid var(--line);background:#fff;font:600 14px inherit;cursor:pointer;margin-inline-start:auto}
+.prog{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin:0 0 14px}.prog i{display:block;height:100%;background:var(--teal);transition:width .25s}
+.bot{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.bot .av{width:34px;height:34px;border-radius:50%;background:var(--teal-soft);display:flex;align-items:center;justify-content:center;flex:none;font-size:18px}
+.bubble{background:var(--card);border-radius:4px 16px 16px 16px;padding:11px 14px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+html[dir=rtl] .bubble{border-radius:16px 4px 16px 16px}
+.bubble b{display:block;margin-bottom:2px}
+.card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px}
+.types{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.type{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:start;min-height:84px;padding:12px;border-radius:14px;border:2px solid var(--line);background:#fff;font:inherit;cursor:pointer}
+.type .e{font-size:24px;line-height:1}.type .t{font-weight:600}.type .d{font-size:12.5px;color:var(--muted)}
+.type.on{border-color:var(--teal);background:var(--teal-soft)}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+label:first-child{margin-top:0}
+input,textarea,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea{min-height:96px;resize:vertical}
+input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #7cc4b6;outline-offset:1px}
+.dims{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:20px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14px;cursor:pointer}
+.chip.on{border-color:var(--teal);background:var(--teal-soft);font-weight:600}
+.chip i{width:16px;height:16px;border-radius:50%;border:1px solid rgba(0,0,0,.18);display:inline-block}
+.tips{font-size:13.5px;color:var(--muted);margin:0 0 10px;padding-inline-start:18px}
+.pics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.pic{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#eef1f0}
+.pic img{width:100%;height:100%;object-fit:cover}
+.pic button{position:absolute;top:4px;inset-inline-end:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:16px;cursor:pointer}
+.add{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border:2px dashed #b9c6c2;border-radius:12px;color:var(--teal);font-weight:600;cursor:pointer;background:#fff}
+.add input{display:none}
+.yn{display:flex;gap:8px;flex-wrap:wrap}
+.sum{font-size:14px}.sum dt{color:var(--muted);font-size:12.5px;margin-top:8px}.sum dd{margin:0;white-space:pre-line}
+.err{color:var(--red);font-size:13px;margin-top:6px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px max(14px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
+.bar .in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:10px}
+.btn{font:inherit;font-weight:600;min-height:50px;border-radius:12px;border:1.5px solid var(--line);background:#fff;color:var(--ink);padding:0 18px;cursor:pointer}
+.btn.go{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn[disabled]{opacity:.55}
+.done{text-align:center;padding:30px 10px}
+.done .big{width:72px;height:72px;border-radius:50%;background:var(--teal);color:#fff;font-size:38px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.oid{font:700 22px "Bricolage Grotesque",monospace;letter-spacing:.04em;margin:6px 0 4px}
+.wa{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:12px;background:#1f8f4e;color:#fff;text-decoration:none;font-weight:600;margin-top:14px}
+.privacy{font-size:12px;color:var(--muted);text-align:center;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="bar" id="bar"></div>
+<script>
+// Talli order assistant. Everything the client enters (pictures included) is encrypted in this browser with
+// Talli's public key before it is sent, then stored as rows in the Talli link store. Only Talli can read it.
+var TALLI_KEY = {"kty":"EC","crv":"P-256","x":"4c95rbe-gcnPKVX79-iny1jPz8r8NBkn8CEuzBY7bRc","y":"xRq6RaR4fIRFPZqyHIclVnlsO9DGf_SPN4lZ-PTxBA0"};
+var FORM = "https://docs.google.com/forms/d/e/1FAIpQLSe5gfmV0amFX-zM1GPi7EsPbuITcDwwCSThS9shpLYF-f63Fw/formResponse";
+var E_ID = "entry.448647656", E_DATA = "entry.1838359332";
+var TALLI_WA = "971585579070", MAX_PICS = 6, CHUNK = 24000;   // Google Forms rejects answers over ~32 000 characters
+
+var TX = {
+ en:{
+  title:"Talli 3D Printing", sub:"Order request", hi:"Hi! I'm Talli's order assistant.",
+  q_type:"What would you like us to 3D print?",
+  types:{key:["🔑","Keychain / name tag","Names, initials, logos"],fig:["🧸","Figure / character","Toys, models, cake toppers"],
+         part:["🔧","Replacement part","Broken clips, knobs, holders"],logo:["🏷️","Logo / sign","Plaques, letters, stands"],
+         gift:["🎁","Gift / home décor","Vases, holders, occasions"],other:["✨","Something else","Tell us your idea"]},
+  q_desc:{key:"Tell me about the keychain or tag: what should it say or show?",fig:"Which character or figure is it, and what is it for?",
+          part:"What broke? Tell me what the part does and what it belongs to (brand / model if you know).",
+          logo:"What is the logo or sign for, and where will it go?",gift:"What's the gift idea, and who is it for?",other:"Describe your idea in a few words."},
+  descPh:"Write here…",
+  q_pics:"Send me pictures or sketches. They help us model it exactly.",
+  tips:{key:["A picture of the design, logo or a similar keychain you like"],fig:["Front, side and back views if you have them","A reference picture of the character"],
+        part:["The broken part from 2–3 angles","One photo next to a ruler or tape measure","Where it fits (the hole, clip or slot)"],
+        logo:["Your logo file or a clear photo of it","Where it will be mounted"],gift:["Any inspiration picture you like"],other:["Anything that shows your idea"]},
+  addPics:"＋ Add pictures", picsLeft:"{0} of {1} added", partNeedsPic:"For a replacement part, a picture really helps. Add one if you can.",
+  q_size:"How big should it be?", dims:["Length (cm)","Width (cm)","Height (cm)"], sizeUnsure:"Not sure – same size as in my picture",
+  sizeNote:"Anything else about size? (optional)", sizeNotePh:"e.g. must fit a 5 cm hole",
+  q_details:"A few details to get it right:",
+  d:{text:"Text to print (exact spelling)",font:"Letter style",fonts:["Simple","Bold","Handwritten"],sides:"Printed on both sides?",
+     height:"Height of the figure (cm)",base:"With a stand / base?",
+     fits:"What does it attach to or fit into?",strong:"Does it need to be strong or heat-resistant (car, kitchen, outdoor)?",
+     mount:"How will it be shown?",mounts:["Wall","Desk stand","Magnet","Not sure"],
+     occasion:"Occasion",occPh:"e.g. birthday, Eid, wedding"},
+  yes:"Yes", no:"No", unsure:"Not sure",
+  q_colour:"Which colours would you like?", asPhoto:"As in my picture",
+  colours:[["Black","#151515"],["White","#ffffff"],["Grey","#9aa0a6"],["Red","#d62828"],["Orange","#f77f00"],["Yellow","#ffd60a"],["Green","#2a9d4b"],["Blue","#2f6fde"],["Purple","#7b2cbf"],["Pink","#f4a3c0"],["Gold / silk","multi"]],
+  q_qty:"How many, and when do you need it?", qty:"Quantity", need:"Needed by (optional)", deliv:"Delivery or pickup?", delivs:["Delivery","Pickup"], area:"Area / emirate", areaPh:"e.g. Dubai Marina",
+  q_contact:"Last step: how do we reach you?", name:"Your name", phone:"WhatsApp number", phonePh:"05x xxx xxxx", notes:"Anything else? (optional)", notesPh:"Budget, questions, ideas…",
+  q_review:"Here's your request. Check it and send.", edit:"Edit",
+  sumL:{type:"Item",desc:"Description",pics:"Pictures",size:"Size",details:"Details",colour:"Colours",qty:"Quantity",need:"Needed by",deliv:"Delivery",contact:"Contact",notes:"Notes"},
+  back:"Back", next:"Next", send:"Send request", sending:"Sending… {0}%", need_type:"Choose one to continue", need_desc:"Tell me a little about it",
+  need_name:"Please add your name", need_phone:"Please add your WhatsApp number", failed:"Couldn't send. Check your connection and try again.",
+  doneT:"Request sent!", doneP:"Thanks {0}! We'll study your request and reply on WhatsApp, usually within a few hours.", yourId:"Your request number",
+  waBtn:"Let Talli know on WhatsApp", waMsg:"Hi Talli! I just sent order request {0} through your order page.",
+  privacy:"🔒 Your pictures and details are encrypted and only Talli can read them.", pcs:"pcs", cm:"cm", none:"—"
+ },
+ ar:{
+  title:"Talli 3D Printing", sub:"طلب طباعة", hi:"مرحبًا! أنا مساعد الطلبات في Talli.",
+  q_type:"ماذا تريد أن نطبع لك بتقنية ثلاثية الأبعاد؟",
+  types:{key:["🔑","ميدالية / اسم","أسماء، حروف، شعارات"],fig:["🧸","مجسّم / شخصية","ألعاب، نماذج، زينة كيك"],
+         part:["🔧","قطعة بديلة","مشابك، مقابض، حوامل مكسورة"],logo:["🏷️","شعار / لافتة","لوحات، حروف، حوامل"],
+         gift:["🎁","هدية / ديكور","مزهريات، حوامل، مناسبات"],other:["✨","شيء آخر","أخبرنا بفكرتك"]},
+  q_desc:{key:"أخبرني عن الميدالية: ماذا يُكتب عليها أو ماذا تُظهر؟",fig:"ما هي الشخصية أو المجسّم، ولأي غرض؟",
+          part:"ما الذي انكسر؟ أخبرني بوظيفة القطعة ولأي جهاز هي (الماركة / الموديل إن وُجد).",
+          logo:"لمن الشعار أو اللافتة، وأين ستوضع؟",gift:"ما فكرة الهدية، ولمن؟",other:"صف فكرتك بكلمات قليلة."},
+  descPh:"اكتب هنا…",
+  q_pics:"أرسل لي صورًا أو رسومات، فهي تساعدنا على التصميم بدقة.",
+  tips:{key:["صورة للتصميم أو الشعار أو ميدالية مشابهة تعجبك"],fig:["صور من الأمام والجانب والخلف إن وُجدت","صورة مرجعية للشخصية"],
+        part:["القطعة المكسورة من زاويتين أو ثلاث","صورة بجانب مسطرة أو شريط قياس","مكان تركيبها (الفتحة أو المشبك)"],
+        logo:["ملف الشعار أو صورة واضحة له","مكان التثبيت"],gift:["أي صورة ملهمة تعجبك"],other:["أي شيء يوضح فكرتك"]},
+  addPics:"＋ إضافة صور", picsLeft:"تمت إضافة {0} من {1}", partNeedsPic:"صورة القطعة تساعدنا كثيرًا، أضفها إن أمكن.",
+  q_size:"ما الحجم المطلوب؟", dims:["الطول (سم)","العرض (سم)","الارتفاع (سم)"], sizeUnsure:"لست متأكدًا – نفس الحجم في الصورة",
+  sizeNote:"ملاحظات أخرى عن الحجم (اختياري)", sizeNotePh:"مثال: يجب أن تدخل في فتحة 5 سم",
+  q_details:"بعض التفاصيل لنتقنه:",
+  d:{text:"النص المطلوب (بالتهجئة الصحيحة)",font:"نوع الخط",fonts:["بسيط","عريض","يدوي"],sides:"الطباعة على الوجهين؟",
+     height:"ارتفاع المجسّم (سم)",base:"مع قاعدة / حامل؟",
+     fits:"بماذا تُثبّت القطعة أو أين تُركّب؟",strong:"هل تحتاج أن تكون قوية أو تتحمل الحرارة (سيارة، مطبخ، خارجي)؟",
+     mount:"طريقة العرض",mounts:["على الجدار","حامل مكتب","مغناطيس","لست متأكدًا"],
+     occasion:"المناسبة",occPh:"مثال: عيد ميلاد، عيد، زفاف"},
+  yes:"نعم", no:"لا", unsure:"لست متأكدًا",
+  q_colour:"ما الألوان التي تفضلها؟", asPhoto:"كما في الصورة",
+  colours:[["أسود","#151515"],["أبيض","#ffffff"],["رمادي","#9aa0a6"],["أحمر","#d62828"],["برتقالي","#f77f00"],["أصفر","#ffd60a"],["أخضر","#2a9d4b"],["أزرق","#2f6fde"],["بنفسجي","#7b2cbf"],["وردي","#f4a3c0"],["ذهبي / حريري","multi"]],
+  q_qty:"كم قطعة، ومتى تحتاجها؟", qty:"الكمية", need:"مطلوب قبل (اختياري)", deliv:"توصيل أم استلام؟", delivs:["توصيل","استلام"], area:"المنطقة / الإمارة", areaPh:"مثال: دبي مارينا",
+  q_contact:"الخطوة الأخيرة: كيف نتواصل معك؟", name:"اسمك", phone:"رقم واتساب", phonePh:"05x xxx xxxx", notes:"ملاحظات أخرى (اختياري)", notesPh:"الميزانية، أسئلة، أفكار…",
+  q_review:"هذا طلبك. راجعه ثم أرسله.", edit:"تعديل",
+  sumL:{type:"المنتج",desc:"الوصف",pics:"الصور",size:"الحجم",details:"التفاصيل",colour:"الألوان",qty:"الكمية",need:"مطلوب قبل",deliv:"التسليم",contact:"التواصل",notes:"ملاحظات"},
+  back:"رجوع", next:"التالي", send:"إرسال الطلب", sending:"جارٍ الإرسال… {0}%", need_type:"اختر خيارًا للمتابعة", need_desc:"أخبرني قليلًا عن طلبك",
+  need_name:"يرجى كتابة اسمك", need_phone:"يرجى كتابة رقم واتساب", failed:"تعذّر الإرسال. تحقق من اتصالك وحاول مرة أخرى.",
+  doneT:"تم إرسال الطلب!", doneP:"شكرًا {0}! سندرس طلبك ونرد عليك عبر واتساب، عادةً خلال ساعات قليلة.", yourId:"رقم طلبك",
+  waBtn:"أبلغ Talli عبر واتساب", waMsg:"مرحبًا Talli! أرسلت للتو طلب الطباعة {0} عبر صفحة الطلبات.",
+  privacy:"🔒 صورك وبياناتك مشفّرة ولا يستطيع قراءتها إلا Talli.", pcs:"قطعة", cm:"سم", none:"—"
+ }
+};
+var LANG = (function(){ try{ var q=(location.search.match(/[?&]lang=(ar|en)(?:&|$)/)||[])[1]; if(q) return q; var v=localStorage.getItem("talli_lang"); if(v==="ar"||v==="en") return v; }catch(e){}
+  return /^ar/i.test(navigator.language||"") ? "ar" : "en"; })();
+function T(){ return TX[LANG]; }
+function t(k){ var a=[].slice.call(arguments,1), v=k.split(".").reduce(function(o,p){ return o&&o[p]; }, TX[LANG]); if(v==null) v=k.split(".").reduce(function(o,p){ return o&&o[p]; }, TX.en);
+  return typeof v==="string" ? v.replace(/\{(\d)\}/g,function(_,i){ return a[i]; }) : v; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function applyLang(){ document.documentElement.lang=LANG; document.documentElement.dir=LANG==="ar"?"rtl":"ltr"; }
+applyLang();
+
+var app=document.getElementById("app"), bar=document.getElementById("bar");
+var O={type:"",desc:"",pics:[],size:{l:"",w:"",h:"",unsure:false,note:""},det:{},colours:[],asPhoto:false,qty:"1",need:"",deliv:"",area:"",name:"",phone:"",notes:""};
+var STEPS=["type","desc","pics","size","details","colour","qty","contact","review"], step=0, err="", busy=false, sentId="";
+try{ var saved=JSON.parse(sessionStorage.getItem("talli_order")||"null"); if(saved && saved.O){ O=saved.O; step=saved.step||0; } }catch(e){}
+var QT=(location.search.match(/[?&]type=(key|fig|part|logo|gift|other)(?:&|$)/)||[])[1];
+if(QT && !O.type){ O.type=QT; step=1; }          // started from a card on the Talli home page
+function keep(){ try{ sessionStorage.setItem("talli_order", JSON.stringify({O:O, step:step})); }catch(e){} }
+
+function head(){ return '<header><a class="logo" href="https://talli3d.github.io/" aria-label="Talli home" style="text-decoration:none">T</a><div><h1>'+t("title")+'</h1><div class="sub">'+t("sub")+'</div></div><button class="lang" id="lang" type="button" lang="'+(LANG==="ar"?"en":"ar")+'">'+(LANG==="ar"?"English":"عربي")+'</button></header>'+
+  '<div class="prog"><i style="width:'+Math.round((step+1)/STEPS.length*100)+'%"></i></div>'; }
+function ask(q, sub){ return '<div class="bot"><div class="av">🤖</div><div class="bubble">'+(step===0?'<b>'+t("hi")+'</b>':'')+q+(sub?'<div class="sub" style="margin-top:4px">'+sub+'</div>':'')+'</div></div>'; }
+function yn(key, val){ return '<div class="yn">'+[["yes",t("yes")],["no",t("no")],["unsure",t("unsure")]].map(function(o){ return '<button type="button" class="chip'+(val===o[0]?' on':'')+'" data-det="'+key+'" data-val="'+o[0]+'">'+o[1]+'</button>'; }).join("")+'</div>'; }
+function choice(key, opts, val){ return '<div class="yn">'+opts.map(function(o,i){ return '<button type="button" class="chip'+(String(val)===String(i)?' on':'')+'" data-det="'+key+'" data-val="'+i+'">'+esc(o)+'</button>'; }).join("")+'</div>'; }
+function input(id, val, ph, type){ return '<input id="'+id+'" value="'+esc(val)+'"'+(ph?' placeholder="'+esc(ph)+'"':'')+(type?' type="'+type+'"':'')+' autocomplete="off">'; }
+
+function draw(){
+  var s=STEPS[step], h=head(), ty=O.type||"other";
+  if(s==="type"){
+    h+=ask(t("q_type"))+'<div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'"><span class="e">'+x[0]+'</span><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></button>'; }).join("")+'</div>';
+  } else if(s==="desc"){
+    h+=ask(t("q_desc."+ty))+'<div class="card"><textarea id="desc" placeholder="'+esc(t("descPh"))+'">'+esc(O.desc)+'</textarea></div>';
+  } else if(s==="pics"){
+    h+=ask(t("q_pics"))+'<div class="card"><ul class="tips">'+t("tips."+ty).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>'+
+      (O.pics.length<MAX_PICS?'<label class="add">'+t("addPics")+'<input type="file" id="files" accept="image/*" multiple></label>':'')+
+      '<div class="sub" style="margin-top:6px">'+t("picsLeft",O.pics.length,MAX_PICS)+'</div>'+
+      '<div class="pics">'+O.pics.map(function(p,i){ return '<div class="pic"><img src="'+p+'" alt=""><button type="button" data-delpic="'+i+'" aria-label="Remove">×</button></div>'; }).join("")+'</div>'+
+      (ty==="part"&&!O.pics.length?'<div class="err">'+t("partNeedsPic")+'</div>':'')+'</div>';
+  } else if(s==="size"){
+    h+=ask(t("q_size"))+'<div class="card"><div class="dims">'+["l","w","h"].map(function(k,i){ return '<div><label for="d_'+k+'">'+t("dims")[i]+'</label>'+input("d_"+k,O.size[k],"","number")+'</div>'; }).join("")+'</div>'+
+      '<div style="margin-top:10px"><button type="button" class="chip'+(O.size.unsure?' on':'')+'" id="unsure">'+t("sizeUnsure")+'</button></div>'+
+      '<label for="sizenote">'+t("sizeNote")+'</label>'+input("sizenote",O.size.note,t("sizeNotePh"))+'</div>';
+  } else if(s==="details"){
+    var d=O.det, x='';
+    if(ty==="key"){ x='<label for="dt_text">'+t("d.text")+'</label>'+input("dt_text",d.text||"")+'<label>'+t("d.font")+'</label>'+choice("font",t("d.fonts"),d.font)+'<label>'+t("d.sides")+'</label>'+yn("sides",d.sides); }
+    else if(ty==="fig"){ x='<label for="dt_height">'+t("d.height")+'</label>'+input("dt_height",d.height||"","","number")+'<label>'+t("d.base")+'</label>'+yn("base",d.base); }
+    else if(ty==="part"){ x='<label for="dt_fits">'+t("d.fits")+'</label>'+input("dt_fits",d.fits||"")+'<label>'+t("d.strong")+'</label>'+yn("strong",d.strong); }
+    else if(ty==="logo"){ x='<label for="dt_text">'+t("d.text")+'</label>'+input("dt_text",d.text||"")+'<label>'+t("d.mount")+'</label>'+choice("mount",t("d.mounts"),d.mount); }
+    else if(ty==="gift"){ x='<label for="dt_occasion">'+t("d.occasion")+'</label>'+input("dt_occasion",d.occasion||"",t("d.occPh"))+'<label for="dt_text">'+t("d.text")+'</label>'+input("dt_text",d.text||""); }
+    else { x='<label for="dt_text">'+t("d.text")+'</label>'+input("dt_text",d.text||""); }
+    h+=ask(t("q_details"))+'<div class="card">'+x+'</div>';
+  } else if(s==="colour"){
+    h+=ask(t("q_colour"))+'<div class="card"><div class="chips">'+t("colours").map(function(c,i){ var bg=c[1]==="multi"?"conic-gradient(#e0b13a,#2f6fde,#2a9d4b,#e0b13a)":c[1];
+      return '<button type="button" class="chip'+(O.colours.indexOf(i)>=0?' on':'')+'" data-col="'+i+'"><i style="background:'+bg+'"></i>'+esc(c[0])+'</button>'; }).join("")+
+      '<button type="button" class="chip'+(O.asPhoto?' on':'')+'" id="asphoto">📷 '+t("asPhoto")+'</button></div></div>';
+  } else if(s==="qty"){
+    h+=ask(t("q_qty"))+'<div class="card"><label for="qtyi">'+t("qty")+'</label>'+input("qtyi",O.qty,"","number")+'<label for="needi">'+t("need")+'</label>'+input("needi",O.need,"","date")+
+      '<label>'+t("deliv")+'</label>'+choice("deliv",t("delivs"),O.deliv)+'<label for="areai">'+t("area")+'</label>'+input("areai",O.area,t("areaPh"))+'</div>';
+  } else if(s==="contact"){
+    h+=ask(t("q_contact"))+'<div class="card"><label for="namei">'+t("name")+'</label><input id="namei" value="'+esc(O.name)+'" autocomplete="name">'+
+      '<label for="phonei">'+t("phone")+'</label><input id="phonei" type="tel" value="'+esc(O.phone)+'" placeholder="'+t("phonePh")+'" autocomplete="tel">'+
+      '<label for="notesi">'+t("notes")+'</label><textarea id="notesi" placeholder="'+esc(t("notesPh"))+'">'+esc(O.notes)+'</textarea></div>';
+  } else if(s==="review"){
+    h+=ask(t("q_review"))+'<div class="card"><dl class="sum">'+summary().map(function(r){ return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1]||t("none"))+'</dd>'; }).join("")+'</dl>'+
+      (O.pics.length?'<div class="pics">'+O.pics.map(function(p){ return '<div class="pic"><img src="'+p+'" alt=""></div>'; }).join("")+'</div>':'')+'</div><div class="privacy">'+t("privacy")+'</div>';
+  }
+  if(err) h+='<div class="err" role="alert">'+esc(err)+'</div>';
+  app.innerHTML=h;
+  bar.innerHTML='<div class="in">'+(step>0?'<button class="btn" id="back" type="button">'+t("back")+'</button>':'<span></span>')+
+    '<button class="btn go" id="next" type="button"'+(busy?' disabled':'')+'>'+(s==="review"?(busy?busy:t("send")):t("next"))+'</button></div>';
+  keep();
+}
+function detText(){
+  var d=O.det, ty=O.type, L=T().d, r=[];
+  var ynT=function(v){ return v?t(v):""; };
+  if(d.text) r.push(L.text+": "+d.text);
+  if(d.font!=null) r.push(L.font+": "+L.fonts[d.font]);
+  if(d.sides) r.push(L.sides+" "+ynT(d.sides));
+  if(d.height) r.push(L.height+": "+d.height);
+  if(d.base) r.push(L.base+" "+ynT(d.base));
+  if(d.fits) r.push(L.fits+" "+d.fits);
+  if(d.strong) r.push(L.strong+" "+ynT(d.strong));
+  if(d.mount!=null) r.push(L.mount+": "+L.mounts[d.mount]);
+  if(d.occasion) r.push(L.occasion+": "+d.occasion);
+  return r.join("\n");
+}
+function sizeText(){ var z=O.size, dims=[z.l,z.w,z.h].map(function(v){ return v||"?"; }).join(" × ");
+  return ((z.l||z.w||z.h)?dims+" "+t("cm"):"")+(z.unsure?((z.l||z.w||z.h)?" · ":"")+t("sizeUnsure"):"")+(z.note?"\n"+z.note:""); }
+function colourText(){ return O.colours.map(function(i){ return t("colours")[i][0]; }).concat(O.asPhoto?[t("asPhoto")]:[]).join(", "); }
+function summary(){
+  var L=T().sumL, ty=T().types[O.type]||["",""];
+  return [[L.type,ty[0]+" "+ty[1]],[L.desc,O.desc],[L.pics,String(O.pics.length)],[L.size,sizeText()],[L.details,detText()],[L.colour,colourText()],
+          [L.qty,O.qty+" "+t("pcs")],[L.need,O.need],[L.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[L.contact,O.name+" · "+O.phone],[L.notes,O.notes]];
+}
+
+// pictures are shrunk on the phone before sending (max 1400 px, JPEG)
+function shrink(file){
+  return new Promise(function(res){
+    var r=new FileReader(); r.onload=function(){ var im=new Image(); im.onload=function(){
+      var m=1400, sc=Math.min(1, m/Math.max(im.width,im.height)), c=document.createElement("canvas");
+      c.width=Math.round(im.width*sc); c.height=Math.round(im.height*sc);
+      var g=c.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,c.width,c.height); g.drawImage(im,0,0,c.width,c.height);
+      res(c.toDataURL("image/jpeg",0.72)); }; im.onerror=function(){ res(null); }; im.src=r.result; };
+    r.onerror=function(){ res(null); }; r.readAsDataURL(file);
+  });
+}
+
+function validate(){
+  var s=STEPS[step];
+  if(s==="type" && !O.type) return t("need_type");
+  if(s==="desc" && !O.desc.trim()) return t("need_desc");
+  if(s==="contact"){ if(!O.name.trim()) return t("need_name"); if(O.phone.replace(/\D/g,"").length<8) return t("need_phone"); }
+  return "";
+}
+
+app.addEventListener("click", function(e){
+  var b=e.target.closest("button"); if(!b) return;
+  if(b.id==="lang"){ LANG=LANG==="ar"?"en":"ar"; try{ localStorage.setItem("talli_lang",LANG); }catch(_){}; applyLang(); draw(); return; }
+  if(b.dataset.type){ O.type=b.dataset.type; err=""; draw(); return; }
+  if(b.dataset.delpic!=null){ O.pics.splice(+b.dataset.delpic,1); draw(); return; }
+  if(b.id==="unsure"){ O.size.unsure=!O.size.unsure; draw(); return; }
+  if(b.dataset.col!=null){ var i=+b.dataset.col, k=O.colours.indexOf(i); if(k>=0) O.colours.splice(k,1); else O.colours.push(i); draw(); return; }
+  if(b.id==="asphoto"){ O.asPhoto=!O.asPhoto; draw(); return; }
+  if(b.dataset.det){ var key=b.dataset.det, val=b.dataset.val; if(key==="deliv"){ O.deliv=O.deliv===val?"":val; } else { O.det[key]=O.det[key]===val?undefined:val; } draw(); return; }
+});
+app.addEventListener("input", function(e){
+  var id=e.target.id, v=e.target.value;
+  if(id==="desc") O.desc=v; else if(id==="sizenote") O.size.note=v; else if(/^d_[lwh]$/.test(id)) O.size[id[2]]=v;
+  else if(/^dt_/.test(id)) O.det[id.slice(3)]=v; else if(id==="qtyi") O.qty=v; else if(id==="needi") O.need=v; else if(id==="areai") O.area=v;
+  else if(id==="namei") O.name=v; else if(id==="phonei") O.phone=v; else if(id==="notesi") O.notes=v;
+  keep();
+});
+app.addEventListener("change", function(e){
+  if(e.target.id!=="files") return;
+  var files=[].slice.call(e.target.files||[]).slice(0, MAX_PICS-O.pics.length);
+  Promise.all(files.map(shrink)).then(function(list){ list.forEach(function(p){ if(p) O.pics.push(p); }); draw(); });
+});
+bar.addEventListener("click", function(e){
+  var b=e.target.closest("button"); if(!b || busy) return;
+  if(b.id==="back"){ err=""; step=Math.max(0,step-1); draw(); window.scrollTo(0,0); return; }
+  if(b.id!=="next") return;
+  err=validate(); if(err){ draw(); return; }
+  if(STEPS[step]==="review"){ submit(); return; }
+  step++; draw(); window.scrollTo(0,0);
+});
+
+// ---------- encrypt with Talli's public key (ECDH P-256 → AES-GCM) and send in chunks ----------
+function b64(buf){ var u=new Uint8Array(buf), s=""; for(var i=0;i<u.length;i+=8192) s+=String.fromCharCode.apply(null,u.subarray(i,i+8192)); return btoa(s); }
+function rid(n){ var A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789", r=crypto.getRandomValues(new Uint32Array(n)), s=""; for(var i=0;i<n;i++) s+=A[r[i]%A.length]; return s; }
+var STORE_SHEET = "1Z1U1eL7RAJiCRhAOU8O9AnjTfTl6ANzCMU_k1TBNogM", STORE_GID = "383189794";
+// which parts of this order already reached the store (public sheet, read with a JSONP gviz query)
+function storedParts(oid){
+  return new Promise(function(res){
+    var cb = "talliChk" + Date.now() + Math.floor(Math.random()*1000), s = document.createElement("script"), fin = false;
+    function end(v){ if(fin) return; fin = true; s.remove(); try{ delete window[cb]; }catch(e){} res(v); }
+    window[cb] = function(r){ var got = {}; try{ r.table.rows.forEach(function(row){ var id = row.c[0] && row.c[0].v; if(id) got[id] = true; }); }catch(e){} end(got); };
+    s.onerror = function(){ end(null); }; setTimeout(function(){ end(null); }, 15000);
+    s.src = "https://docs.google.com/spreadsheets/d/" + STORE_SHEET + "/gviz/tq?gid=" + STORE_GID + "&tqx=responseHandler:" + cb +
+      "&tq=" + encodeURIComponent("select B where B starts with 'o:" + oid + ":'");
+    document.head.appendChild(s);
+  });
+}
+function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+function post(id, data){ var body=new URLSearchParams(); body.append(E_ID,id); body.append(E_DATA,data); return fetch(FORM,{method:"POST",mode:"no-cors",body:body}); }
+async function submit(){
+  busy=t("sending",0); draw();
+  try{
+    var oid="ORD-"+rid(6);
+    var payload={v:1, id:oid, lang:LANG, at:new Date().toISOString(), type:O.type, typeName:TX.en.types[O.type][1], desc:O.desc,
+      size:O.size, details:O.det, detailsText:detText(), colours:O.colours.map(function(i){ return TX.en.colours[i][0]; }), asPhoto:O.asPhoto,
+      qty:O.qty, need:O.need, delivery:O.deliv!==""?TX.en.delivs[O.deliv]:"", area:O.area, name:O.name, phone:O.phone, notes:O.notes, pics:O.pics};
+    var pub=await crypto.subtle.importKey("jwk", TALLI_KEY, {name:"ECDH",namedCurve:"P-256"}, false, []);
+    var eph=await crypto.subtle.generateKey({name:"ECDH",namedCurve:"P-256"}, true, ["deriveKey"]);
+    var key=await crypto.subtle.deriveKey({name:"ECDH",public:pub}, eph.privateKey, {name:"AES-GCM",length:256}, false, ["encrypt"]);
+    var iv=crypto.getRandomValues(new Uint8Array(12));
+    var ct=b64(await crypto.subtle.encrypt({name:"AES-GCM",iv:iv}, key, new TextEncoder().encode(JSON.stringify(payload))));
+    var epk=await crypto.subtle.exportKey("jwk", eph.publicKey);
+    var parts=[]; for(var i=0;i<ct.length;i+=CHUNK) parts.push(ct.slice(i,i+CHUNK));
+    var n=parts.length, pad=function(i){ return ("00"+i).slice(-3); };
+    var rows=[["o:"+oid+":000/"+n, JSON.stringify({v:1, epk:{kty:"EC",crv:"P-256",x:epk.x,y:epk.y}, iv:b64(iv), n:n})]];
+    for(var j=0;j<n;j++) rows.push(["o:"+oid+":"+pad(j+1)+"/"+n, parts[j]]);
+    for(var j2=0;j2<rows.length;j2+=4){            // 4 parts at a time
+      await Promise.all(rows.slice(j2,j2+4).map(function(r){ return post(r[0], r[1]); }));
+      busy=t("sending",Math.round(Math.min(rows.length,j2+4)/rows.length*90)); draw(); }
+    // make sure every part arrived; re-send any that didn't (up to 3 rounds)
+    var checked=false;
+    for(var round=0; round<4; round++){
+      await wait(round===0?2500:4000);
+      var got=await storedParts(oid);
+      if(!got) continue;
+      checked=true;
+      var missing=rows.filter(function(r){ return !got[r[0]]; });
+      if(!missing.length){ rows=[]; break; }
+      if(round===3) break;
+      for(var m=0;m<missing.length;m+=4) await Promise.all(missing.slice(m,m+4).map(function(r){ return post(r[0], r[1]); }));
+    }
+    if(rows.length && checked) throw new Error("not all parts arrived");   // if the check itself couldn't run, trust the sends
+    busy=t("sending",100); draw();
+    sentId=oid; busy=false; try{ sessionStorage.removeItem("talli_order"); }catch(_){}
+    done();
+  }catch(e){ busy=false; err=t("failed"); draw(); }
+}
+function done(){
+  bar.remove();
+  var wa="https://wa.me/"+TALLI_WA+"?text="+encodeURIComponent(t("waMsg",sentId));
+  app.innerHTML=head()+'<div class="done"><div class="big">&#10003;</div><h1>'+t("doneT")+'</h1><p>'+esc(t("doneP",O.name.split(" ")[0]||""))+'</p>'+
+    '<div class="sub">'+t("yourId")+'</div><div class="oid"><bdi>'+sentId+'</bdi></div><a class="wa" href="'+wa+'">'+t("waBtn")+'</a><div class="privacy">'+t("privacy")+'</div></div>';
+  window.scrollTo(0,0);
+}
+draw();
+if("serviceWorker" in navigator && location.hostname==="talli3d.github.io" && location.pathname.indexOf("/talli/")!==0) navigator.serviceWorker.register("/sw.js").catch(function(){});
+</script>
+</body>
+</html>

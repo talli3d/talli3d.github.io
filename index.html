@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Talli 3D Printing</title>
+<meta name="description" content="Custom 3D printing in the UAE: name keychains, gifts, replacement parts, logos and more. Order in a few taps and get your quote on WhatsApp.">
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Talli">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Talli 3D Printing">
+<meta property="og:title" content="Talli 3D Printing – custom 3D prints in the UAE">
+<meta property="og:description" content="Name keychains, gifts, replacement parts and logos. Order in a few taps, get your quote on WhatsApp.">
+<meta property="og:image" content="https://talli3d.github.io/preview.png">
+<meta property="og:url" content="https://talli3d.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap">
+<style>
+:root{--ink:#14201d;--muted:#5b6b67;--line:#dfe5e3;--teal:#0f766e;--teal-soft:#e3f2ef;--orange:#e07a1f;--bg:#f4f6f5;--card:#fff}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+html[lang=ar] body{font-family:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left))}
+.top{display:flex;align-items:center;gap:12px;padding:14px 0}
+.top img{height:54px;width:auto}
+.lang{margin-inline-start:auto;min-height:38px;padding:0 16px;border-radius:19px;border:1.5px solid var(--line);background:#fff;font:600 14px inherit;cursor:pointer}
+.lang[lang=ar]{font-family:"IBM Plex Sans Arabic",sans-serif}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center;padding:20px 0 34px}
+h1{font:700 clamp(30px,5.2vw,48px)/1.08 "Bricolage Grotesque",sans-serif;margin:0 0 14px;letter-spacing:-.01em}
+html[lang=ar] h1,html[lang=ar] h2{font-family:"IBM Plex Sans Arabic",sans-serif;letter-spacing:0;line-height:1.25}
+.lead{font-size:18px;color:var(--muted);margin:0 0 22px;max-width:34em}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 22px;border-radius:14px;font-weight:600;text-decoration:none;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-size:16px}
+.btn.go{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.wa{background:#1f8f4e;color:#fff;border-color:#1f8f4e}
+.heroart{background:#fff;border-radius:24px;padding:22px;display:flex;align-items:center;justify-content:center;aspect-ratio:1;max-width:380px;justify-self:center;width:100%}
+.heroart img{width:86%;height:auto}
+h2{font:700 26px/1.2 "Bricolage Grotesque",sans-serif;margin:0 0 6px}
+.sec{padding:26px 0}
+.sub{color:var(--muted);margin:0 0 16px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{display:flex;flex-direction:column;gap:4px;background:#fff;border-radius:16px;padding:16px;text-decoration:none;border:2px solid transparent;transition:border-color .15s}
+.card:hover{border-color:var(--teal)}
+.card .e{font-size:28px;line-height:1}.card b{font-size:16px}.card span{font-size:13.5px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:s}
+.step{background:#fff;border-radius:16px;padding:16px;position:relative}
+.step::before{counter-increment:s;content:counter(s);display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;margin-bottom:8px}
+.step b{display:block;margin-bottom:2px}.step span{font-size:14px;color:var(--muted)}
+.why{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.why div{background:var(--teal-soft);border-radius:14px;padding:14px;font-size:14px}
+.why b{display:block;color:var(--teal);margin-bottom:2px}
+.install{display:none;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:14px 16px;margin:6px 0 0}
+.install.show{display:flex}
+.install img{width:44px;height:44px;border-radius:10px}
+.install div{flex:1;font-size:14px}.install b{display:block;font-size:15px}
+footer{padding:28px 0 calc(28px + env(safe-area-inset-bottom));color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:20px}
+footer a{text-decoration:none;font-weight:600;color:var(--ink)}
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;padding-top:6px}
+  .heroart{max-width:220px;order:-1}
+  .cards{grid-template-columns:1fr 1fr}
+  .steps,.why{grid-template-columns:1fr 1fr}
+  .cta .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><img src="/logo.svg" alt="Talli 3D Printing"><button class="lang" id="lang" type="button"></button></header>
+
+  <section class="hero">
+    <div>
+      <h1 data-t="h1"></h1>
+      <p class="lead" data-t="lead"></p>
+      <div class="cta">
+        <a class="btn go" href="/order" data-t="order"></a>
+        <a class="btn wa" id="wa" href="#" data-t="wa"></a>
+      </div>
+      <div class="install" id="install">
+        <img src="/icon-192.png" alt="">
+        <div><b data-t="instT"></b><span id="instHow"></span></div>
+        <button class="btn" id="instBtn" type="button" data-t="instBtn" hidden></button>
+      </div>
+    </div>
+    <div class="heroart"><img src="/mark.svg" alt=""></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-t="makeT"></h2><p class="sub" data-t="makeS"></p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-t="howT"></h2><p class="sub" data-t="howS"></p>
+    <div class="steps" id="steps"></div>
+  </section>
+
+  <section class="sec">
+    <h2 data-t="whyT"></h2>
+    <div class="why" id="why"></div>
+  </section>
+
+  <footer>
+    <div><b>Talli 3D Printing</b> · <span data-t="where"></span></div>
+    <div style="margin-top:6px"><a id="wa2" href="#">WhatsApp 058 557 9070</a></div>
+  </footer>
+</div>
+<script>
+var PHONE = "971585579070";
+var TX = {
+ en:{h1:"Custom 3D printing in the UAE", lead:"Name keychains, gifts, replacement parts, logos and more, designed and printed for you. Send your idea in a few taps and get your quote on WhatsApp.",
+     order:"Order a print", wa:"WhatsApp us", waMsg:"Hi Talli! I'd like to ask about a 3D print.",
+     instT:"Get the Talli app", instIos:"On iPhone: tap Share, then Add to Home Screen.", instAnd:"Add Talli to your home screen for quick ordering.", instBtn:"Install",
+     makeT:"What we print", makeS:"Tap one to start your order.",
+     types:[["key","🔑","Keychains and name tags","Names, initials, logos"],["fig","🧸","Figures and characters","Toys, models, cake toppers"],["part","🔧","Replacement parts","Broken clips, knobs, holders"],["logo","🏷️","Logos and signs","Plaques, letters, stands"],["gift","🎁","Gifts and home décor","Vases, holders, occasions"],["other","✨","Your own idea","Tell us what you need"]],
+     howT:"How it works", howS:"From idea to your door, all on your phone.",
+     steps:[["Send your idea","Pictures, size and colours in a few taps."],["Get your quote","We study it and reply on WhatsApp."],["Approve on your phone","Check each item and approve with one tap."],["We print and deliver","Printed in the UAE, delivered or ready for pickup."]],
+     whyT:"Why Talli", why:[["Multi-colour","Up to 4 colours in one print."],["Strong materials","PLA for detail, PETG for strength and heat."],["Fair prices","Clear quotes before we start."],["Across the UAE","Delivery or pickup."]],
+     where:"United Arab Emirates", langBtn:"عربي"},
+ ar:{h1:"طباعة ثلاثية الأبعاد حسب الطلب في الإمارات", lead:"ميداليات بالأسماء، هدايا، قطع بديلة، شعارات وأكثر، نصممها ونطبعها لك. أرسل فكرتك بخطوات بسيطة واستلم عرض السعر عبر واتساب.",
+     order:"اطلب طباعة", wa:"راسلنا على واتساب", waMsg:"مرحبًا Talli! أود الاستفسار عن طباعة ثلاثية الأبعاد.",
+     instT:"حمّل تطبيق Talli", instIos:"على الآيفون: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية».", instAnd:"أضف Talli إلى شاشتك الرئيسية للطلب بسرعة.", instBtn:"تثبيت",
+     makeT:"ماذا نطبع", makeS:"اختر نوعًا لتبدأ طلبك.",
+     types:[["key","🔑","ميداليات وأسماء","أسماء، حروف، شعارات"],["fig","🧸","مجسّمات وشخصيات","ألعاب، نماذج، زينة كيك"],["part","🔧","قطع بديلة","مشابك، مقابض، حوامل مكسورة"],["logo","🏷️","شعارات ولافتات","لوحات، حروف، حوامل"],["gift","🎁","هدايا وديكور","مزهريات، حوامل، مناسبات"],["other","✨","فكرتك الخاصة","أخبرنا بما تحتاجه"]],
+     howT:"كيف نعمل", howS:"من الفكرة إلى باب بيتك، كله من هاتفك.",
+     steps:[["أرسل فكرتك","صور، مقاسات وألوان بخطوات بسيطة."],["استلم عرض السعر","ندرس طلبك ونرد عبر واتساب."],["وافق من هاتفك","راجع كل منتج ووافق بلمسة واحدة."],["نطبع ونوصل","طباعة داخل الإمارات مع توصيل أو استلام."]],
+     whyT:"لماذا Talli", why:[["ألوان متعددة","حتى 4 ألوان في قطعة واحدة."],["خامات قوية","PLA للتفاصيل وPETG للقوة والحرارة."],["أسعار عادلة","عرض سعر واضح قبل البدء."],["في كل الإمارات","توصيل أو استلام."]],
+     where:"الإمارات العربية المتحدة", langBtn:"English"}
+};
+var LANG = (function(){ try{ var q=(location.search.match(/[?&]lang=(ar|en)(?:&|$)/)||[])[1]; if(q) return q; var v=localStorage.getItem("talli_lang"); if(v==="ar"||v==="en") return v; }catch(e){}
+  return /^ar/i.test(navigator.language||"") ? "ar" : "en"; })();
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent), standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone, deferred = null;
+function draw(){
+  var T = TX[LANG];
+  document.documentElement.lang = LANG; document.documentElement.dir = LANG==="ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-t]").forEach(function(el){ el.textContent = T[el.dataset.t]; });
+  var lb = document.getElementById("lang"); lb.textContent = T.langBtn; lb.lang = LANG==="ar" ? "en" : "ar";
+  var wa = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(T.waMsg);
+  document.getElementById("wa").href = wa; document.getElementById("wa2").href = wa;
+  document.getElementById("cards").innerHTML = T.types.map(function(x){ return '<a class="card" href="/order?type=' + x[0] + '&lang=' + LANG + '"><span class="e" aria-hidden="true">' + x[1] + '</span><b>' + esc(x[2]) + '</b><span>' + esc(x[3]) + '</span></a>'; }).join("");
+  document.getElementById("steps").innerHTML = T.steps.map(function(x){ return '<div class="step"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
+  document.getElementById("why").innerHTML = T.why.map(function(x){ return '<div><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</div>'; }).join("");
+  document.querySelector(".cta .go").href = "/order?lang=" + LANG;
+  var ins = document.getElementById("install");
+  ins.classList.toggle("show", !standalone && (isIos || !!deferred));
+  document.getElementById("instHow").textContent = isIos ? T.instIos : T.instAnd;
+  document.getElementById("instBtn").hidden = !deferred;
+}
+document.getElementById("lang").onclick = function(){ LANG = LANG==="ar" ? "en" : "ar"; try{ localStorage.setItem("talli_lang", LANG); }catch(e){} draw(); };
+window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); deferred = e; draw(); });
+document.getElementById("instBtn").onclick = function(){ if(!deferred) return; deferred.prompt(); deferred.userChoice.finally(function(){ deferred = null; draw(); }); };
+if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(function(){});
+draw();
+</script>
+</body>
+</html>
