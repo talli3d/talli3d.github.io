@@ -41,9 +41,10 @@ html[lang=ar] h1{font-family:"IBM Plex Sans Arabic",sans-serif;letter-spacing:0;
 html[dir=rtl] .bubble{border-radius:18px 4px 18px 18px}
 .bubble b{display:block;margin-bottom:2px}
 .card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
-.types{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .type{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:start;min-height:112px;padding:16px;border-radius:16px;border:2px solid transparent;background:#fff;font:inherit;cursor:pointer;transition:border-color .15s}
 .type:hover{border-color:#b9d9d2}
+.type{overflow:hidden;min-width:0}.type img{display:block;align-self:stretch;width:calc(100% + 32px);max-width:none;margin:-16px -16px 8px;height:auto;aspect-ratio:3/2;object-fit:cover;background:#eef4f2}
 .type .e{font-size:28px;line-height:1;margin-bottom:4px}.type .t{font-weight:600;font-size:16px}.type .d{font-size:13.5px;color:var(--muted)}
 .type.on{border-color:var(--teal);background:var(--teal-soft)}
 label{display:block;font-size:13.5px;color:var(--muted);margin:12px 0 5px;font-weight:500}
@@ -76,7 +77,7 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-vis
 .oid{font:700 24px "Bricolage Grotesque",monospace;letter-spacing:.04em;margin:6px 0 4px}
 .wa{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;border-radius:14px;background:#1f8f4e;color:#fff;text-decoration:none;font-weight:600;margin-top:16px}
 .privacy{font-size:12.5px;color:var(--muted);text-align:center;margin-top:10px}
-@media (min-width:700px){ .types{grid-template-columns:repeat(3,1fr)} }
+@media (min-width:700px){ .types{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (prefers-reduced-motion:reduce){ .prog i,.type{transition:none} }
 </style>
 </head>
@@ -193,7 +194,7 @@ function input(id, val, ph, type){ return '<input id="'+id+'" value="'+esc(val)+
 function draw(){
   var s=STEPS[step], h=head(), ty=O.type||"other";
   if(s==="type"){
-    h+=ask(t("q_type"))+'<div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'"><span class="e">'+x[0]+'</span><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></button>'; }).join("")+'</div>';
+    h+=ask(t("q_type"))+'<div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'"><img src="https://talli3d.github.io/samples/sample-'+k+'.jpg" alt="" width="480" height="320" loading="lazy"><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></button>'; }).join("")+'</div>';
   } else if(s==="desc"){
     h+=ask(t("q_desc."+ty))+'<div class="card"><textarea id="desc" placeholder="'+esc(t("descPh"))+'">'+esc(O.desc)+'</textarea></div>';
   } else if(s==="pics"){
