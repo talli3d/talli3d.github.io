@@ -45,6 +45,9 @@ h2{font:700 26px/1.2 "Bricolage Grotesque",sans-serif;margin:0 0 6px}
 .sec{padding:26px 0}
 .sub{color:var(--muted);margin:0 0 16px}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.aiopt{display:flex;align-items:center;gap:14px;margin-bottom:12px;padding:16px 18px;border-radius:16px;text-decoration:none;color:#fff;background:linear-gradient(120deg,#0f766e,#1d4ed8 70%,#7c3aed)}
+.aiopt .e{font-size:32px;line-height:1;flex:none}.aiopt b{display:block;font-size:17px}.aiopt span span{display:block;font-size:13.5px;opacity:.9}
+.aiopt:hover{filter:brightness(1.08)}
 .card{display:flex;flex-direction:column;gap:4px;background:#fff;border-radius:16px;padding:16px;text-decoration:none;border:2px solid transparent;transition:border-color .15s}
 .card:hover{border-color:var(--teal)}
 .card{overflow:hidden;min-width:0}.card img{display:block;width:calc(100% + 32px);max-width:none;margin:-16px -16px 8px;height:auto;aspect-ratio:3/2;object-fit:cover;background:#eef4f2}
@@ -95,6 +98,7 @@ footer a{text-decoration:none;font-weight:600;color:var(--ink)}
 
   <section class="sec">
     <h2 data-t="makeT"></h2><p class="sub" data-t="makeS"></p>
+    <a class="aiopt" id="aiopt" href="/order?type=ai"></a>
     <div class="cards" id="cards"></div>
   </section>
 
@@ -146,6 +150,9 @@ function draw(){
   var lb = document.getElementById("lang"); lb.textContent = T.langBtn; lb.lang = LANG==="ar" ? "en" : "ar";
   var wa = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(T.waMsg);
   document.getElementById("wa").href = wa; document.getElementById("wa2").href = wa;
+  var ai = LANG==="ar" ? ["طلب سريع بالذكاء الاصطناعي","صف طلبك بجملة واحدة، نرسم لك صورة ونتخطى الأسئلة."] : ["Quick order with AI","Describe it in one sentence. We draw a picture and skip the questions."];
+  var ao = document.getElementById("aiopt"); ao.href = "/order?type=ai&lang=" + LANG;
+  ao.innerHTML = '<span class="e" aria-hidden="true">✨</span><span><b>' + esc(ai[0]) + '</b><span>' + esc(ai[1]) + '</span></span>';
   document.getElementById("cards").innerHTML = T.types.map(function(x){ return '<a class="card" href="/order?type=' + x[0] + '&lang=' + LANG + '"><img src="/samples/sample-' + x[0] + '.jpg" alt="" width="480" height="320" loading="lazy"><b>' + esc(x[2]) + '</b><span>' + esc(x[3]) + '</span></a>'; }).join("");
   document.getElementById("steps").innerHTML = T.steps.map(function(x){ return '<div class="step"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
   document.getElementById("why").innerHTML = T.why.map(function(x){ return '<div><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</div>'; }).join("");

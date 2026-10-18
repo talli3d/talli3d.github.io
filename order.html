@@ -47,6 +47,16 @@ html[dir=rtl] .bubble{border-radius:18px 4px 18px 18px}
 .type{overflow:hidden;min-width:0}.type img{display:block;align-self:stretch;width:calc(100% + 32px);max-width:none;margin:-16px -16px 8px;height:auto;aspect-ratio:3/2;object-fit:cover;background:#eef4f2}
 .type .e{font-size:28px;line-height:1;margin-bottom:4px}.type .t{font-weight:600;font-size:16px}.type .d{font-size:13.5px;color:var(--muted)}
 .type.on{border-color:var(--teal);background:var(--teal-soft)}
+.aiopt{display:flex;align-items:center;gap:14px;width:100%;min-height:0;margin-bottom:12px;padding:14px 16px;border-radius:16px;border:2px solid transparent;cursor:pointer;text-align:start;font:inherit;color:#fff;
+  background:linear-gradient(120deg,#0f766e,#1d4ed8 70%,#7c3aed)}
+.aiopt .e{font-size:30px;line-height:1;flex:none}.aiopt .t{font-weight:700;font-size:17px;display:block}.aiopt .d{font-size:13.5px;opacity:.9;display:block}
+.aiopt.on{border-color:#ffd60a}
+.aiimg{position:relative;margin-top:12px;border-radius:14px;overflow:hidden;background:#eef1f0;aspect-ratio:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;text-align:center;padding:0}
+.aiimg img{width:100%;height:100%;object-fit:cover;display:block}
+.aiimg .spin{width:34px;height:34px;border-radius:50%;border:4px solid #cfe3de;border-top-color:var(--teal);animation:sp 1s linear infinite;margin:0 auto 10px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.airow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}.airow .btn{flex:1;min-height:48px}
+.ainote{font-size:13px;color:var(--muted);margin-top:8px}
 label{display:block;font-size:13.5px;color:var(--muted);margin:12px 0 5px;font-weight:500}
 label:first-child{margin-top:0}
 input,textarea,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
@@ -127,7 +137,13 @@ var TX = {
   need_name:"Please add your name", need_phone:"Please add your WhatsApp number", failed:"Couldn't send. Check your connection and try again.",
   doneT:"Request sent!", doneP:"Thanks {0}! We'll study your request and reply on WhatsApp, usually within a few hours.", yourId:"Your request number",
   waBtn:"Let Talli know on WhatsApp", waMsg:"Hi Talli! I just sent order request {0} through your order page.",
-  privacy:"🔒 Your pictures and details are encrypted and only Talli can read them.", pcs:"pcs", cm:"cm", none:"—"
+  privacy:"🔒 Your pictures and details are encrypted and only Talli can read them.", pcs:"pcs", cm:"cm", none:"—",
+  aiCard:["✨","Quick order with AI","Describe it in one sentence. We draw a picture and skip the questions."],
+  q_ai:"Describe what you want in one sentence. I'll draw a picture of it.", aiPh:"e.g. a pink keychain with the name Sara and a small heart",
+  aiGo:"✨ Draw it", aiAgain:"↻ Try another", aiWait:"Another picture in {0}s", aiBusy:"Drawing your idea… about 10 seconds",
+  aiEmpty:"Your picture will appear here", aiFail:"Couldn't draw it right now. You can still send your idea and we'll design it for you.",
+  aiNote:"The AI picture is only a rough idea. We'll confirm the real design and price with you on WhatsApp.", need_ai:"Write your idea first",
+  aiType:"Quick AI order", aiPic:"AI picture"
  },
  ar:{
   title:"Talli 3D Printing", sub:"طلب طباعة", hi:"مرحبًا! أنا مساعد الطلبات في Talli.",
@@ -163,7 +179,13 @@ var TX = {
   need_name:"يرجى كتابة اسمك", need_phone:"يرجى كتابة رقم واتساب", failed:"تعذّر الإرسال. تحقق من اتصالك وحاول مرة أخرى.",
   doneT:"تم إرسال الطلب!", doneP:"شكرًا {0}! سندرس طلبك ونرد عليك عبر واتساب، عادةً خلال ساعات قليلة.", yourId:"رقم طلبك",
   waBtn:"أبلغ Talli عبر واتساب", waMsg:"مرحبًا Talli! أرسلت للتو طلب الطباعة {0} عبر صفحة الطلبات.",
-  privacy:"🔒 صورك وبياناتك مشفّرة ولا يستطيع قراءتها إلا Talli.", pcs:"قطعة", cm:"سم", none:"—"
+  privacy:"🔒 صورك وبياناتك مشفّرة ولا يستطيع قراءتها إلا Talli.", pcs:"قطعة", cm:"سم", none:"—",
+  aiCard:["✨","طلب سريع بالذكاء الاصطناعي","صف طلبك بجملة واحدة، نرسم لك صورة ونتخطى الأسئلة."],
+  q_ai:"صف ما تريده بجملة واحدة، وسأرسم لك صورة له.", aiPh:"مثال: ميدالية وردية مكتوب عليها اسم سارة مع قلب صغير",
+  aiGo:"✨ ارسمها", aiAgain:"↻ جرّب صورة أخرى", aiWait:"صورة أخرى بعد {0} ث", aiBusy:"جارٍ رسم فكرتك… حوالي 10 ثوانٍ",
+  aiEmpty:"ستظهر صورتك هنا", aiFail:"تعذّر الرسم الآن. يمكنك إرسال فكرتك وسنصمّمها لك.",
+  aiNote:"صورة الذكاء الاصطناعي فكرة تقريبية فقط. سنؤكد معك التصميم الحقيقي والسعر عبر واتساب.", need_ai:"اكتب فكرتك أولًا",
+  aiType:"طلب سريع بالذكاء الاصطناعي", aiPic:"صورة الذكاء الاصطناعي"
  }
 };
 var LANG = (function(){ try{ var q=(location.search.match(/[?&]lang=(ar|en)(?:&|$)/)||[])[1]; if(q) return q; var v=localStorage.getItem("talli_lang"); if(v==="ar"||v==="en") return v; }catch(e){}
@@ -177,10 +199,14 @@ applyLang();
 
 var app=document.getElementById("app"), bar=document.getElementById("bar");
 var O={type:"",desc:"",pics:[],size:{l:"",w:"",h:"",unsure:false,note:""},det:{},colours:[],asPhoto:false,qty:"1",need:"",deliv:"",area:"",name:"",phone:"",notes:""};
-var STEPS=["type","desc","pics","size","details","colour","qty","contact","review"], step=0, err="", busy=false, sentId="";
+var FULL_STEPS=["type","desc","pics","size","details","colour","qty","contact","review"], AI_STEPS=["type","ai","contact","review"];
+var STEPS=FULL_STEPS, step=0, err="", busy=false, sentId="";
+var AI={busy:false, err:"", next:0, timer:0};     // free AI pictures: one every 45 s per visitor
 try{ var saved=JSON.parse(sessionStorage.getItem("talli_order")||"null"); if(saved && saved.O){ O=saved.O; step=saved.step||0; } }catch(e){}
-var QT=(location.search.match(/[?&]type=(key|fig|part|logo|gift|other)(?:&|$)/)||[])[1];
+var QT=(location.search.match(/[?&]type=(key|fig|part|logo|gift|other|ai)(?:&|$)/)||[])[1];
 if(QT && !O.type){ O.type=QT; step=1; }          // started from a card on the Talli home page
+function setSteps(){ STEPS = O.type==="ai" ? AI_STEPS : FULL_STEPS; if(step>=STEPS.length) step=STEPS.length-1; }
+setSteps();
 function keep(){ try{ sessionStorage.setItem("talli_order", JSON.stringify({O:O, step:step})); }catch(e){} }
 
 function head(){ return '<header><a class="brand" href="https://talli3d.github.io/'+(LANG==="ar"?"?lang=ar":"")+'" aria-label="Talli 3D Printing home"><img src="https://talli3d.github.io/logo.svg" alt="Talli 3D Printing"></a><button class="lang" id="lang" type="button" lang="'+(LANG==="ar"?"en":"ar")+'">'+(LANG==="ar"?"English":"عربي")+'</button></header>'+
@@ -194,7 +220,16 @@ function input(id, val, ph, type){ return '<input id="'+id+'" value="'+esc(val)+
 function draw(){
   var s=STEPS[step], h=head(), ty=O.type||"other";
   if(s==="type"){
-    h+=ask(t("q_type"))+'<div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'"><img src="https://talli3d.github.io/samples/sample-'+k+'.jpg" alt="" width="480" height="320" loading="lazy"><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></button>'; }).join("")+'</div>';
+    var ac=t("aiCard");
+    h+=ask(t("q_type"))+'<button type="button" class="aiopt'+(O.type==="ai"?' on':'')+'" data-type="ai"><span class="e">'+ac[0]+'</span><span><span class="t">'+esc(ac[1])+'</span><span class="d">'+esc(ac[2])+'</span></span></button>'+
+      '<div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'"><img src="https://talli3d.github.io/samples/sample-'+k+'.jpg" alt="" width="480" height="320" loading="lazy"><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></button>'; }).join("")+'</div>';
+  } else if(s==="ai"){
+    var wait=Math.max(0, Math.ceil((AI.next-Date.now())/1000));
+    h+=ask(t("q_ai"))+'<div class="card"><textarea id="desc" placeholder="'+esc(t("aiPh"))+'" style="min-height:90px">'+esc(O.desc)+'</textarea>'+
+      '<div class="airow"><button type="button" class="btn go" id="aigo"'+(AI.busy||wait?' disabled':'')+'>'+(wait?t("aiWait",wait):(O.pics.length?t("aiAgain"):t("aiGo")))+'</button></div>'+
+      '<div class="aiimg">'+(AI.busy?'<div><div class="spin"></div>'+t("aiBusy")+'</div>':(O.pics.length?'<img src="'+O.pics[0]+'" alt="'+esc(t("aiPic"))+'">':'<div>'+(AI.err?esc(AI.err):t("aiEmpty"))+'</div>'))+'</div>'+
+      '<div class="ainote">'+t("aiNote")+'</div>'+
+      '<label for="qtyi">'+t("qty")+'</label>'+input("qtyi",O.qty,"","number")+'</div>';
   } else if(s==="desc"){
     h+=ask(t("q_desc."+ty))+'<div class="card"><textarea id="desc" placeholder="'+esc(t("descPh"))+'">'+esc(O.desc)+'</textarea></div>';
   } else if(s==="pics"){
@@ -255,7 +290,8 @@ function sizeText(){ var z=O.size, dims=[z.l,z.w,z.h].map(function(v){ return v|
   return ((z.l||z.w||z.h)?dims+" "+t("cm"):"")+(z.unsure?((z.l||z.w||z.h)?" · ":"")+t("sizeUnsure"):"")+(z.note?"\n"+z.note:""); }
 function colourText(){ return O.colours.map(function(i){ return t("colours")[i][0]; }).concat(O.asPhoto?[t("asPhoto")]:[]).join(", "); }
 function summary(){
-  var L=T().sumL, ty=T().types[O.type]||["",""];
+  var L=T().sumL, ty=O.type==="ai"?["✨",t("aiType")]:(T().types[O.type]||["",""]);
+  if(O.type==="ai") return [[L.type,ty[0]+" "+ty[1]],[L.desc,O.desc],[L.qty,O.qty+" "+t("pcs")],[L.contact,O.name+" · "+O.phone],[L.notes,O.notes]];
   return [[L.type,ty[0]+" "+ty[1]],[L.desc,O.desc],[L.pics,String(O.pics.length)],[L.size,sizeText()],[L.details,detText()],[L.colour,colourText()],
           [L.qty,O.qty+" "+t("pcs")],[L.need,O.need],[L.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[L.contact,O.name+" · "+O.phone],[L.notes,O.notes]];
 }
@@ -272,10 +308,40 @@ function shrink(file){
   });
 }
 
+var AI_TXT="https://text.pollinations.ai/", AI_IMG="https://image.pollinations.ai/prompt/";
+async function aiDraw(){
+  var idea=O.desc.trim(); if(!idea){ err=t("need_ai"); draw(); return; }
+  err=""; AI.busy=true; AI.err=""; draw();
+  try{
+    var en=idea;
+    if(/[\u0600-\u06FF]/.test(idea)){            // the image model only understands English
+      try{ var r=await fetch(AI_TXT+encodeURIComponent("Rewrite this customer idea as ONE short English prompt for an image generator. The picture must show the object as a real 3D-printed plastic item. Keep any names or text exactly as written. Reply with the prompt only. Idea: "+idea));
+        var tx=r.ok?(await r.text()).trim():""; if(tx && tx.length<500 && !/free limit|pollinations/i.test(tx)) en=tx; }catch(_){}
+    }
+    O.aiPrompt=en;
+    var url=AI_IMG+encodeURIComponent(en+", single 3D printed PLA plastic object, product photo, plain light background")+"?width=640&height=640&nologo=true&seed="+(1+Math.floor(Math.random()*99999));
+    var res=await fetch(url);
+    if(!res.ok) throw new Error("ai "+res.status);
+    var pic=await shrink(await res.blob());
+    if(!pic) throw new Error("bad picture");
+    O.pics=[pic];
+  }catch(e){ AI.err=t("aiFail"); }
+  AI.busy=false; AI.next=Date.now()+46000; draw(); tick();
+}
+function tick(){                                   // count down to the next free picture without redrawing the text box
+  clearInterval(AI.timer);
+  AI.timer=setInterval(function(){
+    var b=document.getElementById("aigo"), w=Math.max(0, Math.ceil((AI.next-Date.now())/1000));
+    if(b){ b.disabled=AI.busy||w>0; b.textContent=w?t("aiWait",w):(O.pics.length?t("aiAgain"):t("aiGo")); }
+    if(!w) clearInterval(AI.timer);
+  }, 1000);
+}
+
 function validate(){
   var s=STEPS[step];
   if(s==="type" && !O.type) return t("need_type");
   if(s==="desc" && !O.desc.trim()) return t("need_desc");
+  if(s==="ai" && !O.desc.trim()) return t("need_ai");
   if(s==="contact"){ if(!O.name.trim()) return t("need_name"); if(O.phone.replace(/\D/g,"").length<8) return t("need_phone"); }
   return "";
 }
@@ -283,7 +349,9 @@ function validate(){
 app.addEventListener("click", function(e){
   var b=e.target.closest("button"); if(!b) return;
   if(b.id==="lang"){ LANG=LANG==="ar"?"en":"ar"; try{ localStorage.setItem("talli_lang",LANG); }catch(_){}; applyLang(); draw(); return; }
-  if(b.dataset.type){ O.type=b.dataset.type; err=""; draw(); return; }
+  if(b.dataset.type){ var was=O.type; O.type=b.dataset.type; if((was==="ai")!==(O.type==="ai")) O.pics=[]; setSteps(); err="";
+    if(O.type==="ai"){ step=1; draw(); window.scrollTo(0,0); } else draw(); return; }
+  if(b.id==="aigo"){ aiDraw(); return; }
   if(b.dataset.delpic!=null){ O.pics.splice(+b.dataset.delpic,1); draw(); return; }
   if(b.id==="unsure"){ O.size.unsure=!O.size.unsure; draw(); return; }
   if(b.dataset.col!=null){ var i=+b.dataset.col, k=O.colours.indexOf(i); if(k>=0) O.colours.splice(k,1); else O.colours.push(i); draw(); return; }
@@ -333,7 +401,7 @@ async function submit(){
   busy=t("sending",0); draw();
   try{
     var oid="ORD-"+rid(6);
-    var payload={v:1, id:oid, lang:LANG, at:new Date().toISOString(), type:O.type, typeName:TX.en.types[O.type][1], desc:O.desc,
+    var payload={v:1, id:oid, lang:LANG, at:new Date().toISOString(), type:O.type, typeName:O.type==="ai"?"Quick AI order (client prompt + AI picture)":TX.en.types[O.type][1], desc:O.desc, aiPrompt:O.type==="ai"?(O.aiPrompt||""):undefined,
       size:O.size, details:O.det, detailsText:detText(), colours:O.colours.map(function(i){ return TX.en.colours[i][0]; }), asPhoto:O.asPhoto,
       qty:O.qty, need:O.need, delivery:O.deliv!==""?TX.en.delivs[O.deliv]:"", area:O.area, name:O.name, phone:O.phone, notes:O.notes, pics:O.pics};
     var pub=await crypto.subtle.importKey("jwk", TALLI_KEY, {name:"ECDH",namedCurve:"P-256"}, false, []);
@@ -369,7 +437,12 @@ async function submit(){
 }
 function done(){
   bar.remove();
-  var wa="https://wa.me/"+TALLI_WA+"?text="+encodeURIComponent(t("waMsg",sentId));
+  // the request also lands in Talli's WhatsApp: WhatsApp opens with the details filled in, the client taps Send
+  var ty=O.type==="ai"?t("aiType"):((T().types[O.type]||["",""])[1]);
+  var msg=t("waMsg",sentId)+"\n\n"+[[T().sumL.type,ty],[T().sumL.desc,O.desc.trim().slice(0,400)],[T().sumL.qty,O.qty],[T().sumL.contact,O.name]]
+    .filter(function(r){ return r[1]; }).map(function(r){ return "• "+r[0]+": "+r[1]; }).join("\n");
+  var wa="https://wa.me/"+TALLI_WA+"?text="+encodeURIComponent(msg);
+  setTimeout(function(){ location.href=wa; }, 1800);
   app.innerHTML=head()+'<div class="done"><div class="big">&#10003;</div><h1>'+t("doneT")+'</h1><p>'+esc(t("doneP",O.name.split(" ")[0]||""))+'</p>'+
     '<div class="sub">'+t("yourId")+'</div><div class="oid"><bdi>'+sentId+'</bdi></div><a class="wa" href="'+wa+'">'+t("waBtn")+'</a><div class="privacy">'+t("privacy")+'</div></div>';
   window.scrollTo(0,0);
