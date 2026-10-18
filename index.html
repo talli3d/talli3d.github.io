@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -135,7 +135,7 @@ var TX = {
      where:"الإمارات العربية المتحدة", langBtn:"English"}
 };
 var LANG = (function(){ try{ var q=(location.search.match(/[?&]lang=(ar|en)(?:&|$)/)||[])[1]; if(q) return q; var v=localStorage.getItem("talli_lang"); if(v==="ar"||v==="en") return v; }catch(e){}
-  return /^ar/i.test(navigator.language||"") ? "ar" : "en"; })();
+  return "ar"; })();
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
 var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent), standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone, deferred = null;
 function draw(){
