@@ -134,9 +134,10 @@ var TX = {
   q_review:"Here's your request. Check it and send.", edit:"Edit",
   sumL:{type:"Item",desc:"Description",pics:"Pictures",size:"Size",details:"Details",colour:"Colours",qty:"Quantity",need:"Needed by",deliv:"Delivery",contact:"Contact",notes:"Notes"},
   back:"Back", next:"Next", send:"Send request", sending:"Sending… {0}%", need_type:"Choose one to continue", need_desc:"Tell me a little about it",
-  need_name:"Please add your name", need_phone:"Please add your WhatsApp number", failed:"Couldn't send. Check your connection and try again.",
+  need_name:"Please add your name", need_phone:"Please add your WhatsApp number", failed:"Couldn't send. Check your connection and try again.", failedWa:"Couldn't send it from this phone. Tap \"Send on WhatsApp instead\" and we'll take your order there, or try again.",
+  retry:"Try again", viaWa:"Send on WhatsApp instead", checking:"Making sure everything arrived…", picBad:"{0} picture(s) couldn't be read. Use a normal photo (JPG or PNG) or a screenshot.",
   doneT:"Request sent!", doneP:"Thanks {0}! We'll study your request and reply on WhatsApp, usually within a few hours.", yourId:"Your request number",
-  waBtn:"Let Talli know on WhatsApp", waMsg:"Hi Talli! I just sent order request {0} through your order page.",
+  waBtn:"Let Talli know on WhatsApp", waMsg:"Hi Talli! I just sent order request {0} through your order page.", waOrder:"Hi Talli! I would like to order a 3D print:",
   privacy:"🔒 Your pictures and details are encrypted and only Talli can read them.", pcs:"pcs", cm:"cm", none:"—",
   aiCard:["✨","Quick order with AI","Describe it in one sentence. We draw a picture and skip the questions."],
   q_ai:"Describe what you want in one sentence. I'll draw a picture of it.", aiPh:"e.g. a pink keychain with the name Sara and a small heart",
@@ -176,9 +177,10 @@ var TX = {
   q_review:"هذا طلبك. راجعه ثم أرسله.", edit:"تعديل",
   sumL:{type:"المنتج",desc:"الوصف",pics:"الصور",size:"الحجم",details:"التفاصيل",colour:"الألوان",qty:"الكمية",need:"مطلوب قبل",deliv:"التسليم",contact:"التواصل",notes:"ملاحظات"},
   back:"رجوع", next:"التالي", send:"إرسال الطلب", sending:"جارٍ الإرسال… {0}%", need_type:"اختر خيارًا للمتابعة", need_desc:"أخبرني قليلًا عن طلبك",
-  need_name:"يرجى كتابة اسمك", need_phone:"يرجى كتابة رقم واتساب", failed:"تعذّر الإرسال. تحقق من اتصالك وحاول مرة أخرى.",
+  need_name:"يرجى كتابة اسمك", need_phone:"يرجى كتابة رقم واتساب", failed:"تعذّر الإرسال. تحقق من اتصالك وحاول مرة أخرى.", failedWa:"تعذّر الإرسال من هذا الهاتف. اضغط «أرسل عبر واتساب» وسنستلم طلبك هناك، أو حاول مرة أخرى.",
+  retry:"حاول مرة أخرى", viaWa:"أرسل عبر واتساب", checking:"نتأكد من وصول كل شيء…", picBad:"تعذّرت قراءة {0} صورة. استخدم صورة عادية (JPG أو PNG) أو لقطة شاشة.",
   doneT:"تم إرسال الطلب!", doneP:"شكرًا {0}! سندرس طلبك ونرد عليك عبر واتساب، عادةً خلال ساعات قليلة.", yourId:"رقم طلبك",
-  waBtn:"أبلغ Talli عبر واتساب", waMsg:"مرحبًا Talli! أرسلت للتو طلب الطباعة {0} عبر صفحة الطلبات.",
+  waBtn:"أبلغ Talli عبر واتساب", waMsg:"مرحبًا Talli! أرسلت للتو طلب الطباعة {0} عبر صفحة الطلبات.", waOrder:"مرحبًا Talli! أرغب في طلب طباعة ثلاثية الأبعاد:",
   privacy:"🔒 صورك وبياناتك مشفّرة ولا يستطيع قراءتها إلا Talli.", pcs:"قطعة", cm:"سم", none:"—",
   aiCard:["✨","طلب سريع بالذكاء الاصطناعي","صف طلبك بجملة واحدة، نرسم لك صورة ونتخطى الأسئلة."],
   q_ai:"صف ما تريده بجملة واحدة، وسأرسم لك صورة له.", aiPh:"مثال: ميدالية وردية مكتوب عليها اسم سارة مع قلب صغير",
@@ -263,13 +265,14 @@ function draw(){
       '<label for="phonei">'+t("phone")+'</label><input id="phonei" type="tel" value="'+esc(O.phone)+'" placeholder="'+t("phonePh")+'" autocomplete="tel">'+
       '<label for="notesi">'+t("notes")+'</label><textarea id="notesi" placeholder="'+esc(t("notesPh"))+'">'+esc(O.notes)+'</textarea></div>';
   } else if(s==="review"){
-    h+=ask(t("q_review"))+'<div class="card"><dl class="sum">'+summary().map(function(r){ return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1]||t("none"))+'</dd>'; }).join("")+'</dl>'+
+    h+=ask(t("q_review"))+(lastFail && err ? '<div class="card" style="border:2px solid var(--red)"><div class="err" role="alert" style="margin:0 0 10px">'+esc(err)+'</div>'+
+      '<a class="wa" style="margin-top:0;width:100%" id="viawa" href="https://wa.me/'+TALLI_WA+'?text='+encodeURIComponent(summaryText(""))+'">💬 '+t("viaWa")+'</a></div>' : '')+'<div class="card"><dl class="sum">'+summary().map(function(r){ return '<dt>'+esc(r[0])+'</dt><dd>'+esc(r[1]||t("none"))+'</dd>'; }).join("")+'</dl>'+
       (O.pics.length?'<div class="pics">'+O.pics.map(function(p){ return '<div class="pic"><img src="'+p+'" alt=""></div>'; }).join("")+'</div>':'')+'</div><div class="privacy">'+t("privacy")+'</div>';
   }
-  if(err) h+='<div class="err" role="alert">'+esc(err)+'</div>';
+  if(err && !(lastFail && s==="review")) h+='<div class="err" role="alert">'+esc(err)+'</div>';
   app.innerHTML=h;
   bar.innerHTML='<div class="in">'+(step>0?'<button class="btn" id="back" type="button">'+t("back")+'</button>':'<span></span>')+
-    '<button class="btn go" id="next" type="button"'+(busy?' disabled':'')+'>'+(s==="review"?(busy?busy:t("send")):t("next"))+'</button></div>';
+    '<button class="btn go" id="next" type="button"'+(busy?' disabled':'')+'>'+(s==="review"?(busy?busy:(lastFail?t("retry"):t("send"))):t("next"))+'</button></div>';
   keep();
 }
 function detText(){
@@ -296,14 +299,16 @@ function summary(){
           [L.qty,O.qty+" "+t("pcs")],[L.need,O.need],[L.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[L.contact,O.name+" · "+O.phone],[L.notes,O.notes]];
 }
 
-// pictures are shrunk on the phone before sending (max 1400 px, JPEG)
+// pictures are shrunk on the phone before sending: 1100 px JPEG, and 850 px if it's still over ~180 KB
 function shrink(file){
   return new Promise(function(res){
     var r=new FileReader(); r.onload=function(){ var im=new Image(); im.onload=function(){
-      var m=1400, sc=Math.min(1, m/Math.max(im.width,im.height)), c=document.createElement("canvas");
-      c.width=Math.round(im.width*sc); c.height=Math.round(im.height*sc);
-      var g=c.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,c.width,c.height); g.drawImage(im,0,0,c.width,c.height);
-      res(c.toDataURL("image/jpeg",0.72)); }; im.onerror=function(){ res(null); }; im.src=r.result; };
+      function draw(m, q){ var sc=Math.min(1, m/Math.max(im.width,im.height)), c=document.createElement("canvas");
+        c.width=Math.max(1,Math.round(im.width*sc)); c.height=Math.max(1,Math.round(im.height*sc));
+        var g=c.getContext("2d"); g.fillStyle="#fff"; g.fillRect(0,0,c.width,c.height); g.drawImage(im,0,0,c.width,c.height);
+        return c.toDataURL("image/jpeg",q); }
+      try{ var d=draw(1100,0.7); if(d.length>245000) d=draw(850,0.62); res(d.length>30 ? d : null); }catch(e){ res(null); } };
+      im.onerror=function(){ res(null); }; im.src=r.result; };
     r.onerror=function(){ res(null); }; r.readAsDataURL(file);
   });
 }
@@ -368,7 +373,7 @@ app.addEventListener("input", function(e){
 app.addEventListener("change", function(e){
   if(e.target.id!=="files") return;
   var files=[].slice.call(e.target.files||[]).slice(0, MAX_PICS-O.pics.length);
-  Promise.all(files.map(shrink)).then(function(list){ list.forEach(function(p){ if(p) O.pics.push(p); }); draw(); });
+  Promise.all(files.map(shrink)).then(function(list){ var bad=0; list.forEach(function(p){ if(p) O.pics.push(p); else bad++; }); err=bad?t("picBad",bad):""; draw(); });
 });
 bar.addEventListener("click", function(e){
   var b=e.target.closest("button"); if(!b || busy) return;
@@ -396,7 +401,21 @@ function storedParts(oid){
   });
 }
 function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
-function post(id, data){ var body=new URLSearchParams(); body.append(E_ID,id); body.append(E_DATA,data); return fetch(FORM,{method:"POST",mode:"no-cors",body:body}); }
+function post(id, data){ var body=new URLSearchParams(); body.append(E_ID,id); body.append(E_DATA,data);
+  return fetch(FORM,{method:"POST",mode:"no-cors",body:body}).then(function(){ return true; }, function(){ return false; }); }   // a failed part is re-sent below
+async function sendRows(list, from, to, total){        // 3 parts at a time, short pause between groups
+  for(var i=0;i<list.length;i+=3){
+    await Promise.all(list.slice(i,i+3).map(function(r){ return post(r[0], r[1]); }));
+    if(total){ busy=t("sending",Math.round(from+(to-from)*Math.min(list.length,i+3)/list.length)); draw(); }
+    await wait(120);
+  }
+}
+var lastFail=null;
+function report(stage, extra){                         // a short technical note (no personal details) so Talli can see what went wrong
+  try{ var n={v:1, at:new Date().toISOString(), stage:stage, ua:navigator.userAgent.slice(0,160), lang:LANG, type:O.type, pics:O.pics.length, kb:Math.round(O.pics.join("").length/1024)};
+    for(var k in extra) n[k]=extra[k];
+    post("x:"+rid(8), JSON.stringify(n)); }catch(e){}
+}
 async function submit(){
   busy=t("sending",0); draw();
   try{
@@ -414,34 +433,41 @@ async function submit(){
     var n=parts.length, pad=function(i){ return ("00"+i).slice(-3); };
     var rows=[["o:"+oid+":000/"+n, JSON.stringify({v:1, epk:{kty:"EC",crv:"P-256",x:epk.x,y:epk.y}, iv:b64(iv), n:n})]];
     for(var j=0;j<n;j++) rows.push(["o:"+oid+":"+pad(j+1)+"/"+n, parts[j]]);
-    for(var j2=0;j2<rows.length;j2+=4){            // 4 parts at a time
-      await Promise.all(rows.slice(j2,j2+4).map(function(r){ return post(r[0], r[1]); }));
-      busy=t("sending",Math.round(Math.min(rows.length,j2+4)/rows.length*90)); draw(); }
-    // make sure every part arrived; re-send any that didn't (up to 3 rounds)
-    var checked=false;
-    for(var round=0; round<4; round++){
-      await wait(round===0?2500:4000);
+    await sendRows(rows, 0, 80, true);
+    // make sure every part arrived; re-send the missing ones (up to 6 rounds, waiting a little longer each time)
+    var checked=false, missing=rows;
+    for(var round=0; round<7; round++){
+      busy=t("checking"); draw();
+      await wait([2500,3500,5000,6000,8000,10000,12000][round]);
       var got=await storedParts(oid);
       if(!got) continue;
       checked=true;
-      var missing=rows.filter(function(r){ return !got[r[0]]; });
-      if(!missing.length){ rows=[]; break; }
-      if(round===3) break;
-      for(var m=0;m<missing.length;m+=4) await Promise.all(missing.slice(m,m+4).map(function(r){ return post(r[0], r[1]); }));
+      missing=rows.filter(function(r){ return !got[r[0]]; });
+      if(!missing.length) break;
+      if(round===6) break;
+      await sendRows(missing, 80, 95, true);
     }
-    if(rows.length && checked) throw new Error("not all parts arrived");   // if the check itself couldn't run, trust the sends
+    if(checked && missing.length){ var e1=new Error("missing parts"); e1.info={parts:rows.length, missing:missing.length}; throw e1; }   // if the check couldn't run at all, trust the sends
     busy=t("sending",100); draw();
     sentId=oid; busy=false; try{ sessionStorage.removeItem("talli_order"); }catch(_){}
     done();
-  }catch(e){ busy=false; err=t("failed"); draw(); }
+  }catch(e){
+    busy=false; lastFail=true;
+    report("send", Object.assign({msg:String(e&&e.message||e).slice(0,200), subtle:!!(window.crypto&&crypto.subtle)}, (e&&e.info)||{}));
+    err=t("failedWa"); draw();
+    var el=document.querySelector(".err"); if(el && el.scrollIntoView) el.scrollIntoView({block:"center", behavior:"smooth"});
+  }
+}
+function summaryText(id){
+  var ty=O.type==="ai"?t("aiType"):((T().types[O.type]||["",""])[1]);
+  return (id?t("waMsg",id):t("waOrder"))+"\n\n"+[[T().sumL.type,ty],[T().sumL.desc,O.desc.trim().slice(0,600)],[T().sumL.size,O.type==="ai"?"":sizeText()],[T().sumL.details,O.type==="ai"?"":detText()],
+    [T().sumL.colour,colourText()],[T().sumL.qty,O.qty],[T().sumL.need,O.need],[T().sumL.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[T().sumL.contact,O.name+" · "+O.phone],[T().sumL.notes,O.notes]]
+    .filter(function(r){ return r[1]; }).map(function(r){ return "• "+r[0]+": "+r[1]; }).join("\n");
 }
 function done(){
   bar.remove();
   // the request also lands in Talli's WhatsApp: WhatsApp opens with the details filled in, the client taps Send
-  var ty=O.type==="ai"?t("aiType"):((T().types[O.type]||["",""])[1]);
-  var msg=t("waMsg",sentId)+"\n\n"+[[T().sumL.type,ty],[T().sumL.desc,O.desc.trim().slice(0,400)],[T().sumL.qty,O.qty],[T().sumL.contact,O.name]]
-    .filter(function(r){ return r[1]; }).map(function(r){ return "• "+r[0]+": "+r[1]; }).join("\n");
-  var wa="https://wa.me/"+TALLI_WA+"?text="+encodeURIComponent(msg);
+  var wa="https://wa.me/"+TALLI_WA+"?text="+encodeURIComponent(summaryText(sentId));
   setTimeout(function(){ location.href=wa; }, 1800);
   app.innerHTML=head()+'<div class="done"><div class="big">&#10003;</div><h1>'+t("doneT")+'</h1><p>'+esc(t("doneP",O.name.split(" ")[0]||""))+'</p>'+
     '<div class="sub">'+t("yourId")+'</div><div class="oid"><bdi>'+sentId+'</bdi></div><a class="wa" href="'+wa+'">'+t("waBtn")+'</a><div class="privacy">'+t("privacy")+'</div></div>';
