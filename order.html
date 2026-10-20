@@ -129,10 +129,10 @@ var TX = {
   yes:"Yes", no:"No", unsure:"Not sure",
   q_colour:"Which colours would you like?", asPhoto:"As in my picture",
   colours:[["Black","#151515"],["White","#ffffff"],["Grey","#9aa0a6"],["Red","#d62828"],["Orange","#f77f00"],["Yellow","#ffd60a"],["Green","#2a9d4b"],["Blue","#2f6fde"],["Purple","#7b2cbf"],["Pink","#f4a3c0"],["Gold / silk","multi"]],
-  q_qty:"How many, and when do you need it?", qty:"Quantity", need:"Needed by (optional)", deliv:"Delivery or pickup?", delivs:["Delivery","Pickup"], area:"Area / emirate", areaPh:"e.g. Dubai Marina",
+  q_qty:"How many, and when do you need it?", qty:"Quantity", need:"Needed by (optional)", urg:"⚡ Urgent delivery", urgNote:"Faster production for an extra charge, added to your quotation.", urgYes:"Yes, urgent delivery", deliv:"Delivery or pickup?", delivs:["Delivery","Pickup"], area:"Area / emirate", areaPh:"e.g. Dubai Marina",
   q_contact:"Last step: how do we reach you?", name:"Your name", phone:"WhatsApp number", phonePh:"05x xxx xxxx", notes:"Anything else? (optional)", notesPh:"Budget, questions, ideas…",
   q_review:"Here's your request. Check it and send.", edit:"Edit",
-  sumL:{type:"Item",desc:"Description",pics:"Pictures",size:"Size",details:"Details",colour:"Colours",qty:"Quantity",need:"Needed by",deliv:"Delivery",contact:"Contact",notes:"Notes"},
+  sumL:{type:"Item",desc:"Description",pics:"Pictures",size:"Size",details:"Details",colour:"Colours",qty:"Quantity",need:"Needed by",urgent:"Urgent",deliv:"Delivery",contact:"Contact",notes:"Notes"},
   back:"Back", next:"Next", send:"Send request", sending:"Sending… {0}%", need_type:"Choose one to continue", need_desc:"Tell me a little about it",
   need_name:"Please add your name", need_phone:"Please add your WhatsApp number", failed:"Couldn't send. Check your connection and try again.", failedWa:"Couldn't send it from this phone. Tap \"Send on WhatsApp instead\" and we'll take your order there, or try again.",
   retry:"Try again", viaWa:"Send on WhatsApp instead", checking:"Making sure everything arrived…", picBad:"{0} picture(s) couldn't be read. Use a normal photo (JPG or PNG) or a screenshot.",
@@ -172,10 +172,10 @@ var TX = {
   yes:"نعم", no:"لا", unsure:"لست متأكدًا",
   q_colour:"ما الألوان التي تفضلها؟", asPhoto:"كما في الصورة",
   colours:[["أسود","#151515"],["أبيض","#ffffff"],["رمادي","#9aa0a6"],["أحمر","#d62828"],["برتقالي","#f77f00"],["أصفر","#ffd60a"],["أخضر","#2a9d4b"],["أزرق","#2f6fde"],["بنفسجي","#7b2cbf"],["وردي","#f4a3c0"],["ذهبي / حريري","multi"]],
-  q_qty:"كم قطعة، ومتى تحتاجها؟", qty:"الكمية", need:"مطلوب قبل (اختياري)", deliv:"توصيل أم استلام؟", delivs:["توصيل","استلام"], area:"المنطقة / الإمارة", areaPh:"مثال: دبي مارينا",
+  q_qty:"كم قطعة، ومتى تحتاجها؟", qty:"الكمية", need:"مطلوب قبل (اختياري)", urg:"⚡ توصيل عاجل", urgNote:"إنتاج أسرع مقابل رسوم إضافية تُضاف إلى عرض السعر.", urgYes:"نعم، توصيل عاجل", deliv:"توصيل أم استلام؟", delivs:["توصيل","استلام"], area:"المنطقة / الإمارة", areaPh:"مثال: دبي مارينا",
   q_contact:"الخطوة الأخيرة: كيف نتواصل معك؟", name:"اسمك", phone:"رقم واتساب", phonePh:"05x xxx xxxx", notes:"ملاحظات أخرى (اختياري)", notesPh:"الميزانية، أسئلة، أفكار…",
   q_review:"هذا طلبك. راجعه ثم أرسله.", edit:"تعديل",
-  sumL:{type:"المنتج",desc:"الوصف",pics:"الصور",size:"الحجم",details:"التفاصيل",colour:"الألوان",qty:"الكمية",need:"مطلوب قبل",deliv:"التسليم",contact:"التواصل",notes:"ملاحظات"},
+  sumL:{type:"المنتج",desc:"الوصف",pics:"الصور",size:"الحجم",details:"التفاصيل",colour:"الألوان",qty:"الكمية",need:"مطلوب قبل",urgent:"عاجل",deliv:"التسليم",contact:"التواصل",notes:"ملاحظات"},
   back:"رجوع", next:"التالي", send:"إرسال الطلب", sending:"جارٍ الإرسال… {0}%", need_type:"اختر خيارًا للمتابعة", need_desc:"أخبرني قليلًا عن طلبك",
   need_name:"يرجى كتابة اسمك", need_phone:"يرجى كتابة رقم واتساب", failed:"تعذّر الإرسال. تحقق من اتصالك وحاول مرة أخرى.", failedWa:"تعذّر الإرسال من هذا الهاتف. اضغط «أرسل عبر واتساب» وسنستلم طلبك هناك، أو حاول مرة أخرى.",
   retry:"حاول مرة أخرى", viaWa:"أرسل عبر واتساب", checking:"نتأكد من وصول كل شيء…", picBad:"تعذّرت قراءة {0} صورة. استخدم صورة عادية (JPG أو PNG) أو لقطة شاشة.",
@@ -200,7 +200,7 @@ function applyLang(){ document.documentElement.lang=LANG; document.documentEleme
 applyLang();
 
 var app=document.getElementById("app"), bar=document.getElementById("bar");
-var O={type:"",desc:"",pics:[],size:{l:"",w:"",h:"",unsure:false,note:""},det:{},colours:[],asPhoto:false,qty:"1",need:"",deliv:"",area:"",name:"",phone:"",notes:""};
+var O={type:"",desc:"",pics:[],size:{l:"",w:"",h:"",unsure:false,note:""},det:{},colours:[],asPhoto:false,qty:"1",need:"",urgent:false,deliv:"",area:"",name:"",phone:"",notes:""};
 var FULL_STEPS=["type","desc","pics","size","details","colour","qty","contact","review"], AI_STEPS=["type","ai","contact","review"];
 var STEPS=FULL_STEPS, step=0, err="", busy=false, sentId="";
 var AI={busy:false, err:"", next:0, timer:0};     // free AI pictures: one every 45 s per visitor
@@ -259,6 +259,7 @@ function draw(){
       '<button type="button" class="chip'+(O.asPhoto?' on':'')+'" id="asphoto">📷 '+t("asPhoto")+'</button></div></div>';
   } else if(s==="qty"){
     h+=ask(t("q_qty"))+'<div class="card"><label for="qtyi">'+t("qty")+'</label>'+input("qtyi",O.qty,"","number")+'<label for="needi">'+t("need")+'</label>'+input("needi",O.need,"","date")+
+      '<div class="chips" style="margin:6px 0 2px"><button type="button" class="chip'+(O.urgent?' on':'')+'" id="urgchip" aria-pressed="'+(O.urgent?"true":"false")+'">'+t("urg")+'</button></div><p class="sub" style="margin:0 0 8px;font-size:12.5px">'+t("urgNote")+'</p>'+
       '<label>'+t("deliv")+'</label>'+choice("deliv",t("delivs"),O.deliv)+'<label for="areai">'+t("area")+'</label>'+input("areai",O.area,t("areaPh"))+'</div>';
   } else if(s==="contact"){
     h+=ask(t("q_contact"))+'<div class="card"><label for="namei">'+t("name")+'</label><input id="namei" value="'+esc(O.name)+'" autocomplete="name">'+
@@ -296,7 +297,7 @@ function summary(){
   var L=T().sumL, ty=O.type==="ai"?["✨",t("aiType")]:(T().types[O.type]||["",""]);
   if(O.type==="ai") return [[L.type,ty[0]+" "+ty[1]],[L.desc,O.desc],[L.qty,O.qty+" "+t("pcs")],[L.contact,O.name+" · "+O.phone],[L.notes,O.notes]];
   return [[L.type,ty[0]+" "+ty[1]],[L.desc,O.desc],[L.pics,String(O.pics.length)],[L.size,sizeText()],[L.details,detText()],[L.colour,colourText()],
-          [L.qty,O.qty+" "+t("pcs")],[L.need,O.need],[L.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[L.contact,O.name+" · "+O.phone],[L.notes,O.notes]];
+          [L.qty,O.qty+" "+t("pcs")],[L.need,O.need],[L.urgent,O.urgent?t("urgYes"):""],[L.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[L.contact,O.name+" · "+O.phone],[L.notes,O.notes]];
 }
 
 // pictures are shrunk on the phone before sending: 1100 px JPEG, and 850 px if it's still over ~180 KB
@@ -361,6 +362,7 @@ app.addEventListener("click", function(e){
   if(b.id==="unsure"){ O.size.unsure=!O.size.unsure; draw(); return; }
   if(b.dataset.col!=null){ var i=+b.dataset.col, k=O.colours.indexOf(i); if(k>=0) O.colours.splice(k,1); else O.colours.push(i); draw(); return; }
   if(b.id==="asphoto"){ O.asPhoto=!O.asPhoto; draw(); return; }
+  if(b.id==="urgchip"){ O.urgent=!O.urgent; keep(); draw(); return; }
   if(b.dataset.det){ var key=b.dataset.det, val=b.dataset.val; if(key==="deliv"){ O.deliv=O.deliv===val?"":val; } else { O.det[key]=O.det[key]===val?undefined:val; } draw(); return; }
 });
 app.addEventListener("input", function(e){
@@ -422,7 +424,7 @@ async function submit(){
     var oid="ORD-"+rid(6);
     var payload={v:1, id:oid, lang:LANG, at:new Date().toISOString(), type:O.type, typeName:O.type==="ai"?"Quick AI order (client prompt + AI picture)":TX.en.types[O.type][1], desc:O.desc, aiPrompt:O.type==="ai"?(O.aiPrompt||""):undefined,
       size:O.size, details:O.det, detailsText:detText(), colours:O.colours.map(function(i){ return TX.en.colours[i][0]; }), asPhoto:O.asPhoto,
-      qty:O.qty, need:O.need, delivery:O.deliv!==""?TX.en.delivs[O.deliv]:"", area:O.area, name:O.name, phone:O.phone, notes:O.notes, pics:O.pics};
+      qty:O.qty, need:O.need, urgent:!!O.urgent, delivery:O.deliv!==""?TX.en.delivs[O.deliv]:"", area:O.area, name:O.name, phone:O.phone, notes:O.notes, pics:O.pics};
     var pub=await crypto.subtle.importKey("jwk", TALLI_KEY, {name:"ECDH",namedCurve:"P-256"}, false, []);
     var eph=await crypto.subtle.generateKey({name:"ECDH",namedCurve:"P-256"}, true, ["deriveKey"]);
     var key=await crypto.subtle.deriveKey({name:"ECDH",public:pub}, eph.privateKey, {name:"AES-GCM",length:256}, false, ["encrypt"]);
@@ -461,7 +463,7 @@ async function submit(){
 function summaryText(id){
   var ty=O.type==="ai"?t("aiType"):((T().types[O.type]||["",""])[1]);
   return (id?t("waMsg",id):t("waOrder"))+"\n\n"+[[T().sumL.type,ty],[T().sumL.desc,O.desc.trim().slice(0,600)],[T().sumL.size,O.type==="ai"?"":sizeText()],[T().sumL.details,O.type==="ai"?"":detText()],
-    [T().sumL.colour,colourText()],[T().sumL.qty,O.qty],[T().sumL.need,O.need],[T().sumL.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[T().sumL.contact,O.name+" · "+O.phone],[T().sumL.notes,O.notes]]
+    [T().sumL.colour,colourText()],[T().sumL.qty,O.qty],[T().sumL.need,O.need],[T().sumL.urgent,O.urgent?t("urgYes"):""],[T().sumL.deliv,(O.deliv!==""?t("delivs")[O.deliv]:"")+(O.area?" · "+O.area:"")],[T().sumL.contact,O.name+" · "+O.phone],[T().sumL.notes,O.notes]]
     .filter(function(r){ return r[1]; }).map(function(r){ return "• "+r[0]+": "+r[1]; }).join("\n");
 }
 function done(){
