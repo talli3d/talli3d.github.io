@@ -89,6 +89,17 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-vis
 .privacy{font-size:12.5px;color:var(--muted);text-align:center;margin-top:10px}
 @media (min-width:700px){ .types{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (prefers-reduced-motion:reduce){ .prog i,.type{transition:none} }
+.promo{position:relative;overflow:hidden;border-radius:18px;padding:16px;margin-bottom:14px;background:linear-gradient(135deg,#fff7ec,#fff);border:2px solid #f1c27d}
+.promo .tag{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-weight:700;font-size:13.5px;border-radius:999px;padding:4px 12px;animation:pl 1.6s ease-in-out infinite}
+@keyframes pl{50%{transform:scale(1.06)}}
+.promo h2{font-size:19px;margin:10px 0 8px}
+.promo ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.promo li{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:8px 12px;border:1px solid #f3e2c8}
+.promo li b{background:var(--red);color:#fff;border-radius:9px;padding:2px 10px;white-space:nowrap;font-size:15px}
+.promo .bulk{margin-top:10px;background:#00843d;color:#fff;border-radius:12px;padding:8px 12px;font-weight:600;font-size:14.5px;text-align:center}
+.promo .btn{width:100%;margin-top:10px}
+.promo .small{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
+@media (prefers-reduced-motion:reduce){ .promo .tag{animation:none} }
 </style>
 </head>
 <body>
@@ -219,11 +230,19 @@ function yn(key, val){ return '<div class="yn">'+[["yes",t("yes")],["no",t("no")
 function choice(key, opts, val){ return '<div class="yn">'+opts.map(function(o,i){ return '<button type="button" class="chip'+(String(val)===String(i)?' on':'')+'" data-det="'+key+'" data-val="'+i+'">'+esc(o)+'</button>'; }).join("")+'</div>'; }
 function input(id, val, ph, type){ return '<input id="'+id+'" value="'+esc(val)+'"'+(ph?' placeholder="'+esc(ph)+'"':'')+(type?' type="'+type+'"':'')+' autocomplete="off">'; }
 
+// Limited-time price offer (same prices as the coffee & matcha reel, from Talli invoicing). Remove PROMO.on to hide it.
+var PROMO={on:true, items:[["حبة قهوة متحركة","Flexi coffee bean",10],["ميدالية كوب ماتشا","Matcha cup keychain",10],["كليكر لاتيه","Latte fidget clicker",5],["فنجان قهوة عربي","Arabic coffee cup",5],["بروش «إماراتية»","«Emirati» brooch",25]],
+  ar:{tag:"⏳ عرض لفترة محدودة",h:"أسعار القهوة والماتشا",cur:"درهم",bulk:"خصم ١٠٪ من ١٠ حبات • ١٥٪ من ٢٠ حبة",go:"اطلب من العرض",small:"الأسعار لفترة محدودة وقد تتغير • توصيل لكل الإمارات",desc:"طلب من عرض القهوة والماتشا:\n"},
+  en:{tag:"⏳ Limited-time offer",h:"Coffee & matcha prices",cur:"AED",bulk:"10% off from 10 pcs • 15% off from 20 pcs",go:"Order from this offer",small:"Prices are for a limited time and may change • Delivery all over the UAE",desc:"Order from the coffee & matcha offer:\n"}};
+function promo(){ if(!PROMO.on) return ""; var P=PROMO[LANG]||PROMO.en;
+  return '<div class="promo"><span class="tag">'+P.tag+'</span><h2>'+P.h+'</h2><ul>'+PROMO.items.map(function(x){ return '<li><span>'+esc(LANG==="ar"?x[0]:x[1])+'</span><b>'+x[2]+' '+P.cur+'</b></li>'; }).join("")+'</ul>'+
+    '<div class="bulk">'+P.bulk+'</div><button type="button" class="btn go" id="promoGo">'+P.go+'</button><div class="small">'+P.small+'</div></div>'; }
+
 function draw(){
   var s=STEPS[step], h=head(), ty=O.type||"other";
   if(s==="type"){
     var ac=t("aiCard");
-    h+=ask(t("q_type"))+'<button type="button" class="aiopt'+(O.type==="ai"?' on':'')+'" data-type="ai"><span class="e">'+ac[0]+'</span><span><span class="t">'+esc(ac[1])+'</span><span class="d">'+esc(ac[2])+'</span></span></button>'+
+    h+=ask(t("q_type"))+promo()+'<button type="button" class="aiopt'+(O.type==="ai"?' on':'')+'" data-type="ai"><span class="e">'+ac[0]+'</span><span><span class="t">'+esc(ac[1])+'</span><span class="d">'+esc(ac[2])+'</span></span></button>'+
       '<div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'"><img src="https://talli3d.github.io/samples/sample-'+k+'.jpg" alt="" width="480" height="320" loading="lazy"><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></button>'; }).join("")+'</div>';
   } else if(s==="ai"){
     var wait=Math.max(0, Math.ceil((AI.next-Date.now())/1000));
@@ -357,6 +376,9 @@ app.addEventListener("click", function(e){
   if(b.id==="lang"){ LANG=LANG==="ar"?"en":"ar"; try{ localStorage.setItem("talli_lang",LANG); }catch(_){}; applyLang(); draw(); return; }
   if(b.dataset.type){ var was=O.type; O.type=b.dataset.type; if((was==="ai")!==(O.type==="ai")) O.pics=[]; setSteps(); err="";
     if(O.type==="ai"){ step=1; draw(); window.scrollTo(0,0); } else draw(); return; }
+  if(b.id==="promoGo"){ var P=PROMO[LANG]||PROMO.en; O.type="gift"; O.pics=[]; setSteps(); err="";
+    if(O.desc.indexOf(P.desc.trim())<0) O.desc=P.desc+PROMO.items.map(function(x){ return "- "+(LANG==="ar"?x[0]:x[1])+" ("+x[2]+" "+P.cur+") × "; }).join("\n")+(O.desc?"\n"+O.desc:"");
+    step=1; keep(); draw(); window.scrollTo(0,0); return; }
   if(b.id==="aigo"){ aiDraw(); return; }
   if(b.dataset.delpic!=null){ O.pics.splice(+b.dataset.delpic,1); draw(); return; }
   if(b.id==="unsure"){ O.size.unsure=!O.size.unsure; draw(); return; }
