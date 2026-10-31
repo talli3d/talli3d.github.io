@@ -42,6 +42,24 @@ html[lang=ar] h1,html[lang=ar] h2{font-family:"IBM Plex Sans Arabic",sans-serif;
 .heroart{background:#fff;border-radius:24px;padding:22px;display:flex;align-items:center;justify-content:center;aspect-ratio:1;max-width:380px;justify-self:center;width:100%}
 .heroart img{width:86%;height:auto}
 h2{font:700 26px/1.2 "Bricolage Grotesque",sans-serif;margin:0 0 6px}
+.flagp{position:relative;overflow:hidden;border-radius:18px;background:#fff;border:1px solid #cfe3d7;box-shadow:0 6px 22px rgba(0,80,40,.07);max-width:720px;margin:0 auto}
+.flagp .band{display:flex;height:10px;direction:ltr}.flagp .band .r{flex:0 0 22%;background:#ce1126}.flagp .band .s{display:flex;flex-direction:column;flex:1}.flagp .band .s i{flex:1}
+.flagp .fin{padding:16px}
+.flagp .fhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.flagp h2{margin:0;font-size:21px;line-height:1.3}
+.flagp .tag{display:inline-flex;align-items:center;background:#e9f5ee;color:#00733a;border:1px solid #bfe0cc;border-radius:999px;font-weight:700;font-size:12.5px;padding:3px 10px}
+.flagp .flead{margin:4px 0 12px;font-size:14px;color:var(--muted)}
+.flagp .items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (min-width:760px){ .flagp .items{grid-template-columns:repeat(4,1fr)} }
+.flagp .it{background:#fff;border:1px solid #e3ece7;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.flagp .it .ph{background:#f6f8f7;border-bottom:1px solid #edf2ef;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.flagp .it img{width:88%;height:88%;object-fit:contain;display:block;mix-blend-mode:multiply}
+.flagp .it .nm{font-size:13.5px;font-weight:600;line-height:1.35;padding:8px 10px 0;min-height:2.7em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.flagp .it .pr{margin-top:auto;padding:8px 10px 10px;display:flex;align-items:baseline;gap:4px;color:#ce1126;font-weight:700;font-size:17px;white-space:nowrap}
+.flagp .it .pr small{font-size:12px;font-weight:500;color:var(--muted)}
+.flagp .bulk{margin-top:12px;background:#f3faf6;color:#00733a;border:1px dashed #9fd1b3;border-radius:12px;padding:8px 12px;font-weight:600;font-size:13.5px;text-align:center}
+.flagp .fgo{display:flex;width:100%;margin-top:10px;background:#00843d;border-color:#00843d;color:#fff}
+.flagp .small{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
 .sec{padding:26px 0}
 .sub{color:var(--muted);margin:0 0 16px}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -96,6 +114,8 @@ footer a{text-decoration:none;font-weight:600;color:var(--ink)}
     <div class="heroart"><img src="/mark.svg" alt=""></div>
   </section>
 
+  <section class="sec" id="flagsec" hidden></section>
+
   <section class="sec">
     <h2 data-t="makeT"></h2><p class="sub" data-t="makeS"></p>
     <a class="aiopt" id="aiopt" href="/order?type=ai"></a>
@@ -143,6 +163,15 @@ var LANG = (function(){ try{ var q=(location.search.match(/[?&]lang=(ar|en)(?:&|
   return "ar"; })();
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
 var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent), standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone, deferred = null;
+// Flag Day box (3 Nov): same items and prices as the order page; the button opens the order page with them filled in. Hidden after FLAG.until.
+var FLAG={on:true, until:"2026-11-03T23:59:59+04:00", items:[["A","ميدالية باسمك بألوان العلم","Name keychain in flag colours",10,"",""],["B","بروش «55» بعلم الإمارات","\"55\" brooch filled with the flag",5,"",""],["C","لعبة إكس-أو بألوان العلم + كيس هدية","Pocket XO game + gift bag",25,"/ طقم","/ set"],["E","بروش «إماراتية»","\"Emiratiya\" flag brooch",20,"",""]],
+  ar:{tag:"٣ نوفمبر",h:"منتجات يوم العلم",lead:"مطبوعة بألوان العلم • جاهزة للتوزيعات والهدايا",cur:"درهم",bulk:"خصم ١٠٪ من ١٠ حبات • ١٥٪ من ٢٠ حبة",go:"اطلب منتجات يوم العلم",small:"اطلب بدري عشان توصلك قبل يوم العلم • توصيل لكل الإمارات"},
+  en:{tag:"3 Nov",h:"Flag Day items",lead:"Printed in the flag colours • ready for giveaways and gifts",cur:"AED",bulk:"10% off from 10 pcs • 15% off from 20 pcs",go:"Order Flag Day items",small:"Order early so it arrives before Flag Day • Delivery all over the UAE"}};
+function flagBox(){ var el=document.getElementById("flagsec"), on=FLAG.on && Date.now()<=Date.parse(FLAG.until); el.hidden=!on; if(!on){ el.innerHTML=""; return; }
+  var P=FLAG[LANG], ar=LANG==="ar";
+  el.innerHTML='<div class="flagp"><div class="band" aria-hidden="true"><i class="r"></i><span class="s"><i style="background:#00843d"></i><i style="background:#f4f4f4"></i><i style="background:#111"></i></span></div><div class="fin">'+
+    '<div class="fhead"><h2>'+P.h+'</h2><span class="tag">'+P.tag+'</span></div><p class="flead">'+P.lead+'</p><div class="items">'+FLAG.items.map(function(x){ return '<div class="it"><div class="ph"><img src="/samples/flag-'+x[0]+'.jpg" alt="'+esc(ar?x[1]:x[2])+'" width="400" height="300" loading="lazy"></div><span class="nm">'+esc(ar?x[1]:x[2])+'</span><span class="pr">'+x[3]+' '+P.cur+(x[ar?4:5]?' <small>'+esc(x[ar?4:5])+'</small>':'')+'</span></div>'; }).join("")+'</div>'+
+    '<div class="bulk">'+P.bulk+'</div><a class="btn fgo" href="/order?flag=1&lang='+LANG+'">'+P.go+'</a><div class="small">'+P.small+'</div></div></div>'; }
 function draw(){
   var T = TX[LANG];
   document.documentElement.lang = LANG; document.documentElement.dir = LANG==="ar" ? "rtl" : "ltr";
@@ -157,6 +186,7 @@ function draw(){
   document.getElementById("steps").innerHTML = T.steps.map(function(x){ return '<div class="step"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
   document.getElementById("why").innerHTML = T.why.map(function(x){ return '<div><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</div>'; }).join("");
   document.querySelector(".cta .go").href = "/order?lang=" + LANG;
+  flagBox();
   var ins = document.getElementById("install");
   ins.classList.toggle("show", !standalone && (isIos || !!deferred));
   document.getElementById("instHow").textContent = isIos ? T.instIos : T.instAnd;

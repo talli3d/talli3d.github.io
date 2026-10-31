@@ -530,6 +530,7 @@ function done(){
   window.scrollTo(0,0);
 }
 draw();
+if(/[?&]flag=1(?:&|$)/.test(location.search) && flagOn() && step===0){ var fg=document.getElementById("flagGo"); if(fg) fg.click(); }   // from the Flag Day box on the home page
 if("serviceWorker" in navigator && location.hostname==="talli3d.github.io" && location.pathname.indexOf("/talli/")!==0) navigator.serviceWorker.register("/sw.js").catch(function(){});
 </script>
 </body>
