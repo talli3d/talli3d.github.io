@@ -99,15 +99,24 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-vis
 .promo .bulk{margin-top:10px;background:#00843d;color:#fff;border-radius:12px;padding:8px 12px;font-weight:600;font-size:14.5px;text-align:center}
 .promo .btn{width:100%;margin-top:10px}
 .promo .small{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
-.flagp{background:linear-gradient(135deg,#f3fbf6,#fff);border-color:#00843d}
-.flagp .stripe{position:absolute;inset:0 auto 0 0;width:7px;background:linear-gradient(#ce1126 0 25%,#00843d 25% 50%,#f4f4f4 50% 75%,#111 75%)}
-.flagp .tag{background:#00843d}
-.flagp .items{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.flagp .it{background:#fff;border:1px solid #d7ecdf;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-.flagp .it img{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;background:#fff;display:block}
-.flagp .it span{font-size:13.5px;font-weight:600;padding:6px 8px 2px;line-height:1.3}
-.flagp .it b{align-self:flex-start;margin:4px 8px 8px;background:#ce1126;color:#fff;border-radius:9px;padding:2px 10px;font-size:14.5px;white-space:nowrap}
-.flagp .it small{font-weight:500;font-size:11.5px;opacity:.9}
+.flagp{padding:0;background:#fff;border:1px solid #cfe3d7;box-shadow:0 6px 22px rgba(0,80,40,.07)}
+.flagp .band{display:flex;height:10px;direction:ltr}.flagp .band i{flex:1}.flagp .band .r{flex:0 0 22%;background:#ce1126}
+.flagp .band .s{display:flex;flex-direction:column;flex:1}.flagp .band .s i{flex:1}
+.flagp .fin{padding:14px 14px 16px}
+.flagp .fhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.flagp h2{margin:0;font-size:19px;line-height:1.3}
+.flagp .tag{animation:none;background:#e9f5ee;color:#00733a;border:1px solid #bfe0cc;font-size:12.5px;padding:3px 10px}
+.flagp .lead{margin:4px 0 12px;font-size:13.5px;color:var(--muted)}
+.flagp .items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.flagp .it{background:#fff;border:1px solid #e3ece7;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.flagp .it .ph{background:#f6f8f7;border-bottom:1px solid #edf2ef;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.flagp .it img{width:88%;height:88%;object-fit:contain;display:block;mix-blend-mode:multiply}
+.flagp .it .nm{font-size:13.5px;font-weight:600;line-height:1.35;padding:8px 10px 0;min-height:2.7em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.flagp .it .pr{margin-top:auto;padding:8px 10px 10px;display:flex;align-items:baseline;gap:4px;color:#ce1126;font-weight:700;font-size:17px;white-space:nowrap}
+.flagp .it .pr small{font-size:12px;font-weight:500;color:var(--muted)}
+.flagp .bulk{margin-top:12px;background:#f3faf6;color:#00733a;border:1px dashed #9fd1b3;font-size:13.5px}
+.flagp .btn{background:#00843d;border-color:#00843d;color:#fff}
+.flagp .small{margin-top:8px}
 @media (prefers-reduced-motion:reduce){ .promo .tag{animation:none} }
 </style>
 </head>
@@ -249,13 +258,14 @@ function promo(){ if(!PROMO.on) return ""; var P=PROMO[LANG]||PROMO.en;
 
 // Flag Day list (3 Nov): prices from the user's National Day 2026 price list (20 Oct), «إماراتية» brooch at the live offer price.
 // Shown until FLAG.until (UAE time), pictures in talli3d.github.io/samples/flag-*.jpg. Set FLAG.on=false to hide it.
-var FLAG={on:true, until:"2026-11-03T23:59:59+04:00", items:[["A","ميدالية باسمك بألوان العلم","Name keychain in flag colours",10,"",""],["B","بروش «55» بعلم الإمارات","\"55\" brooch filled with the flag",5,"",""],["C","لعبة إكس-أو بألوان العلم + كيس هدية","Pocket XO game + gift bag",25,"/ طقم","/ set"],["E","بروش «إماراتية»","«إماراتية» flag brooch",20,"",""]],
-  ar:{tag:"يوم العلم – ٣ نوفمبر",h:"منتجات يوم العلم",cur:"درهم",bulk:"خصم ١٠٪ من ١٠ حبات • ١٥٪ من ٢٠ حبة",go:"اطلب منتجات يوم العلم",small:"اطلب بدري عشان توصلك قبل يوم العلم • توصيل لكل الإمارات",desc:"طلب من منتجات يوم العلم:\n"},
-  en:{tag:"Flag Day · 3 Nov",h:"Flag Day items",cur:"AED",bulk:"10% off from 10 pcs • 15% off from 20 pcs",go:"Order Flag Day items",small:"Order early so it arrives before Flag Day • Delivery all over the UAE",desc:"Order from the Flag Day items:\n"}};
+var FLAG={on:true, until:"2026-11-03T23:59:59+04:00", items:[["A","ميدالية باسمك بألوان العلم","Name keychain in flag colours",10,"",""],["B","بروش «55» بعلم الإمارات","\"55\" brooch filled with the flag",5,"",""],["C","لعبة إكس-أو بألوان العلم + كيس هدية","Pocket XO game + gift bag",25,"/ طقم","/ set"],["E","بروش «إماراتية»","\"Emiratiya\" flag brooch",20,"",""]],
+  ar:{tag:"٣ نوفمبر",h:"منتجات يوم العلم",lead:"مطبوعة بألوان العلم • جاهزة للتوزيعات والهدايا",cur:"درهم",bulk:"خصم ١٠٪ من ١٠ حبات • ١٥٪ من ٢٠ حبة",go:"اطلب منتجات يوم العلم",small:"اطلب بدري عشان توصلك قبل يوم العلم • توصيل لكل الإمارات",desc:"طلب من منتجات يوم العلم:\n"},
+  en:{tag:"3 Nov",h:"Flag Day items",lead:"Printed in the flag colours • ready for giveaways and gifts",cur:"AED",bulk:"10% off from 10 pcs • 15% off from 20 pcs",go:"Order Flag Day items",small:"Order early so it arrives before Flag Day • Delivery all over the UAE",desc:"Order from the Flag Day items:\n"}};
 function flagOn(){ return FLAG.on && Date.now()<=Date.parse(FLAG.until); }
 function flagBox(){ if(!flagOn()) return ""; var P=FLAG[LANG]||FLAG.en, ar=LANG==="ar";
-  return '<div class="promo flagp" id="flagday"><i class="stripe"></i><span class="tag">'+P.tag+'</span><h2>'+P.h+'</h2><div class="items">'+FLAG.items.map(function(x){ return '<div class="it"><img src="https://talli3d.github.io/samples/flag-'+x[0]+'.jpg" alt="" width="400" height="300" loading="lazy"><span>'+esc(ar?x[1]:x[2])+'</span><b>'+x[3]+' '+P.cur+(x[ar?4:5]?' <small>'+esc(x[ar?4:5])+'</small>':'')+'</b></div>'; }).join("")+'</div>'+
-    '<div class="bulk">'+P.bulk+'</div><button type="button" class="btn go" id="flagGo">'+P.go+'</button><div class="small">'+P.small+'</div></div>'; }
+  return '<div class="promo flagp" id="flagday"><div class="band" aria-hidden="true"><i class="r"></i><span class="s"><i style="background:#00843d"></i><i style="background:#f4f4f4"></i><i style="background:#111"></i></span></div><div class="fin">'+
+    '<div class="fhead"><h2>'+P.h+'</h2><span class="tag">'+P.tag+'</span></div><p class="lead">'+P.lead+'</p><div class="items">'+FLAG.items.map(function(x){ return '<div class="it"><div class="ph"><img src="https://talli3d.github.io/samples/flag-'+x[0]+'.jpg" alt="'+esc(ar?x[1]:x[2])+'" width="400" height="300" loading="lazy"></div><span class="nm">'+esc(ar?x[1]:x[2])+'</span><span class="pr">'+x[3]+' '+P.cur+(x[ar?4:5]?' <small>'+esc(x[ar?4:5])+'</small>':'')+'</span></div>'; }).join("")+'</div>'+
+    '<div class="bulk">'+P.bulk+'</div><button type="button" class="btn go" id="flagGo">'+P.go+'</button><div class="small">'+P.small+'</div></div></div>'; }
 
 function draw(){
   var s=STEPS[step], h=head(), ty=O.type||"other";
