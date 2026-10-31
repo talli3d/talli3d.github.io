@@ -170,7 +170,7 @@ var TX = {
   privacy:"🔒 Your pictures and details are encrypted and only Talli can read them.", pcs:"pcs", cm:"cm", none:"—",
   aiCard:["✨","Quick order with AI","Describe it in one sentence. We draw a picture and skip the questions."],
   q_ai:"Describe what you want in one sentence. I'll draw a picture of it.", aiPh:"e.g. a pink keychain with the name Sara and a small heart",
-  aiGo:"✨ Draw it", aiAgain:"↻ Try another", aiWait:"Another picture in {0}s", aiBusy:"Drawing your idea… about 10 seconds",
+  aiGo:"✨ Draw it", aiAgain:"↻ Try another", aiWait:"Another picture in {0}s", aiBusy:"Drawing your idea… usually under a minute", aiQueue:"Busy right now — you're in line, about {0}s", aiSlow:"Still drawing… thanks for waiting ({0}s)",
   aiEmpty:"Your picture will appear here", aiFail:"Couldn't draw it right now. You can still send your idea and we'll design it for you.",
   aiNote:"The AI picture is only a rough idea. We'll confirm the real design and price with you on WhatsApp.", need_ai:"Write your idea first",
   aiType:"Quick AI order", aiPic:"AI picture"
@@ -213,7 +213,7 @@ var TX = {
   privacy:"🔒 صورك وبياناتك مشفّرة ولا يستطيع قراءتها إلا Talli.", pcs:"قطعة", cm:"سم", none:"—",
   aiCard:["✨","طلب سريع بالذكاء الاصطناعي","صف طلبك بجملة واحدة، نرسم لك صورة ونتخطى الأسئلة."],
   q_ai:"صف ما تريده بجملة واحدة، وسأرسم لك صورة له.", aiPh:"مثال: ميدالية وردية مكتوب عليها اسم سارة مع قلب صغير",
-  aiGo:"✨ ارسمها", aiAgain:"↻ جرّب صورة أخرى", aiWait:"صورة أخرى بعد {0} ث", aiBusy:"جارٍ رسم فكرتك… حوالي 10 ثوانٍ",
+  aiGo:"✨ ارسمها", aiAgain:"↻ جرّب صورة أخرى", aiWait:"صورة أخرى بعد {0} ث", aiBusy:"جارٍ رسم فكرتك… عادةً أقل من دقيقة", aiQueue:"الخدمة مزدحمة الآن — أنت في الدور، حوالي {0} ث", aiSlow:"ما زلنا نرسم… شكرًا لانتظارك ({0} ث)",
   aiEmpty:"ستظهر صورتك هنا", aiFail:"تعذّر الرسم الآن. يمكنك إرسال فكرتك وسنصمّمها لك.",
   aiNote:"صورة الذكاء الاصطناعي فكرة تقريبية فقط. سنؤكد معك التصميم الحقيقي والسعر عبر واتساب.", need_ai:"اكتب فكرتك أولًا",
   aiType:"طلب سريع بالذكاء الاصطناعي", aiPic:"صورة الذكاء الاصطناعي"
@@ -232,7 +232,7 @@ var app=document.getElementById("app"), bar=document.getElementById("bar");
 var O={type:"",desc:"",pics:[],size:{l:"",w:"",h:"",unsure:false,note:""},det:{},colours:[],asPhoto:false,qty:"1",need:"",urgent:false,deliv:"",area:"",name:"",phone:"",notes:""};
 var FULL_STEPS=["type","desc","pics","size","details","colour","qty","contact","review"], AI_STEPS=["type","ai","contact","review"];
 var STEPS=FULL_STEPS, step=0, err="", busy=false, sentId="";
-var AI={busy:false, err:"", next:0, timer:0};     // free AI pictures: one every 45 s per visitor
+var AI={busy:false, err:"", msg:"", next:0, timer:0};     // free AI pictures: one every 45 s per visitor
 try{ var saved=JSON.parse(sessionStorage.getItem("talli_order")||"null"); if(saved && saved.O){ O=saved.O; step=saved.step||0; } }catch(e){}
 var QT=(location.search.match(/[?&]type=(key|fig|part|logo|gift|other|ai)(?:&|$)/)||[])[1];
 if(QT && !O.type){ O.type=QT; step=1; }          // started from a card on the Talli home page
@@ -277,7 +277,7 @@ function draw(){
     var wait=Math.max(0, Math.ceil((AI.next-Date.now())/1000));
     h+=ask(t("q_ai"))+'<div class="card"><textarea id="desc" placeholder="'+esc(t("aiPh"))+'" style="min-height:90px">'+esc(O.desc)+'</textarea>'+
       '<div class="airow"><button type="button" class="btn go" id="aigo"'+(AI.busy||wait?' disabled':'')+'>'+(wait?t("aiWait",wait):(O.pics.length?t("aiAgain"):t("aiGo")))+'</button></div>'+
-      '<div class="aiimg">'+(AI.busy?'<div><div class="spin"></div>'+t("aiBusy")+'</div>':(O.pics.length?'<img src="'+O.pics[0]+'" alt="'+esc(t("aiPic"))+'">':'<div>'+(AI.err?esc(AI.err):t("aiEmpty"))+'</div>'))+'</div>'+
+      '<div class="aiimg">'+(AI.busy?'<div><div class="spin"></div><span id="aist">'+esc(AI.msg||t("aiBusy"))+'</span></div>':(O.pics.length?'<img src="'+O.pics[0]+'" alt="'+esc(t("aiPic"))+'">':'<div>'+(AI.err?esc(AI.err):t("aiEmpty"))+'</div>'))+'</div>'+
       '<div class="ainote">'+t("aiNote")+'</div>'+
       '<label for="qtyi">'+t("qty")+'</label>'+input("qtyi",O.qty,"","number")+'</div>';
   } else if(s==="desc"){
@@ -362,25 +362,76 @@ function shrink(file){
   });
 }
 
-var AI_TXT="https://text.pollinations.ai/", AI_IMG="https://image.pollinations.ai/prompt/";
+var AI_TXT="https://text.pollinations.ai/", AI_IMG="https://image.pollinations.ai/prompt/", HORDE="https://aihorde.net/api/v2/generate/";
+// Two free picture services race each other and the first good picture wins:
+//  - Pollinations: fast (~10 s) but often "at its limit" (503) and only 1 picture / 45 s per visitor (402) - retried after the wait it asks for
+//  - AI Horde (volunteer GPUs, anonymous key): slower queue (~30-120 s) but almost always finishes
+var AI_MAX=240000;                                   // give up after 4 minutes
+function aiSay(m){ AI.msg=m; var el=document.getElementById("aist"); if(el) el.textContent=m; }
+function aiWaitMs(ms, run){ return new Promise(function(ok){ setTimeout(ok, Math.max(0, Math.min(ms, run.end-Date.now()))); }); }
+async function aiFetch(url, opt, ms){                // fetch with a time limit
+  var c=new AbortController(), k=setTimeout(function(){ c.abort(); }, ms);
+  try{ return await fetch(url, Object.assign({signal:c.signal}, opt||{})); } finally{ clearTimeout(k); } }
+function aiBlob(b64){ var s=atob(b64), a=new Uint8Array(s.length); for(var i=0;i<s.length;i++) a[i]=s.charCodeAt(i); return new Blob([a],{type:"image/webp"}); }
+async function aiPoll(prompt, run){
+  var seed=1+Math.floor(Math.random()*99999), tries=0;
+  while(!run.done && Date.now()<run.end){
+    tries++;
+    try{
+      var res=await aiFetch(AI_IMG+encodeURIComponent(prompt)+"?width=640&height=640&nologo=true&referrer=talli3d.github.io&seed="+(seed+tries), null, 70000);
+      if(res.ok && /^image\//.test(res.headers.get("content-type")||"")){ var pic=await shrink(await res.blob()); if(pic) return pic; }
+      var why=res.ok?"":await res.text(), m=/Retry after (\d+)/i.exec(why), w=m?+m[1]:(res.status===402?45:10);
+      if(res.status===401||res.status===403) throw new Error("pollinations closed");
+      await aiWaitMs((w+1)*1000, run);
+    }catch(e){ if(/closed/.test(e.message)) throw e; await aiWaitMs(8000, run); }
+  }
+  throw new Error("pollinations gave up");
+}
+async function aiHorde(prompt, run){
+  var hd={"apikey":"0000000000","Client-Agent":"talli3d:1.0:talli3d.github.io","Content-Type":"application/json"}, id="";
+  for(var n=0; !id && n<3 && !run.done; n++){
+    try{ var r=await aiFetch(HORDE+"async",{method:"POST",headers:hd,body:JSON.stringify({prompt:prompt+" ### blurry, text, watermark, people, hands, cartoon",
+          params:{width:512,height:512,steps:22,cfg_scale:7,n:1,karras:true,sampler_name:"k_euler_a"},nsfw:false,censor_nsfw:true,r2:false,shared:false})}, 25000);
+      var j=await r.json(); if(j && j.id) id=j.id; else await aiWaitMs(5000, run); }catch(_){ await aiWaitMs(5000, run); }
+  }
+  if(!id) throw new Error("horde refused");
+  run.horde=id;
+  while(!run.done && Date.now()<run.end){
+    await aiWaitMs(4000, run); if(run.done) break;
+    try{ var c=await (await aiFetch(HORDE+"check/"+id,null,20000)).json();
+      if(c.faulted || c.is_possible===false) throw new Error("horde failed");
+      if(!run.done){
+        var sec=Math.round((Date.now()-run.start)/1000);
+        aiSay(c.queue_position>0 && c.wait_time>20 ? t("aiQueue", c.wait_time) : (sec>45 ? t("aiSlow", sec) : t("aiBusy")));
+      }
+      if(c.done){ var g=(await (await aiFetch(HORDE+"status/"+id,null,30000)).json()).generations||[];
+        if(g[0] && g[0].img && !g[0].censored){ var pic=await shrink(aiBlob(g[0].img)); if(pic){ run.horde=""; return pic; } }
+        throw new Error("horde empty"); }
+    }catch(e){ if(/horde (failed|empty)/.test(e.message)) throw e; }
+  }
+  throw new Error("horde gave up");
+}
+function aiFirst(list){                              // first one to succeed; fails only when all fail
+  return new Promise(function(ok, no){ var left=list.length;
+    list.forEach(function(p){ p.then(ok, function(e){ if(--left===0) no(e); }); }); }); }
 async function aiDraw(){
   var idea=O.desc.trim(); if(!idea){ err=t("need_ai"); draw(); return; }
-  err=""; AI.busy=true; AI.err=""; draw();
+  err=""; AI.busy=true; AI.err=""; AI.msg=""; draw();
+  var run={start:Date.now(), end:Date.now()+AI_MAX, done:false, horde:""}, how="";
   try{
     var en=idea;
-    if(/[\u0600-\u06FF]/.test(idea)){            // the image model only understands English
-      try{ var r=await fetch(AI_TXT+encodeURIComponent("Rewrite this customer idea as ONE short English prompt for an image generator. The picture must show the object as a real 3D-printed plastic item. Keep any names or text exactly as written. Reply with the prompt only. Idea: "+idea));
-        var tx=r.ok?(await r.text()).trim():""; if(tx && tx.length<500 && !/free limit|pollinations/i.test(tx)) en=tx; }catch(_){}
+    if(/[؀-ۿ]/.test(idea)){            // the picture models only understand English
+      try{ var r=await aiFetch(AI_TXT+encodeURIComponent("Rewrite this customer idea as ONE short English prompt for an image generator. The picture must show the object as a real 3D-printed plastic item. Keep any names or text exactly as written. Reply with the prompt only. Idea: "+idea), null, 25000);
+        var tx=r.ok?(await r.text()).trim():""; if(tx && tx.length<500 && !/free limit|pollinations|"error"|^\s*[{<]/i.test(tx) && !/[؀-ۿ]{6,}/.test(tx)) en=tx; }catch(_){}
     }
     O.aiPrompt=en;
-    var url=AI_IMG+encodeURIComponent(en+", single 3D printed PLA plastic object, product photo, plain light background")+"?width=640&height=640&nologo=true&seed="+(1+Math.floor(Math.random()*99999));
-    var res=await fetch(url);
-    if(!res.ok) throw new Error("ai "+res.status);
-    var pic=await shrink(await res.blob());
-    if(!pic) throw new Error("bad picture");
+    var prompt=en+", single 3D printed PLA plastic object, product photo, plain light background";
+    var pic=await aiFirst([aiPoll(prompt, run).then(function(p){ how="p"; return p; }), aiHorde(prompt, run).then(function(p){ how="h"; return p; })]);
     O.pics=[pic];
   }catch(e){ AI.err=t("aiFail"); }
-  AI.busy=false; AI.next=Date.now()+46000; draw(); tick();
+  run.done=true;
+  if(run.horde) try{ fetch(HORDE+"status/"+run.horde,{method:"DELETE",headers:{"Client-Agent":"talli3d:1.0:talli3d.github.io"}}).catch(function(){}); }catch(_){}
+  AI.busy=false; AI.msg=""; AI.next=Date.now()+(how==="p"?46000:15000); draw(); tick();
 }
 function tick(){                                   // count down to the next free picture without redrawing the text box
   clearInterval(AI.timer);
