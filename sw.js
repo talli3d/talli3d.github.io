@@ -1,5 +1,5 @@
 // Talli app: keeps the home and order pages available offline and quick to open. Never caches Google requests.
-var CACHE = "talli-v1";
+var CACHE = "talli-v2";   // bump when pictures change, so returning visitors get the new ones
 var CORE = ["/", "/order", "/logo.svg", "/mark.svg", "/icon-192.png", "/manifest.webmanifest"];
 
 self.addEventListener("install", function(e){
