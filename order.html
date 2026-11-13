@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Talli 3D Printing – Order</title>
-<meta name="theme-color" content="#0f766e">
+<meta name="theme-color" content="#f6f3ee">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -18,53 +18,112 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap">
 <style>
-:root{--ink:#14201d;--muted:#5b6b67;--line:#dfe5e3;--teal:#0f766e;--teal-soft:#e3f2ef;--orange:#e07a1f;--bg:#f4f6f5;--card:#fff;--red:#b42318}
+:root{--ink:#16211e;--muted:#5e6c68;--line:#e3e0d9;--teal:#0f766e;--teal-d:#0b5a54;--teal-soft:#e2f2ee;--orange:#e07a1f;--bg:#f6f3ee;--card:#fff;--red:#b42318;
+  --sh:0 1px 2px rgba(40,30,10,.05),0 6px 20px rgba(40,30,10,.06);--sh2:0 2px 4px rgba(40,30,10,.06),0 14px 34px rgba(40,30,10,.12)}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans",system-ui,sans-serif;-webkit-text-size-adjust:100%}
 html[lang=ar] body{font-family:"IBM Plex Sans Arabic","IBM Plex Sans",system-ui,sans-serif}
-.wrap{max-width:640px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-right)) 130px max(16px,env(safe-area-inset-left))}
-header{display:flex;align-items:center;gap:12px;padding:10px 0 6px}
-.brand{display:block;line-height:0;border-radius:12px}
-.brand img{height:64px;width:auto;display:block}
-.lang{flex:none;min-height:38px;padding:0 16px;border-radius:19px;border:1.5px solid var(--line);background:#fff;font:600 14px inherit;cursor:pointer;margin-inline-start:auto}
+.wrap{max-width:680px;margin:0 auto;padding:6px max(16px,env(safe-area-inset-right)) 130px max(16px,env(safe-area-inset-left))}
+header{display:flex;align-items:center;gap:12px;padding:10px 0 4px}
+/* ---- header logo lockup ---- */
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);border-radius:14px;padding:2px 6px 2px 2px;-webkit-tap-highlight-color:transparent}
+.bmk{position:relative;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:linear-gradient(145deg,#ffffff,#eef4f2);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 16px -8px rgba(15,118,110,.45),0 0 0 1px rgba(20,32,29,.06);overflow:hidden;transition:width .35s,height .35s,border-radius .35s,transform .5s cubic-bezier(.2,.8,.2,1);animation:bIn .9s cubic-bezier(.2,.8,.2,1) both}
+.bmk::after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.85) 50%,transparent 60%);transform:translateX(-100%);animation:bShine 1.4s .9s ease-out both}
+.bmk img{width:72%;height:auto;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes bIn{from{opacity:0;transform:scale(.6) rotate(-14deg)}}
+@keyframes bShine{to{transform:translateX(100%)}}
+.bw{display:flex;flex-direction:column;line-height:1;animation:bwIn .8s cubic-bezier(.2,.8,.2,1) .15s both}
+@keyframes bwIn{from{opacity:0;transform:translateX(-8px)}}
+html[dir=rtl] .bw{animation-name:bwInR} @keyframes bwInR{from{opacity:0;transform:translateX(8px)}}
+.bw b{font:800 23px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;display:flex;align-items:baseline;gap:7px}
+.bw b i{font:700 17px/1 "IBM Plex Sans Arabic",sans-serif;font-style:normal;color:rgb(254,105,1);letter-spacing:0}
+.bw small{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:4px;transition:opacity .3s,max-height .35s;max-height:16px;overflow:hidden}
+html[lang=ar] .bw small{letter-spacing:0;text-transform:none;font-size:12px}
+.brand:hover .bmk{transform:rotate(-6deg) scale(1.06)}.brand:hover .bmk img{transform:scale(1.06)}
+.brand:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){ .bmk,.bmk::after,.bw{animation:none} .bmk::after{display:none} }
+.bmk,.bw{animation:none}.bmk::after{display:none}   /* the order page redraws its header on every step: no entrance replay */
+.lang{flex:none;min-height:40px;padding:0 16px;border-radius:20px;border:1.5px solid var(--line);background:#fff;font:600 14px inherit;cursor:pointer;margin-inline-start:auto;color:var(--ink)}
 .lang[lang=ar]{font-family:"IBM Plex Sans Arabic",sans-serif}
-.ptitle{display:flex;align-items:baseline;gap:10px;margin:8px 0 10px}
-h1{font:700 clamp(26px,6vw,34px)/1.1 "Bricolage Grotesque",sans-serif;margin:0;letter-spacing:-.01em}
+.ptitle{display:flex;align-items:center;gap:10px;margin:10px 0 8px}
+h1{font:700 clamp(24px,5.6vw,32px)/1.15 "Bricolage Grotesque",sans-serif;margin:0;letter-spacing:-.01em}
 html[lang=ar] h1{font-family:"IBM Plex Sans Arabic",sans-serif;letter-spacing:0;line-height:1.3}
-.stepno{margin-inline-start:auto;font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
+.stepno{margin-inline-start:auto;font-size:13px;font-weight:600;color:var(--teal);background:var(--teal-soft);border-radius:999px;padding:3px 11px;white-space:nowrap}
 .sub{color:var(--muted);font-size:13.5px}
-.prog{height:8px;border-radius:4px;background:#e4e9e7;overflow:hidden;margin:0 0 18px}.prog i{display:block;height:100%;background:var(--teal);border-radius:4px;transition:width .3s}
+.prog{display:flex;gap:5px;margin:0 0 18px}.prog i{flex:1;height:6px;border-radius:3px;background:#e4dfd6;transition:background .3s}.prog i.on{background:var(--teal)}.prog i.now{background:linear-gradient(90deg,var(--teal),#3aa597)}
+/* hero (first step) */
+.hero{position:relative;border-radius:22px;overflow:hidden;margin:4px 0 16px;box-shadow:var(--sh2);background:#1d2a27;aspect-ratio:16/11;max-height:400px;width:100%}
+@media (max-width:520px){ .hero{aspect-ratio:4/4.2} }
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:kb 18s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.1) translateY(-2%)}}
+.hero .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,22,20,.92) 0%,rgba(10,22,20,.7) 38%,rgba(10,22,20,.15) 68%,rgba(10,22,20,0) 85%)}
+.hero h2,.hero p{text-shadow:0 1px 10px rgba(0,0,0,.35)}
+.hero .tx{position:absolute;inset-inline:0;bottom:0;padding:18px 18px 16px;color:#fff}
+.hero h2{margin:0 0 4px;font:700 clamp(22px,5.4vw,30px)/1.15 "Bricolage Grotesque",sans-serif}
+html[lang=ar] .hero h2{font-family:"IBM Plex Sans Arabic",sans-serif;line-height:1.35}
+.hero p{margin:0 0 10px;font-size:14.5px;opacity:.92}
+.trust{display:flex;flex-wrap:wrap;gap:6px}.trust span{font-size:12.5px;font-weight:600;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(6px);border-radius:999px;padding:4px 10px;white-space:nowrap}
+/* assistant bubble */
 .bot{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
-.bot .av{width:40px;height:40px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none;padding:4px}
+.bot .av{width:42px;height:42px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none;padding:5px;box-shadow:var(--sh)}
 .bot .av img{width:100%;height:100%}
-.bubble{background:var(--card);border-radius:4px 18px 18px 18px;padding:12px 16px;font-size:16.5px}
+.bubble{background:var(--card);border-radius:4px 18px 18px 18px;padding:12px 16px;font-size:16.5px;box-shadow:var(--sh);animation:pop .35s ease-out}
 html[dir=rtl] .bubble{border-radius:18px 4px 18px 18px}
+@keyframes pop{from{transform:translateY(6px)}to{transform:none}}
 .bubble b{display:block;margin-bottom:2px}
-.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px}
+/* chosen item strip (steps after the first) */
+.chosen{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:8px;margin:0 0 14px;box-shadow:var(--sh)}
+.chosen img{width:64px;height:48px;border-radius:10px;object-fit:cover;flex:none}
+.chosen .n{font-weight:600;font-size:15px;line-height:1.25}.chosen .n small{display:block;color:var(--muted);font-weight:500;font-size:12.5px}
+.chosen button{margin-inline-start:auto;border:0;background:var(--teal-soft);color:var(--teal-d);font:inherit;font-weight:600;font-size:13.5px;border-radius:999px;padding:7px 14px;cursor:pointer}
+.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:var(--sh);animation:pop .35s ease-out}
+/* item type cards with photos */
 .types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.type{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:start;min-height:112px;padding:16px;border-radius:16px;border:2px solid transparent;background:#fff;font:inherit;cursor:pointer;transition:border-color .15s}
-.type:hover{border-color:#b9d9d2}
-.type{overflow:hidden;min-width:0}.type img{display:block;align-self:stretch;width:calc(100% + 32px);max-width:none;margin:-16px -16px 8px;height:auto;aspect-ratio:3/2;object-fit:cover;background:#eef4f2}
-.type .e{font-size:28px;line-height:1;margin-bottom:4px}.type .t{font-weight:600;font-size:16px}.type .d{font-size:13.5px;color:var(--muted)}
-.type.on{border-color:var(--teal);background:var(--teal-soft)}
-.aiopt{display:flex;align-items:center;gap:14px;width:100%;min-height:0;margin-bottom:12px;padding:14px 16px;border-radius:16px;border:2px solid transparent;cursor:pointer;text-align:start;font:inherit;color:#fff;
-  background:linear-gradient(120deg,#0f766e,#1d4ed8 70%,#7c3aed)}
-.aiopt .e{font-size:30px;line-height:1;flex:none}.aiopt .t{font-weight:700;font-size:17px;display:block}.aiopt .d{font-size:13.5px;opacity:.9;display:block}
-.aiopt.on{border-color:#ffd60a}
+.type{position:relative;display:block;min-width:0;padding:0;border-radius:18px;border:0;background:#22302c;font:inherit;cursor:pointer;overflow:hidden;aspect-ratio:4/4.3;text-align:start;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s}
+.type img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.type:hover{transform:translateY(-2px);box-shadow:var(--sh2)}.type:hover img{transform:scale(1.05)}
+.type .ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,18,16,.88) 0%,rgba(8,18,16,.35) 50%,rgba(8,18,16,0) 72%)}
+.type .lb{position:absolute;inset-inline:0;bottom:0;padding:10px 12px 12px;color:#fff;display:flex;flex-direction:column;gap:1px}
+.type .t{font-weight:700;font-size:15.5px;line-height:1.25}.type .d{font-size:12.5px;opacity:.85;line-height:1.3}
+.type .ck{position:absolute;top:10px;inset-inline-end:10px;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:none;align-items:center;justify-content:center;font-size:16px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.type.on{outline:3px solid var(--teal);outline-offset:2px}.type.on .ck{display:flex}
+/* quick AI order */
+.aiopt{position:relative;display:flex;align-items:flex-end;width:100%;min-height:150px;margin-bottom:14px;padding:0;border-radius:18px;border:0;cursor:pointer;text-align:start;font:inherit;color:#fff;overflow:hidden;background:#140f08;box-shadow:var(--sh2)}
+.aiopt img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+.aiopt .ov{position:absolute;inset:0;background:linear-gradient(100deg,rgba(15,118,110,.92) 0%,rgba(29,78,216,.55) 55%,rgba(124,58,237,.2) 100%)}
+html[dir=rtl] .aiopt .ov{background:linear-gradient(260deg,rgba(15,118,110,.92) 0%,rgba(29,78,216,.55) 55%,rgba(124,58,237,.2) 100%)}
+.aiopt .in{position:relative;display:flex;gap:12px;align-items:center;padding:16px 18px}
+.aiopt .e{font-size:30px;line-height:1;flex:none}.aiopt .t{font-weight:700;font-size:18px;display:block}.aiopt .d{font-size:13.5px;opacity:.93;display:block;max-width:34ch}
+.aiopt .go{display:inline-block;margin-top:8px;background:#fff;color:var(--teal-d);font-weight:700;font-size:13.5px;border-radius:999px;padding:5px 13px}
+.aiopt.on{outline:3px solid #ffd60a;outline-offset:2px}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;font-weight:600;margin:4px 0 12px}.or:before,.or:after{content:"";flex:1;height:1px;background:var(--line)}
 .aiimg{position:relative;margin-top:12px;border-radius:14px;overflow:hidden;background:#eef1f0;aspect-ratio:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;text-align:center;padding:0}
 .aiimg img{width:100%;height:100%;object-fit:cover;display:block}
 .aiimg .spin{width:34px;height:34px;border-radius:50%;border:4px solid #cfe3de;border-top-color:var(--teal);animation:sp 1s linear infinite;margin:0 auto 10px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .airow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}.airow .btn{flex:1;min-height:48px}
 .ainote{font-size:13px;color:var(--muted);margin-top:8px}
+/* gallery + how it works */
+.sect{margin:26px 0 10px;font-weight:700;font-size:17px;display:flex;align-items:baseline;gap:8px}.sect small{color:var(--muted);font-weight:500;font-size:13px}
+.gal{display:grid;grid-auto-flow:column;grid-auto-columns:42%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;margin:0 -2px;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gal figure{margin:0;scroll-snap-align:start;border-radius:16px;overflow:hidden;background:#ddd;aspect-ratio:1;box-shadow:var(--sh);position:relative}
+.gal img{width:100%;height:100%;object-fit:cover;display:block}
+.gal figcaption{position:absolute;inset-inline:0;bottom:0;padding:18px 10px 8px;color:#fff;font-size:12.5px;font-weight:600;background:linear-gradient(to top,rgba(0,0,0,.65),transparent)}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.how div{background:#fff;border-radius:16px;padding:12px;box-shadow:var(--sh);font-size:13.5px;line-height:1.35}
+.how b{display:flex;width:28px;height:28px;border-radius:50%;background:var(--teal-soft);color:var(--teal-d);align-items:center;justify-content:center;margin-bottom:6px;font-size:14px}
+.how span{display:block;font-weight:600;font-size:14px;margin-bottom:2px}
+/* form bits */
 label{display:block;font-size:13.5px;color:var(--muted);margin:12px 0 5px;font-weight:500}
 label:first-child{margin-top:0}
-input,textarea,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fbfcfc;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+input,textarea,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fbfaf8;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;transition:border-color .15s,background .15s}
+input:focus,textarea:focus{border-color:var(--teal);background:#fff;outline:none}
 textarea{min-height:110px;resize:vertical}
 input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #7cc4b6;outline-offset:1px}
 .dims{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14.5px;cursor:pointer}
+.chip{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14.5px;cursor:pointer;color:var(--ink);transition:border-color .15s,background .15s}
 .chip.on{border-color:var(--teal);background:var(--teal-soft);font-weight:600}
 .chip i{width:18px;height:18px;border-radius:50%;border:1px solid rgba(0,0,0,.18);display:inline-block}
 .tips{font-size:14px;color:var(--muted);margin:0 0 12px;padding-inline-start:18px}
@@ -72,24 +131,41 @@ input:focus-visible,textarea:focus-visible,button:focus-visible,select:focus-vis
 .pic{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#eef1f0}
 .pic img{width:100%;height:100%;object-fit:cover}
 .pic button{position:absolute;top:5px;inset-inline-end:5px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:17px;cursor:pointer}
-.add{display:flex;align-items:center;justify-content:center;gap:8px;min-height:58px;border:2px dashed #a9c9c2;border-radius:14px;color:var(--teal);font-weight:600;cursor:pointer;background:#f7fbfa}
+.add{display:flex;align-items:center;justify-content:center;gap:8px;min-height:64px;border:2px dashed #a9c9c2;border-radius:14px;color:var(--teal);font-weight:600;cursor:pointer;background:#f5faf8}
 .add input{display:none}
 .yn{display:flex;gap:8px;flex-wrap:wrap}
 .sum{font-size:15px;margin:0}.sum dt{color:var(--muted);font-size:13px;margin-top:10px}.sum dd{margin:0;white-space:pre-line}
 .err{color:var(--red);font-size:14px;margin-top:8px}
-.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
-.bar .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:10px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));z-index:5}
+.bar .in{max-width:680px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:10px}
 .btn{font:inherit;font-weight:600;font-size:16px;min-height:52px;border-radius:14px;border:1.5px solid var(--line);background:#fff;color:var(--ink);padding:0 20px;cursor:pointer}
-.btn.go{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.go{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 4px 14px rgba(15,118,110,.28)}
+.btn.go:hover{background:var(--teal-d)}
 .btn[disabled]{opacity:.55}
-.done{text-align:center;padding:30px 10px}
-.done .big{width:76px;height:76px;border-radius:50%;background:var(--teal);color:#fff;font-size:40px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+/* finished */
+.done{text-align:center;padding:0 0 30px}
+.donepic{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/10;max-height:300px;width:100%;margin:6px 0 -38px;box-shadow:var(--sh2)}
+.donepic img{width:100%;height:100%;object-fit:cover;display:block}
+.donepic:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(246,243,238,1) 0%,rgba(246,243,238,0) 45%)}
+.done .big{position:relative;width:76px;height:76px;border-radius:50%;background:var(--teal);color:#fff;font-size:40px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 24px rgba(15,118,110,.35);border:4px solid #fff;animation:pop .5s ease-out}
 .oid{font:700 24px "Bricolage Grotesque",monospace;letter-spacing:.04em;margin:6px 0 4px}
-.wa{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;border-radius:14px;background:#1f8f4e;color:#fff;text-decoration:none;font-weight:600;margin-top:16px}
-.privacy{font-size:12.5px;color:var(--muted);text-align:center;margin-top:10px}
-@media (min-width:700px){ .types{grid-template-columns:repeat(3,minmax(0,1fr))} }
-@media (prefers-reduced-motion:reduce){ .prog i,.type{transition:none} }
-.promo{position:relative;overflow:hidden;border-radius:18px;padding:16px;margin-bottom:14px;background:linear-gradient(135deg,#fff7ec,#fff);border:2px solid #f1c27d}
+.wa{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;border-radius:14px;background:#1f8f4e;color:#fff;text-decoration:none;font-weight:600;margin-top:16px;box-shadow:0 4px 14px rgba(31,143,78,.3)}
+.privacy{font-size:12.5px;color:var(--muted);text-align:center;margin-top:12px}
+@media (min-width:700px){ .types{grid-template-columns:repeat(3,minmax(0,1fr))} .gal{grid-auto-columns:30%} }
+@media (max-width:420px){ .how{gap:8px} .how div{padding:10px 9px;font-size:12.5px} .how span{font-size:13px} }
+/* Apple-style motion */
+@keyframes glide{from{opacity:0;transform:translateY(22px) scale(.985);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.card{animation:glide .7s cubic-bezier(.2,.8,.2,1) both}
+.card:nth-of-type(2){animation-delay:.07s}.card:nth-of-type(3){animation-delay:.14s}.card:nth-of-type(4){animation-delay:.21s}.card:nth-of-type(n+5){animation-delay:.28s}
+.types .type{animation:glide .7s cubic-bezier(.2,.8,.2,1) both}
+.types .type:nth-child(2){animation-delay:.06s}.types .type:nth-child(3){animation-delay:.12s}.types .type:nth-child(4){animation-delay:.18s}.types .type:nth-child(5){animation-delay:.24s}.types .type:nth-child(n+6){animation-delay:.3s}
+.type{transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}.type img{transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.type:hover{transform:translateY(-5px)}.type:hover img{transform:scale(1.07)}
+.type:active,.btn:active{transform:scale(.97)}
+.prog i{transition:background .5s,transform .5s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){ .prog i,.type,.type img{transition:none} .hero img,.bubble,.card,.types .type,.done .big{animation:none} .type,.type img{transform:none!important} }
+/* offers */
+.promo{position:relative;overflow:hidden;border-radius:18px;padding:16px;margin-bottom:14px;background:linear-gradient(135deg,#fff4e4,#fff 60%);border:1.5px solid #f1c27d;box-shadow:var(--sh)}
 .promo .tag{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-weight:700;font-size:13.5px;border-radius:999px;padding:4px 12px;animation:pl 1.6s ease-in-out infinite}
 @keyframes pl{50%{transform:scale(1.06)}}
 .promo h2{font-size:19px;margin:10px 0 8px}
@@ -173,7 +249,13 @@ var TX = {
   aiGo:"✨ Draw it", aiAgain:"↻ Try another", aiWait:"Another picture in {0}s", aiBusy:"Drawing your idea… usually under a minute", aiQueue:"Busy right now — you're in line, about {0}s", aiSlow:"Still drawing… thanks for waiting ({0}s)",
   aiEmpty:"Your picture will appear here", aiFail:"Couldn't draw it right now. You can still send your idea and we'll design it for you.",
   aiNote:"The AI picture is only a rough idea. We'll confirm the real design and price with you on WhatsApp.", need_ai:"Write your idea first",
-  aiType:"Quick AI order", aiPic:"AI picture"
+  aiType:"Quick AI order", aiPic:"AI picture",
+  heroT:"Your idea, printed in 3D", heroP:"Gifts, names, figures and spare parts, made for you in the UAE.",
+  trust:["🚚 Delivery all over the UAE","💬 Reply on WhatsApp in hours","🎨 Any colour"], aiGoTxt:"Try it",
+  orPick:"or choose what you'd like", galT:"Recently printed", galS:"swipe →",
+  gal:["Emoji keychains","Flexi octopus","Colour-in dinos","Tea stand","Photo bust","Katana","Colour-in animals","Names & gifts"],
+  howT:"How it works", how:[["Tell us","Pictures, size and colours"],["We quote","Price and design on WhatsApp"],["We print","Delivered to your door"]],
+  chosen:"Your order", change:"Change"
  },
  ar:{
   title:"Talli 3D Printing", sub:"طلب طباعة", hi:"مرحبًا! أنا مساعد الطلبات في Talli.",
@@ -216,7 +298,13 @@ var TX = {
   aiGo:"✨ ارسمها", aiAgain:"↻ جرّب صورة أخرى", aiWait:"صورة أخرى بعد {0} ث", aiBusy:"جارٍ رسم فكرتك… عادةً أقل من دقيقة", aiQueue:"الخدمة مزدحمة الآن — أنت في الدور، حوالي {0} ث", aiSlow:"ما زلنا نرسم… شكرًا لانتظارك ({0} ث)",
   aiEmpty:"ستظهر صورتك هنا", aiFail:"تعذّر الرسم الآن. يمكنك إرسال فكرتك وسنصمّمها لك.",
   aiNote:"صورة الذكاء الاصطناعي فكرة تقريبية فقط. سنؤكد معك التصميم الحقيقي والسعر عبر واتساب.", need_ai:"اكتب فكرتك أولًا",
-  aiType:"طلب سريع بالذكاء الاصطناعي", aiPic:"صورة الذكاء الاصطناعي"
+  aiType:"طلب سريع بالذكاء الاصطناعي", aiPic:"صورة الذكاء الاصطناعي",
+  heroT:"فكرتك، مطبوعة ثلاثية الأبعاد", heroP:"هدايا، أسماء، مجسّمات وقطع غيار، نصنعها لك في الإمارات.",
+  trust:["🚚 توصيل لكل الإمارات","💬 نرد عبر واتساب خلال ساعات","🎨 أي لون تختاره"], aiGoTxt:"جرّبه",
+  orPick:"أو اختر ما تريد طباعته", galT:"من أعمالنا", galS:"← اسحب",
+  gal:["ميداليات إيموجي","أخطبوط مرن","ديناصورات للتلوين","حامل شاي","تمثال من صورة","سيف كاتانا","حيوانات للتلوين","أسماء وهدايا"],
+  howT:"كيف يتم الطلب", how:[["أخبرنا","الصور والحجم والألوان"],["نرسل السعر","التصميم والسعر عبر واتساب"],["نطبع ونوصّل","حتى باب بيتك"]],
+  chosen:"طلبك", change:"تغيير"
  }
 };
 var LANG = (function(){ try{ var q=(location.search.match(/[?&]lang=(ar|en)(?:&|$)/)||[])[1]; if(q) return q; var v=localStorage.getItem("talli_lang"); if(v==="ar"||v==="en") return v; }catch(e){}
@@ -240,9 +328,19 @@ function setSteps(){ STEPS = O.type==="ai" ? AI_STEPS : FULL_STEPS; if(step>=STE
 setSteps();
 function keep(){ try{ sessionStorage.setItem("talli_order", JSON.stringify({O:O, step:step})); }catch(e){} }
 
-function head(){ return '<header><a class="brand" href="https://talli3d.github.io/'+(LANG==="ar"?"?lang=ar":"")+'" aria-label="Talli 3D Printing home"><img src="https://talli3d.github.io/logo.svg" alt="Talli 3D Printing"></a><button class="lang" id="lang" type="button" lang="'+(LANG==="ar"?"en":"ar")+'">'+(LANG==="ar"?"English":"عربي")+'</button></header>'+
+// photos of Talli prints (samples/v2: type cards, hero, gallery, finished screen)
+var IMG = location.hostname==="talli3d.github.io" ? "https://talli3d.github.io/samples/v2/" : "samples/v2/";
+function typePic(k){ return IMG+(k==="ai"?"ai":k)+".jpg"; }
+function head(){ return '<header><a class="brand" href="https://talli3d.github.io/'+(LANG==="ar"?"?lang=ar":"")+'" aria-label="Talli 3D Printing home"><span class="bmk"><img src="https://talli3d.github.io/mark-clean.svg" alt="" width="352" height="410"></span><span class="bw"><b>talli<i aria-hidden="true">تللي</i></b><small>'+(LANG==="ar"?"للطباعة ثلاثية الأبعاد":"3D Printing")+'</small></span></a><button class="lang" id="lang" type="button" lang="'+(LANG==="ar"?"en":"ar")+'">'+(LANG==="ar"?"English":"عربي")+'</button></header>'+
   '<div class="ptitle"><h1>'+t("sub")+'</h1><span class="stepno" dir="ltr">'+(step+1)+' / '+STEPS.length+'</span></div>'+
-  '<div class="prog"><i style="width:'+Math.round((step+1)/STEPS.length*100)+'%"></i></div>'; }
+  '<div class="prog" role="progressbar" aria-valuemin="1" aria-valuemax="'+STEPS.length+'" aria-valuenow="'+(step+1)+'">'+STEPS.map(function(_,i){ return '<i class="'+(i<step?'on':(i===step?'now':''))+'"></i>'; }).join("")+'</div>'+
+  (step>0 && O.type && STEPS[step]!=="review" ? chosen() : ''); }
+function chosen(){ var ai=O.type==="ai", x=ai?["✨",t("aiType"),""]:(T().types[O.type]||["","",""]);
+  return '<div class="chosen"><img src="'+typePic(O.type)+'" alt="" width="64" height="48"><div class="n"><small>'+t("chosen")+'</small>'+esc(x[1])+'</div><button type="button" id="chgType">'+t("change")+'</button></div>'; }
+function hero(){ return '<div class="hero"><img src="'+IMG+'hero.jpg" alt="" width="1200" height="750"><div class="ov"></div><div class="tx"><h2>'+t("heroT")+'</h2><p>'+t("heroP")+'</p><div class="trust">'+t("trust").map(function(x){ return '<span>'+esc(x)+'</span>'; }).join("")+'</div></div></div>'; }
+function extras(){ var g=t("gal"), hw=t("how");
+  return '<div class="sect">'+t("galT")+' <small>'+t("galS")+'</small></div><div class="gal">'+g.map(function(c,i){ return '<figure><img src="'+IMG+'g'+(i+1)+'.jpg" alt="'+esc(c)+'" width="520" height="520" loading="lazy"><figcaption>'+esc(c)+'</figcaption></figure>'; }).join("")+'</div>'+
+    '<div class="sect">'+t("howT")+'</div><div class="how">'+hw.map(function(x,i){ return '<div><b>'+(i+1)+'</b><span>'+esc(x[0])+'</span>'+esc(x[1])+'</div>'; }).join("")+'</div>'; }
 function ask(q, sub){ return '<div class="bot"><div class="av"><img src="https://talli3d.github.io/mark.svg" alt=""></div><div class="bubble">'+(step===0?'<b>'+t("hi")+'</b>':'')+q+(sub?'<div class="sub" style="margin-top:4px">'+sub+'</div>':'')+'</div></div>'; }
 function yn(key, val){ return '<div class="yn">'+[["yes",t("yes")],["no",t("no")],["unsure",t("unsure")]].map(function(o){ return '<button type="button" class="chip'+(val===o[0]?' on':'')+'" data-det="'+key+'" data-val="'+o[0]+'">'+o[1]+'</button>'; }).join("")+'</div>'; }
 function choice(key, opts, val){ return '<div class="yn">'+opts.map(function(o,i){ return '<button type="button" class="chip'+(String(val)===String(i)?' on':'')+'" data-det="'+key+'" data-val="'+i+'">'+esc(o)+'</button>'; }).join("")+'</div>'; }
@@ -271,8 +369,8 @@ function draw(){
   var s=STEPS[step], h=head(), ty=O.type||"other";
   if(s==="type"){
     var ac=t("aiCard");
-    h+=ask(t("q_type"))+flagBox()+promo()+'<button type="button" class="aiopt'+(O.type==="ai"?' on':'')+'" data-type="ai"><span class="e">'+ac[0]+'</span><span><span class="t">'+esc(ac[1])+'</span><span class="d">'+esc(ac[2])+'</span></span></button>'+
-      '<div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'"><img src="https://talli3d.github.io/samples/sample-'+k+'.jpg" alt="" width="480" height="320" loading="lazy"><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></button>'; }).join("")+'</div>';
+    h+=hero()+ask(t("q_type"))+flagBox()+promo()+'<button type="button" class="aiopt'+(O.type==="ai"?' on':'')+'" data-type="ai"><img src="'+IMG+'ai.jpg" alt="" width="1000" height="563"><span class="ov"></span><span class="in"><span class="e">'+ac[0]+'</span><span><span class="t">'+esc(ac[1])+'</span><span class="d">'+esc(ac[2])+'</span><span class="go">'+t("aiGoTxt")+' →</span></span></span></button>'+
+      '<div class="or">'+t("orPick")+'</div><div class="types">'+Object.keys(T().types).map(function(k){ var x=T().types[k]; return '<button type="button" class="type'+(O.type===k?' on':'')+'" data-type="'+k+'" aria-pressed="'+(O.type===k)+'"><img src="'+typePic(k)+'" alt="" width="640" height="480" loading="lazy"><span class="ov"></span><span class="ck">✓</span><span class="lb"><span class="t">'+esc(x[1])+'</span><span class="d">'+esc(x[2])+'</span></span></button>'; }).join("")+'</div>'+extras();
   } else if(s==="ai"){
     var wait=Math.max(0, Math.ceil((AI.next-Date.now())/1000));
     h+=ask(t("q_ai"))+'<div class="card"><textarea id="desc" placeholder="'+esc(t("aiPh"))+'" style="min-height:90px">'+esc(O.desc)+'</textarea>'+
@@ -454,6 +552,7 @@ function validate(){
 app.addEventListener("click", function(e){
   var b=e.target.closest("button"); if(!b) return;
   if(b.id==="lang"){ LANG=LANG==="ar"?"en":"ar"; try{ localStorage.setItem("talli_lang",LANG); }catch(_){}; applyLang(); draw(); return; }
+  if(b.id==="chgType"){ err=""; step=0; draw(); window.scrollTo(0,0); return; }
   if(b.dataset.type){ var was=O.type; O.type=b.dataset.type; if((was==="ai")!==(O.type==="ai")) O.pics=[]; setSteps(); err="";
     if(O.type==="ai"){ step=1; draw(); window.scrollTo(0,0); } else draw(); return; }
   if(b.id==="flagGo"){ var F=FLAG[LANG]||FLAG.en; O.type="gift"; O.pics=[]; setSteps(); err=""; O.det.occasion=O.det.occasion||(LANG==="ar"?"يوم العلم":"Flag Day");
@@ -576,7 +675,7 @@ function done(){
   // the request also lands in Talli's WhatsApp: WhatsApp opens with the details filled in, the client taps Send
   var wa="https://wa.me/"+TALLI_WA+"?text="+encodeURIComponent(summaryText(sentId));
   setTimeout(function(){ location.href=wa; }, 1800);
-  app.innerHTML=head()+'<div class="done"><div class="big">&#10003;</div><h1>'+t("doneT")+'</h1><p>'+esc(t("doneP",O.name.split(" ")[0]||""))+'</p>'+
+  app.innerHTML=head()+'<div class="done"><div class="donepic"><img src="'+IMG+'done.jpg" alt="" width="900" height="563"></div><div class="big">&#10003;</div><h1>'+t("doneT")+'</h1><p>'+esc(t("doneP",O.name.split(" ")[0]||""))+'</p>'+
     '<div class="sub">'+t("yourId")+'</div><div class="oid"><bdi>'+sentId+'</bdi></div><a class="wa" href="'+wa+'">'+t("waBtn")+'</a><div class="privacy">'+t("privacy")+'</div></div>';
   window.scrollTo(0,0);
 }

@@ -91,11 +91,136 @@ footer a{text-decoration:none;font-weight:600;color:var(--ink)}
   .cta .btn{flex:1 1 100%}
 }
 @media (prefers-reduced-motion:reduce){.card{transition:none}}
+/* ---- "What is Talli?" video pop-out ---- */
+.tv{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:6px 14px 6px 6px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.8);font-family:inherit;font-size:14px;font-weight:600;line-height:1.3;text-align:start;color:var(--ink);cursor:pointer;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s;opacity:0;animation:wIn 1s cubic-bezier(.2,.8,.2,1) .9s forwards}
+html[dir=rtl] .tv{padding:6px 6px 6px 14px}
+.tv:hover{transform:translateY(-2px);box-shadow:0 12px 26px -14px rgba(20,32,29,.45)}
+.tv .pl{position:relative;width:34px;height:34px;border-radius:50%;background:center/cover url("https://i.ytimg.com/vi/eF5vfKH1i_U/mqdefault.jpg");flex:none}
+.tv .pl::before{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(15,118,110,.55)}
+.tv .pl::after{content:"";position:absolute;left:13px;top:10px;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent #fff}
+.tv .pl i{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(15,118,110,.5);animation:tvPulse 2.2s ease-out infinite}
+@keyframes tvPulse{from{transform:scale(.85);opacity:1}to{transform:scale(1.35);opacity:0}}
+.tv small{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+#tvDlg{border:0;padding:0;border-radius:22px;width:min(860px,calc(100vw - 24px));background:#0c1311;color:#fff;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden}
+#tvDlg[open]{animation:tvIn .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes tvIn{from{opacity:0;transform:translateY(24px) scale(.96)}}
+#tvDlg::backdrop{background:rgba(6,12,10,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.tvVid{position:relative;aspect-ratio:16/9;background:#000}
+.tvVid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tvTx{padding:16px 20px 20px}
+.tvTx h3{margin:0 0 6px;font:700 20px/1.25 "Bricolage Grotesque",sans-serif}
+html[lang=ar] .tvTx h3{font-family:"IBM Plex Sans Arabic",sans-serif}
+.tvTx p{margin:0 0 8px;font-size:14.5px;line-height:1.6;color:#c9d6d2}
+.tvTx .src{font-size:12px;color:#8fa39d;margin:0}
+.tvTx .src a{color:#9fe0d3}
+.tvX{position:absolute;top:10px;inset-inline-end:10px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:18px;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.tvX:hover{background:rgba(0,0,0,.8)}
+@media (prefers-reduced-motion:reduce){ .tv{opacity:1;animation:none}.tv .pl i{animation:none}#tvDlg[open]{animation:none} }
+/* ---- header logo lockup ---- */
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);border-radius:14px;padding:2px 6px 2px 2px;-webkit-tap-highlight-color:transparent}
+.bmk{position:relative;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:linear-gradient(145deg,#ffffff,#eef4f2);box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 16px -8px rgba(15,118,110,.45),0 0 0 1px rgba(20,32,29,.06);overflow:hidden;transition:width .35s,height .35s,border-radius .35s,transform .5s cubic-bezier(.2,.8,.2,1);animation:bIn .9s cubic-bezier(.2,.8,.2,1) both}
+.bmk::after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.85) 50%,transparent 60%);transform:translateX(-100%);animation:bShine 1.4s .9s ease-out both}
+.bmk img{width:72%;height:auto;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes bIn{from{opacity:0;transform:scale(.6) rotate(-14deg)}}
+@keyframes bShine{to{transform:translateX(100%)}}
+.bw{display:flex;flex-direction:column;line-height:1;animation:bwIn .8s cubic-bezier(.2,.8,.2,1) .15s both}
+@keyframes bwIn{from{opacity:0;transform:translateX(-8px)}}
+html[dir=rtl] .bw{animation-name:bwInR} @keyframes bwInR{from{opacity:0;transform:translateX(8px)}}
+.bw b{font:800 23px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;display:flex;align-items:baseline;gap:7px}
+.bw b i{font:700 17px/1 "IBM Plex Sans Arabic",sans-serif;font-style:normal;color:rgb(254,105,1);letter-spacing:0}
+.bw small{font-size:11.5px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:4px;transition:opacity .3s,max-height .35s;max-height:16px;overflow:hidden}
+html[lang=ar] .bw small{letter-spacing:0;text-transform:none;font-size:12px}
+.brand:hover .bmk{transform:rotate(-6deg) scale(1.06)}.brand:hover .bmk img{transform:scale(1.06)}
+.brand:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.top.glass .bmk{width:38px;height:38px;border-radius:11px}
+.top.glass .bw small{opacity:0;max-height:0;margin-top:0}
+@media (prefers-reduced-motion:reduce){ .bmk,.bmk::after,.bw{animation:none} .bmk::after{display:none} }
+/* ---- logo story: scroll-scrubbed motion graphic (plays down, rewinds up) ---- */
+.lstory{position:relative;height:380vh;width:100vw;margin-left:calc(50% - 50vw)}
+.lsIn{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 45%,#ffffff 0,#f4f6f5 55%,#e9efed 100%)}
+.lsWaves{position:absolute;inset:0;width:100%;height:100%}
+.lsWaves path{fill:none;stroke-linecap:round}
+.lsStage{position:relative;width:min(62vh,82vw);aspect-ratio:1;perspective:1100px;margin-top:-6vh}
+.lsStage svg{width:100%;height:100%;overflow:visible;transform-style:preserve-3d;will-change:transform}
+.lsStage .pc{transform-box:fill-box;transform-origin:center;stroke-linejoin:round}
+.lsCaps{position:absolute;left:0;right:0;bottom:max(7vh,calc(24px + env(safe-area-inset-bottom)));text-align:center;padding:0 20px;min-height:5.2em}
+.lsCap{position:absolute;inset:0 20px auto;opacity:0;transform:translateY(18px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.lsCap.on{opacity:1;transform:none}
+.lsCap small{display:block;font-weight:700;color:var(--teal);font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.lsCap b{display:block;font:700 clamp(24px,3.6vw,40px)/1.12 "Bricolage Grotesque",sans-serif;letter-spacing:-.015em}
+html[lang=ar] .lsCap b{font-family:"IBM Plex Sans Arabic",sans-serif;letter-spacing:0;line-height:1.35}
+.lsBar{position:absolute;top:calc(74px + env(safe-area-inset-top));left:50%;width:min(220px,50vw);height:3px;border-radius:2px;background:rgba(20,32,29,.1);transform:translateX(-50%);overflow:hidden;direction:ltr}
+.lsBar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,rgb(16,166,225),#0f766e,rgb(254,105,1));transform-origin:left;transform:scaleX(0)}
+@media (max-width:760px){ .lstory{height:360vh} .lsStage{width:min(88vw,54vh);margin-top:-4vh} }
+@media (prefers-reduced-motion:reduce){ .lstory{height:auto}.lsIn{position:static;height:auto;padding:40px 0 30px}.lsWaves,.lsBar{display:none}
+  .lsCaps{position:static;min-height:0}.lsCap{position:static;opacity:1;transform:none;display:none}.lsCap:last-child{display:block} }
+/* ---- Apple-style motion ---- */
+.top{position:sticky;top:0;z-index:20;margin:0 calc(-1*max(16px,env(safe-area-inset-left)));padding:14px max(16px,env(safe-area-inset-left));transition:background .35s,box-shadow .35s,padding .35s}
+.top.glass{background:rgba(244,246,245,.72);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 rgba(20,32,29,.08);padding-top:8px;padding-bottom:8px}
+.top img{transition:height .35s}.top.glass img{height:42px}
+h1 .w{display:inline-block;opacity:0;transform:translateY(.55em);filter:blur(8px);animation:wIn .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms + 120ms)}
+@keyframes wIn{to{opacity:1;transform:none;filter:blur(0)}}
+h1 .g{background:linear-gradient(100deg,#0f766e 10%,#1d4ed8 55%,#7c3aed 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead,.hero .cta{opacity:0;transform:translateY(14px);animation:wIn 1s cubic-bezier(.2,.8,.2,1) .55s forwards}.hero .cta{animation-delay:.7s}
+.heroart{position:relative;perspective:900px;background:radial-gradient(circle at 50% 40%,#ffffff 0,#ffffff 45%,#e9f3f0 100%);box-shadow:0 30px 60px -30px rgba(15,118,110,.35);animation:artIn 1.2s cubic-bezier(.2,.8,.2,1) .2s both}
+@keyframes artIn{from{opacity:0;transform:scale(.92) translateY(20px)}}
+.heroart::before{content:"";position:absolute;inset:12%;border-radius:50%;background:conic-gradient(from 0deg,#0f766e33,#1d4ed833,#7c3aed33,#e07a1f33,#0f766e33);filter:blur(30px);animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.heroart img{position:relative;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(30px);transition:transform .5s cubic-bezier(.2,.8,.2,1);animation:float 6s ease-in-out infinite}
+@keyframes float{50%{translate:0 -8px}}
+.rv{opacity:0;transform:translateY(34px) scale(.98);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--d,0)*80ms)}
+.rv.in{opacity:1;transform:none}
+.state{padding:70px 0 30px;text-align:center}
+.state p{font:700 clamp(30px,6vw,64px)/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;margin:0 auto;max-width:15em;
+  background:linear-gradient(90deg,var(--ink) 0 var(--sp,0%),#c3ccc9 var(--sp,0%) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+html[lang=ar] .state p{font-family:"IBM Plex Sans Arabic",sans-serif;letter-spacing:0;line-height:1.35;background:linear-gradient(270deg,var(--ink) 0 var(--sp,0%),#c3ccc9 var(--sp,0%) 100%);-webkit-background-clip:text;background-clip:text}
+.showc{position:relative;height:420vh;margin:10px 0}
+.showIn{position:sticky;top:0;height:100vh;height:100svh;display:grid;grid-template-columns:1.15fr 1fr;gap:34px;align-items:center}
+.showMedia{position:relative;aspect-ratio:1;border-radius:32px;overflow:hidden;background:linear-gradient(135deg,#e3f2ef,#dbe4f7);box-shadow:0 40px 80px -40px rgba(0,0,0,.45);max-height:78vh;justify-self:center;width:100%}
+.showMedia img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.12);transition:opacity .8s ease,transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.showMedia img.on{opacity:1;transform:scale(1)}
+.showDots{position:absolute;bottom:14px;left:0;right:0;display:flex;gap:6px;justify-content:center;direction:ltr}
+.showDots i{width:7px;height:7px;border-radius:4px;background:rgba(255,255,255,.45);transition:width .4s,background .4s}.showDots i.on{width:22px;background:#fff}
+.showText{position:relative;min-height:15em}
+.cap{position:absolute;inset:0 0 auto 0;opacity:0;transform:translateY(30px);transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.cap.on{opacity:1;transform:none;pointer-events:auto}
+.cap small{display:block;font-weight:700;color:var(--teal);font-size:14px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.cap h3{font:700 clamp(28px,4vw,46px)/1.08 "Bricolage Grotesque",sans-serif;letter-spacing:-.015em;margin:0 0 12px}
+html[lang=ar] .cap h3{font-family:"IBM Plex Sans Arabic",sans-serif;letter-spacing:0;line-height:1.3}
+.cap p{font-size:18px;color:var(--muted);margin:0 0 18px;max-width:26em}
+.cap a{font-weight:700;color:var(--teal);text-decoration:none}.cap a:hover{text-decoration:underline}
+.card{transition:border-color .15s,transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s,opacity .9s cubic-bezier(.2,.8,.2,1)}
+.card img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.card:hover{transform:translateY(-6px);box-shadow:0 22px 40px -22px rgba(20,32,29,.35)}.card:hover img{transform:scale(1.06)}
+.aiopt{background-size:200% 100%;animation:aiFlow 8s ease-in-out infinite alternate;transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.aiopt:hover{transform:translateY(-3px);box-shadow:0 18px 36px -18px rgba(29,78,216,.6)}
+@keyframes aiFlow{to{background-position:100% 0}}
+.steps{position:relative}
+.steps::after{content:"";position:absolute;left:16px;right:16px;top:31px;height:2px;background:linear-gradient(90deg,var(--teal),#1d4ed8);transform:scaleX(0);transform-origin:left;transition:transform 1.6s cubic-bezier(.2,.8,.2,1) .2s;z-index:0;border-radius:2px}
+html[dir=rtl] .steps::after{transform-origin:right}
+.steps.in::after{transform:scaleX(1)}
+.step{z-index:1}
+@media (max-width:760px){
+  .showc{height:440vh}
+  .showIn{grid-template-columns:1fr;grid-template-rows:auto auto;align-content:center;gap:18px;padding:64px 0 16px}
+  .showMedia{max-height:none;width:min(100%,46vh);height:auto;aspect-ratio:1}
+  .showText{min-height:11.5em;text-align:center}.cap p{margin-inline:auto;font-size:16px}
+  .steps::after{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  h1 .w,.hero .lead,.hero .cta,.heroart,.rv{opacity:1!important;transform:none!important;filter:none!important;animation:none!important;transition:none!important}
+  .heroart::before,.heroart img,.aiopt{animation:none!important}
+  .state p{--sp:100%!important}
+  .showc{height:auto}.showIn{position:static;height:auto;grid-template-columns:1fr}.showMedia{display:none}
+  .showText{min-height:0;display:grid;gap:26px}.cap{position:static;opacity:1;transform:none}
+  .steps::after{display:none}
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top"><img src="/logo.svg" alt="Talli 3D Printing"><button class="lang" id="lang" type="button"></button></header>
+  <header class="top"><a class="brand" href="/" aria-label="Talli 3D Printing"><span class="bmk"><img src="/mark-clean.svg" alt="" width="352" height="410"></span><span class="bw"><b>talli<i aria-hidden="true">تللي</i></b><small id="bTag">3D Printing</small></span></a><button class="lang" id="lang" type="button"></button></header>
 
   <section class="hero">
     <div>
@@ -105,6 +230,7 @@ footer a{text-decoration:none;font-weight:600;color:var(--ink)}
         <a class="btn go" href="/order" data-t="order"></a>
         <a class="btn wa" id="wa" href="#" data-t="wa"></a>
       </div>
+      <button class="tv" id="tvBtn" type="button" aria-haspopup="dialog"><span class="pl" aria-hidden="true"><i></i></span><span><span id="tvB"></span><small id="tvS"></small></span></button>
       <div class="install" id="install">
         <img src="/icon-192.png" alt="">
         <div><b data-t="instT"></b><span id="instHow"></span></div>
@@ -112,6 +238,24 @@ footer a{text-decoration:none;font-weight:600;color:var(--ink)}
       </div>
     </div>
     <div class="heroart"><img src="/mark.svg" alt=""></div>
+  </section>
+
+  <section class="lstory" id="lstory" aria-label="Talli logo">
+    <div class="lsIn">
+      <svg class="lsWaves" id="lsWaves" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <div class="lsBar" aria-hidden="true"><i id="lsBar"></i></div>
+      <div class="lsStage"><svg id="lsSvg" viewBox="297 175 430 430" role="img" aria-label="Talli 3D Printing"></svg></div>
+      <div class="lsCaps" id="lsCaps"></div>
+    </div>
+  </section>
+
+  <section class="state" aria-label=""><p id="stateP"></p></section>
+
+  <section class="showc" id="show" aria-roledescription="showcase">
+    <div class="showIn">
+      <div class="showMedia" id="showMedia"></div>
+      <div class="showText" id="showText"></div>
+    </div>
   </section>
 
   <section class="sec" id="flagsec" hidden></section>
@@ -132,6 +276,12 @@ footer a{text-decoration:none;font-weight:600;color:var(--ink)}
     <div class="why" id="why"></div>
   </section>
 
+  <dialog id="tvDlg" aria-labelledby="tvH">
+    <button class="tvX" id="tvX" type="button" aria-label="Close">✕</button>
+    <div class="tvVid" id="tvVid"></div>
+    <div class="tvTx"><h3 id="tvH"></h3><p id="tvP"></p><p class="src"><span id="tvC"></span> <a href="https://ich.unesco.org/en/RL/al-talli-traditional-embroidery-skills-in-the-united-arab-emirates-01712" target="_blank" rel="noopener">UNESCO</a></p></div>
+  </dialog>
+
   <footer>
     <div><b>Talli 3D Printing</b> · <span data-t="where"></span></div>
     <div style="margin-top:6px"><a id="wa2" href="#">WhatsApp 058 557 9070</a></div>
@@ -148,7 +298,15 @@ var TX = {
      howT:"How it works", howS:"From idea to your door, all on your phone.",
      steps:[["Send your idea","Pictures, size and colours in a few taps."],["Get your quote","We study it and reply on WhatsApp."],["Approve on your phone","Check each item and approve with one tap."],["We print and deliver","Printed in the UAE, delivered or ready for pickup."]],
      whyT:"Why Talli", why:[["Multi-colour","Up to 4 colours in one print."],["Strong materials","PLA for detail, PETG for strength and heat."],["Fair prices","Clear quotes before we start."],["Across the UAE","Delivery or pickup."]],
-     where:"United Arab Emirates", langBtn:"عربي"},
+     where:"United Arab Emirates", langBtn:"عربي",
+     ls:[["It starts with a line","Every print begins as a single path."],["Layer by layer","Hundreds of thin layers stack into your piece."],["Woven in colour","Up to four colours, printed together."],["Talli 3D Printing","Your idea, made real in the UAE."]],
+     tv:["What is Talli?","The Emirati craft behind our name · video"], tvH:"Al Talli: the UAE's traditional embroidery",
+     tvP:"Talli (التلي) is braided by hand on a small cushion called a kajooja, weaving cotton and shining metal threads into bright bands for dresses and kanduras. UNESCO added it to its Intangible Cultural Heritage list in 2022. We named Talli 3D Printing after it: like talli, every piece we make is built carefully, thread by thread and layer by layer.", tvC:"Video by UNESCO (about 10 min). More on",
+     hl:"3D printing", state:"From an idea on your phone to a print in your hand.",
+     show:[["Multi-colour","Up to four colours in one print.","Bright, clean colours printed together, no painting needed.","fig"],
+           ["Gifts that mean something","Made for your home and your guests.","Trays, holders and décor in your colours, with your name.","gift"],
+           ["From a photo","Turn a photo into a figure.","Send a picture and we model it for you: busts, pets, characters.","ai"],
+           ["Names and logos","Keychains, tags and signs.","Your name, your logo, your school or shop, printed to last.","key"]], showGo:"Start an order →"},
  ar:{h1:"طباعة ثلاثية الأبعاد حسب الطلب في الإمارات", lead:"ميداليات بالأسماء، هدايا، قطع بديلة، شعارات وأكثر، نصممها ونطبعها لك. أرسل فكرتك بخطوات بسيطة واستلم عرض السعر عبر واتساب.",
      order:"اطلب طباعة", wa:"راسلنا على واتساب", waMsg:"مرحبًا Talli! أود الاستفسار عن طباعة ثلاثية الأبعاد.",
      instT:"حمّل تطبيق Talli", instIos:"على الآيفون: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية».", instAnd:"أضف Talli إلى شاشتك الرئيسية للطلب بسرعة.", instBtn:"تثبيت",
@@ -157,7 +315,15 @@ var TX = {
      howT:"كيف نعمل", howS:"من الفكرة إلى باب بيتك، كله من هاتفك.",
      steps:[["أرسل فكرتك","صور، مقاسات وألوان بخطوات بسيطة."],["استلم عرض السعر","ندرس طلبك ونرد عبر واتساب."],["وافق من هاتفك","راجع كل منتج ووافق بلمسة واحدة."],["نطبع ونوصل","طباعة داخل الإمارات مع توصيل أو استلام."]],
      whyT:"لماذا Talli", why:[["ألوان متعددة","حتى 4 ألوان في قطعة واحدة."],["خامات قوية","PLA للتفاصيل وPETG للقوة والحرارة."],["أسعار عادلة","عرض سعر واضح قبل البدء."],["في كل الإمارات","توصيل أو استلام."]],
-     where:"الإمارات العربية المتحدة", langBtn:"English"}
+     where:"الإمارات العربية المتحدة", langBtn:"English",
+     ls:[["تبدأ بخط","كل قطعة تبدأ بمسار واحد."],["طبقة فوق طبقة","مئات الطبقات الرقيقة تتراكم لتصنع قطعتك."],["منسوجة بالألوان","حتى أربعة ألوان في طباعة واحدة."],["Talli للطباعة ثلاثية الأبعاد","فكرتك تتحقق في الإمارات."]],
+     tv:["ما هو التلي؟","الحرفة الإماراتية وراء اسمنا · فيديو"], tvH:"التلي: التطريز الإماراتي التقليدي",
+     tvP:"التلي حرفة تُنسج باليد على وسادة صغيرة تُسمّى «الكاجوجة»، تُضفَر فيها خيوط القطن والخيوط المعدنية اللامعة لتصنع شرائط ملوّنة تزيّن الأثواب والكنادير. أدرجته اليونسكو في قائمة التراث الثقافي غير المادي عام 2022. ومنه أخذنا اسم Talli للطباعة ثلاثية الأبعاد: مثل التلي، نصنع كل قطعة بعناية، خيطًا بخيط وطبقة فوق طبقة.", tvC:"الفيديو من اليونسكو (حوالي 10 دقائق، بالإنجليزية). المزيد على",
+     hl:"ثلاثية الأبعاد", state:"من فكرة على هاتفك إلى قطعة مطبوعة بين يديك.",
+     show:[["ألوان متعددة","حتى أربعة ألوان في قطعة واحدة.","ألوان زاهية تُطبع معًا، بدون أي طلاء.","fig"],
+           ["هدايا لها معنى","مصنوعة لبيتك وضيوفك.","صواني وحوامل وديكور بألوانك وباسمك.","gift"],
+           ["من صورة","حوّل صورة إلى مجسّم.","أرسل صورة ونصمّمها لك: تماثيل نصفية، حيوانات أليفة، شخصيات.","ai"],
+           ["أسماء وشعارات","ميداليات وبطاقات ولافتات.","اسمك، شعارك، مدرستك أو متجرك، مطبوع ليدوم.","key"]], showGo:"ابدأ طلبك ←"}
 };
 var LANG = (function(){ try{ var q=(location.search.match(/[?&]lang=(ar|en)(?:&|$)/)||[])[1]; if(q) return q; var v=localStorage.getItem("talli_lang"); if(v==="ar"||v==="en") return v; }catch(e){}
   return "ar"; })();
@@ -191,7 +357,147 @@ function draw(){
   ins.classList.toggle("show", !standalone && (isIos || !!deferred));
   document.getElementById("instHow").textContent = isIos ? T.instIos : T.instAnd;
   document.getElementById("instBtn").hidden = !deferred;
+  motionDraw(T);
 }
+
+// ---- Apple-style motion: words rise in, scroll reveals, glass header, sticky showcase ----
+var RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+var SHOW_IMG = ["/samples/v2/g2.jpg","/samples/v2/g4.jpg","/samples/v2/g5.jpg","/samples/v2/g1.jpg"], showI = -1;
+function motionDraw(T){
+  var h1 = document.querySelector("h1"), hl = String(T.hl||"").split(" "), n = 0;
+  h1.innerHTML = String(T.h1).split(" ").map(function(w){ var g = hl.indexOf(w) >= 0 ? " g" : ""; return '<span class="w' + g + '" style="--i:' + (n++) + '">' + esc(w) + '</span>'; }).join(" ");
+  h1.setAttribute("aria-label", T.h1);
+  document.getElementById("stateP").textContent = T.state;
+  document.getElementById("showMedia").innerHTML = SHOW_IMG.map(function(u, i){ return '<img src="' + u + '" alt="' + esc(T.show[i][1]) + '" loading="eager" decoding="async">'; }).join("") +
+    '<div class="showDots" aria-hidden="true">' + SHOW_IMG.map(function(){ return "<i></i>"; }).join("") + "</div>";
+  document.getElementById("showText").innerHTML = T.show.map(function(x){ return '<div class="cap"><small>' + esc(x[0]) + '</small><h3>' + esc(x[1]) + '</h3><p>' + esc(x[2]) + '</p><a href="/order?type=' + x[3] + '&lang=' + LANG + '">' + esc(T.showGo) + '</a></div>'; }).join("");
+  showI = -1; onScroll(); lsCaps(T);
+  document.getElementById("tvB").textContent = T.tv[0]; document.getElementById("tvS").textContent = T.tv[1];
+  document.getElementById("tvH").textContent = T.tvH; document.getElementById("tvP").textContent = T.tvP; document.getElementById("tvC").textContent = T.tvC;
+  var bt = document.getElementById("bTag"); if(bt) bt.textContent = LANG==="ar" ? "للطباعة ثلاثية الأبعاد" : "3D Printing";
+  revealSetup();
+}
+var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {rootMargin:"0px 0px -8% 0px", threshold:0.12}) : null;
+function revealSetup(){
+  var groups = [".sec h2", ".sec .sub", ".aiopt", ".flagp", ".card", ".step", ".why > div", ".install.show", ".state", "footer"];
+  document.querySelectorAll(groups.join(",")).forEach(function(el){
+    if(el.dataset.rv) return; el.dataset.rv = "1";
+    if(RM || !io){ el.classList.add("in"); return; }
+    var sib = el.parentNode ? [].indexOf.call(el.parentNode.children, el) : 0;
+    el.style.setProperty("--d", /card|step|why/.test(el.className + el.parentNode.className) ? Math.min(sib, 6) : 0);
+    el.classList.add("rv"); io.observe(el);
+  });
+  var st = document.getElementById("steps"); if(st && !st.dataset.rv){ st.dataset.rv = "1"; if(RM || !io) st.classList.add("in"); else io.observe(st); }
+}
+var ticking = false;
+function onScroll(){
+  if(ticking) return; ticking = true;
+  requestAnimationFrame(function(){ ticking = false;
+    var y = window.scrollY || 0, vh = innerHeight;
+    document.querySelector(".top").classList.toggle("glass", y > 24);
+    var sp = document.getElementById("stateP"); if(sp && !RM){ var r = sp.getBoundingClientRect(), k = Math.min(1, Math.max(0, (vh*0.85 - r.top) / (vh*0.55))); sp.style.setProperty("--sp", (k*100).toFixed(1) + "%"); }
+    var sh = document.getElementById("show"); if(!sh) return;
+    var R = sh.getBoundingClientRect(), p = Math.min(0.9999, Math.max(0, -R.top / Math.max(1, R.height - vh))), i = RM ? 0 : Math.floor(p * SHOW_IMG.length);
+    if(i !== showI){ showI = i;
+      sh.querySelectorAll(".showMedia img").forEach(function(im, k){ im.classList.toggle("on", k === i); });
+      sh.querySelectorAll(".showDots i").forEach(function(d, k){ d.classList.toggle("on", k === i); });
+      sh.querySelectorAll(".cap").forEach(function(c, k){ c.classList.toggle("on", RM || k === i); }); }
+  });
+}
+window.addEventListener("scroll", onScroll, {passive:true}); window.addEventListener("resize", onScroll);
+(function(){ var art = document.querySelector(".heroart"); if(!art || RM) return;
+  art.addEventListener("pointermove", function(e){ var r = art.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    art.style.setProperty("--ry", (x*18).toFixed(2) + "deg"); art.style.setProperty("--rx", (-y*18).toFixed(2) + "deg"); });
+  art.addEventListener("pointerleave", function(){ art.style.setProperty("--ry", "0deg"); art.style.setProperty("--rx", "0deg"); });
+})();
+
+// ---- logo story: the Talli mark taken apart and rebuilt by the scroll position (down plays, up rewinds) ----
+var LS = {pcs:[], p:0, t:0, run:false, ready:false, caps:-1};
+var NS = "http://www.w3.org/2000/svg";
+function lsSplit(d){ return d.split(/(?=M\s)/).map(function(x){ return x.trim(); }).filter(Boolean); }
+function lsBuild(svgText){
+  var doc = new DOMParser().parseFromString(svgText, "image/svg+xml"), host = document.getElementById("lsSvg"); if(!host) return;
+  var rings = document.createElementNS(NS, "g"); rings.id = "lsRings"; host.appendChild(rings);
+  [["rgb(16,166,225)",0],["rgb(254,105,1)",60],["#0f766e",120]].forEach(function(r){ var e = document.createElementNS(NS, "ellipse");
+    e.setAttribute("cx", 512); e.setAttribute("cy", 390); e.setAttribute("rx", 205); e.setAttribute("ry", 70); e.setAttribute("fill", "none");
+    e.setAttribute("stroke", r[0]); e.setAttribute("stroke-width", 1.6); e.setAttribute("stroke-dasharray", "2 7"); e.setAttribute("stroke-linecap", "round"); e.dataset.a = r[1]; rings.appendChild(e); });
+  var laser = document.createElementNS(NS, "rect"); laser.id = "lsLaser"; laser.setAttribute("x", 330); laser.setAttribute("width", 364); laser.setAttribute("height", 2.4); laser.setAttribute("rx", 1.2); laser.setAttribute("fill", "url(#lsLg)");
+  host.insertAdjacentHTML("afterbegin", '<defs><linearGradient id="lsLg"><stop offset="0" stop-color="rgb(16,166,225)" stop-opacity="0"/><stop offset=".5" stop-color="rgb(16,166,225)"/><stop offset="1" stop-color="rgb(16,166,225)" stop-opacity="0"/></linearGradient><filter id="lsGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter></defs>');
+  var logo = document.createElementNS(NS, "g"); logo.id = "lsLogo"; host.appendChild(logo); host.appendChild(laser);
+  var kinds = {"rgb(16,166,225)":"b", "rgb(62,60,60)":"g", "rgb(254,105,1)":"o"};
+  [].forEach.call(doc.querySelectorAll("path"), function(src){ var kind = kinds[src.getAttribute("fill")]; if(!kind) return;
+    // group each outline with the holes inside it, so cut-outs stay cut out
+    var groups = [];
+    lsSplit(src.getAttribute("d")).forEach(function(sub){
+      var t = document.createElementNS(NS, "path"); t.setAttribute("d", sub); logo.appendChild(t);
+      var bb = t.getBBox(), pt = t.getPointAtLength(0), owner = null;
+      for(var i = groups.length - 1; i >= 0 && !owner; i--){ var g = groups[i];
+        if(bb.x >= g.bb.x - .5 && bb.y >= g.bb.y - .5 && bb.x + bb.width <= g.bb.x + g.bb.width + .5 && bb.y + bb.height <= g.bb.y + g.bb.height + .5 && g.el.isPointInFill && g.el.isPointInFill(new DOMPoint(pt.x, pt.y))) owner = g; }
+      if(owner){ owner.d += " " + sub; t.remove(); owner.el.setAttribute("d", owner.d); }
+      else groups.push({d: sub, el: t, bb: bb}); });
+    groups.forEach(function(g){ var mx = g.bb.x + g.bb.width/2, my = g.bb.y + g.bb.height/2;
+      if(g.bb.width * g.bb.height < 6 || mx < 300 || mx > 724 || my < 178 || my > 602 || g.bb.width > 420){ g.el.remove(); return; }   // only the mark itself (the traced file also holds parts of the wordmark)
+      var el = g.el; el.setAttribute("class", "pc"); el.setAttribute("fill", src.getAttribute("fill")); el.setAttribute("stroke", src.getAttribute("fill")); el.setAttribute("stroke-width", 1.4);
+      el.setAttribute("pathLength", 1); el.style.strokeDasharray = "1 1";
+      var cx = g.bb.x + g.bb.width/2, cy = g.bb.y + g.bb.height/2, ang = Math.atan2(cy - 390, cx - 512);
+      LS.pcs.push({el:el, k:kind, cx:cx, cy:cy, ang:ang, r:Math.random()}); }); });
+  // build order: frame by angle, layers bottom → top (like a printer), helix top → bottom
+  ["b","g","o"].forEach(function(k){ var L = LS.pcs.filter(function(x){ return x.k === k; });
+    L.sort(function(a, b){ return k === "b" ? a.ang - b.ang : k === "g" ? b.cy - a.cy : a.cy - b.cy; });
+    L.forEach(function(x, i){ x.i = i; x.n = L.length; }); });
+  LS.ready = true; lsTarget(); LS.p = LS.t; lsFrame(); lsLoop();
+}
+var ease = function(k){ return k < 0 ? 0 : k > 1 ? 1 : 1 - Math.pow(1 - k, 3); };
+var seg = function(p, a, b){ return Math.min(1, Math.max(0, (p - a) / (b - a))); };
+function lsTarget(){ var s = document.getElementById("lstory"); if(!s) return; var r = s.getBoundingClientRect();
+  LS.t = RM ? 1 : Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight))); }
+function lsFrame(){
+  var p = LS.p, now = performance.now() / 1000;
+  LS.pcs.forEach(function(x){ var k, tf, op = 1, dash = 0, fill = 1;
+    if(x.k === "b"){ var a = .02 + .16 * x.i / x.n; k = ease(seg(p, a, a + .16)); var dist = 260 * (1 - k);
+      tf = "translate(" + (Math.cos(x.ang) * dist).toFixed(1) + "px," + (Math.sin(x.ang) * dist).toFixed(1) + "px) rotate(" + ((1 - k) * (x.r * 240 - 120)).toFixed(1) + "deg) scale(" + (.5 + .5 * k).toFixed(3) + ")";
+      op = Math.min(1, k * 3); dash = 1 - Math.min(1, k * 1.4); fill = seg(k, .55, 1); }
+    else if(x.k === "g"){ var a2 = .22 + .26 * x.i / x.n; k = ease(seg(p, a2, a2 + .07));
+      tf = "translateY(" + ((1 - k) * -70).toFixed(1) + "px) scaleX(" + (.75 + .25 * k).toFixed(3) + ")"; op = k; dash = 1 - k; fill = seg(k, .4, 1); }
+    else { var a3 = .5 + .2 * x.i / x.n; k = ease(seg(p, a3, a3 + .12));
+      tf = "translateX(" + ((1 - k) * (x.i % 2 ? 90 : -90)).toFixed(1) + "px) rotate(" + ((1 - k) * (x.i % 2 ? -50 : 50)).toFixed(1) + "deg)"; op = Math.min(1, k * 2); dash = 1 - Math.min(1, k * 1.3); fill = seg(k, .6, 1); }
+    var st = x.el.style; st.transform = tf; st.opacity = op.toFixed(3); st.strokeDashoffset = dash.toFixed(3); st.fillOpacity = fill.toFixed(3); });
+  // nozzle laser sweeps up while the layers stack
+  var lz = document.getElementById("lsLaser"), lk = seg(p, .2, .5); if(lz){ lz.setAttribute("y", (520 - lk * 300).toFixed(1)); lz.style.opacity = (lk > 0 && lk < 1 ? 1 : 0); }
+  // finished mark turns in 3D and settles
+  var fk = ease(seg(p, .72, 1)), svg = document.getElementById("lsSvg");
+  if(svg) svg.style.transform = "rotateY(" + (Math.sin(fk * Math.PI) * 28).toFixed(2) + "deg) rotateX(" + (Math.sin(fk * Math.PI) * -10).toFixed(2) + "deg) scale(" + (1 - .08 * Math.sin(fk * Math.PI)).toFixed(3) + ")";
+  // intersecting orbit rings
+  var rg = document.getElementById("lsRings"); if(rg) [].forEach.call(rg.children, function(e, i){ var a = +e.dataset.a + p * 300 * (i % 2 ? -1 : 1) + now * 6;
+    e.setAttribute("transform", "rotate(" + a.toFixed(1) + " 512 390)"); e.setAttribute("ry", (40 + 50 * Math.abs(Math.sin(p * 4 + i))).toFixed(1));
+    e.style.opacity = (.25 + .55 * Math.sin(Math.PI * seg(p, .05 + i * .05, 1))).toFixed(3); });
+  // crossing colour waves in the background
+  var wv = document.getElementById("lsWaves"); if(wv){ if(!wv.children.length) wv.innerHTML = [["rgb(16,166,225)",2],["rgb(254,105,1)",2],["#0f766e",1.5],["rgb(62,60,60)",1],["rgb(16,166,225)",1]].map(function(w){ return '<path stroke="' + w[0] + '" stroke-width="' + w[1] + '" vector-effect="non-scaling-stroke"/>'; }).join("");
+    [].forEach.call(wv.children, function(path, j){ var amp = 60 + j * 22, ph = p * 9 * (j % 2 ? -1 : 1) + j * 1.7 + now * .25, yc = 500 + (j - 2) * 34 * Math.cos(p * 3), d = "";
+      for(var x = 0; x <= 1000; x += 25){ var y = yc + Math.sin(x / 1000 * Math.PI * (2 + j * .5) + ph) * amp * Math.sin(Math.PI * seg(p, 0, 1) * .9 + .3); d += (x ? " L" : "M") + x + " " + y.toFixed(1); }
+      path.setAttribute("d", d); path.style.opacity = (.12 + .2 * Math.sin(Math.PI * p)).toFixed(3); }); }
+  var bar = document.getElementById("lsBar"); if(bar) bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+  var c = Math.min(3, Math.floor(p * 4)); if(c !== LS.caps){ LS.caps = c; [].forEach.call(document.querySelectorAll(".lsCap"), function(e, i){ e.classList.toggle("on", i === c); }); }
+}
+function lsLoop(){ if(LS.run || RM) return; LS.run = true;
+  (function step(){ var s = document.getElementById("lstory"), r = s && s.getBoundingClientRect(), near = r && r.bottom > -200 && r.top < innerHeight + 200;
+    if(near){ LS.p += (LS.t - LS.p) * .14; if(Math.abs(LS.t - LS.p) < .0005) LS.p = LS.t; lsFrame(); }
+    requestAnimationFrame(step); })(); }
+function lsCaps(T){ var el = document.getElementById("lsCaps"); if(!el) return; LS.caps = -1;
+  el.innerHTML = T.ls.map(function(c){ return '<div class="lsCap"><small>' + esc(c[0]) + '</small><b>' + esc(c[1]) + '</b></div>'; }).join(""); if(LS.ready) lsFrame(); }
+fetch("/mark.svg").then(function(r){ return r.text(); }).then(lsBuild).catch(function(){ var st = document.getElementById("lstory"); if(st) st.hidden = true; });
+window.addEventListener("scroll", lsTarget, {passive:true}); window.addEventListener("resize", lsTarget);
+
+// ---- "What is Talli?" UNESCO video: the player loads only when opened, and stops when closed ----
+(function(){ var dlg = document.getElementById("tvDlg"), vid = document.getElementById("tvVid"); if(!dlg) return;
+  document.getElementById("tvBtn").onclick = function(){
+    vid.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/eF5vfKH1i_U?autoplay=1&rel=0&modestbranding=1&playsinline=1&cc_load_policy=1&hl=' + LANG + '&cc_lang_pref=' + LANG + '" title="' + esc(TX[LANG].tvH) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+    if(dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); };
+  var close = function(){ if(dlg.open){ if(dlg.close) dlg.close(); else dlg.removeAttribute("open"); } };
+  document.getElementById("tvX").onclick = close;
+  dlg.addEventListener("click", function(e){ if(e.target === dlg) close(); });     // tap outside the player
+  dlg.addEventListener("close", function(){ vid.innerHTML = ""; document.getElementById("tvBtn").focus(); });
+})();
 document.getElementById("lang").onclick = function(){ LANG = LANG==="ar" ? "en" : "ar"; try{ localStorage.setItem("talli_lang", LANG); }catch(e){} draw(); };
 window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); deferred = e; draw(); });
 document.getElementById("instBtn").onclick = function(){ if(!deferred) return; deferred.prompt(); deferred.userChoice.finally(function(){ deferred = null; draw(); }); };
