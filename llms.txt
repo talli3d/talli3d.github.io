@@ -1,0 +1,33 @@
+# Talli 3D Printing (تللي للطباعة ثلاثية الأبعاد)
+
+> Custom 3D printing studio in the United Arab Emirates. We design and 3D print personalised items to order: name keychains, figures and characters, replacement parts, logos and signs, gifts and home décor. Customers send their idea online in a few taps and get a quote on WhatsApp. Delivery across the UAE or pickup. We speak Arabic and English.
+
+## What we print
+- Keychains and name tags: names, initials, school and shop logos.
+- Figures and characters: toys, models, cake toppers.
+- Replacement parts: broken clips, knobs and holders, printed new from a photo of the old part.
+- Logos and signs: plaques, 3D letters, stands for shops, schools and events.
+- Gifts and home décor: vases, holders and gifts for occasions (Eid, National Day, Flag Day, graduations, birthdays).
+- Your own idea: tell us what you need and we design it and print it.
+
+## How it works
+1. Send your idea: pictures, size and colours on the order page (https://talli3d.github.io/order). There is also a quick AI order: describe the item in one sentence and we draw a picture of it.
+2. Get your quote: we study it and reply on WhatsApp.
+3. Approve on your phone: check each item and approve with one tap.
+4. We print and deliver: printed in the UAE, delivered anywhere in the UAE or ready for pickup.
+
+## Details
+- Materials: PLA for fine detail, PETG for strength and heat.
+- Colours: up to 4 colours in one print, no painting needed.
+- Prices: a clear quote in AED before we start.
+- Name: "Talli" (التلي) is the traditional Emirati braided embroidery, inscribed by UNESCO as Intangible Cultural Heritage in 2022. Like talli, every piece is built thread by thread, layer by layer.
+
+## Contact
+- Website: https://talli3d.github.io/ (Arabic) and https://talli3d.github.io/?lang=en (English)
+- Order: https://talli3d.github.io/order
+- WhatsApp: +971 58 557 9070 (https://wa.me/971585579070)
+- Instagram: https://www.instagram.com/talli_prints/
+- TikTok: https://www.tiktok.com/@talli_3dprint
+
+## بالعربية
+تللي للطباعة ثلاثية الأبعاد: طباعة حسب الطلب في الإمارات. ميداليات بالأسماء، مجسّمات وشخصيات، قطع بديلة، شعارات ولافتات، هدايا وديكور، بحتى 4 ألوان في القطعة الواحدة. أرسل فكرتك من صفحة الطلب واستلم عرض السعر عبر واتساب، والتوصيل لكل الإمارات أو الاستلام.

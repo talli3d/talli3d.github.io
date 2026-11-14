@@ -32,6 +32,7 @@ header{display:flex;align-items:center;gap:12px;padding:10px 0 4px}
 .bmk img{width:72%;height:auto;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
 @keyframes bIn{from{opacity:0;transform:scale(.6) rotate(-14deg)}}
 @keyframes bShine{to{transform:translateX(100%)}}
+.bmk{background:none!important;box-shadow:none!important;overflow:visible!important}.bmk img{width:100%!important;filter:drop-shadow(0 3px 6px rgba(15,118,110,.28))}.bmk::after{display:none}
 .bw{display:flex;flex-direction:column;line-height:1;animation:bwIn .8s cubic-bezier(.2,.8,.2,1) .15s both}
 @keyframes bwIn{from{opacity:0;transform:translateX(-8px)}}
 html[dir=rtl] .bw{animation-name:bwInR} @keyframes bwInR{from{opacity:0;transform:translateX(8px)}}
