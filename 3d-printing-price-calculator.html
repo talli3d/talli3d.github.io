@@ -79,10 +79,10 @@
     },
     {
      "@type": "Question",
-     "name": "من وين أجيب الجرامات ووقت الطباعة؟",
+     "name": "من وين تجي الجرامات ووقت الطباعة؟",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "من السلايسر (Bambu Studio أو OrcaSlicer أو PrusaSlicer أو Cura وغيرها) بعد ما تسوي سلايس لبليت واحد. اكتب أرقام بليت واحد والحاسبة تضربها."
+      "text": "اسحب ملف STL أو OBJ أو 3MF والحاسبة تسوّي له سلايس أونلاين داخل متصفحك، حسب ارتفاع الطبقة والحشوة والجدران والدعامات اللي تختارها. أو اسحب ملف .gcode.3mf سوّيت له سلايس في Bambu Studio أو OrcaSlicer عشان تاخذ أرقام السلايسر بالضبط. وتقدر بعد تكتب أرقام بليت واحد من أي سلايسر."
      }
     },
     {
@@ -186,6 +186,7 @@ details.rates[open]>summary::after{transform:rotate(45deg)}details.rates[open]>s
 .drop .msg{color:var(--ink);font-weight:600;margin-top:4px}.drop .msg.err{color:#b42318}
 .drop.busy .ic{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 14px}.chips button{font:inherit;font-size:13.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.est{border-color:#b9d3cd;background:linear-gradient(135deg,#f3faf8,#fff)}
 .chips button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
 section{padding:26px 0}
 .soon{background:linear-gradient(135deg,#e3f2ef,#fff 70%);border:1px solid var(--line);border-radius:24px;padding:24px;margin-top:20px}
@@ -217,8 +218,12 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
   <div class="hero rise"><h1>حاسبة سعر الطباعة ثلاثية الأبعاد</h1><p>سعّر أي طبعة في ثوانٍ بنفس الطريقة اللي نستخدمها في تللي. كل بليت له تكلفة الفلامنت ووقت الطابعة، وبعدها تضيف نسبة ربحك ورسوم التجهيز. ولما يكون البليت الأخير غير ممتلئ، تحاسب فقط على القطع اللي عليه. الحاسبة مجانية وبدون تسجيل، وأسعارك تبقى على جهازك.</p></div>
   <div class="calc">
     <div class="rise">
-      <label class="drop" id="drop" tabindex="0"><span class="ic" id="dropI" aria-hidden="true">🧊</span><span><b id="dropT">تسعير بخطوة وحدة</b><span id="dropS">اسحب ملف 3MF بعد السلايس هنا، أو اضغط لاختيار ملف (Bambu Studio أو OrcaSlicer، .gcode.3mf). الملف يبقى على جهازك.</span><span class="msg" id="dropM" role="status"></span></span><input type="file" id="f3mf" accept=".3mf" hidden></label>
+      <label class="drop" id="drop" tabindex="0"><span class="ic" id="dropI" aria-hidden="true">🧊</span><span><b id="dropT">تسعير بخطوة وحدة</b><span id="dropS">اسحب ملف ثلاثي الأبعاد هنا أو اضغط لاختياره: STL أو OBJ أو 3MF. نسوّي له سلايس أونلاين داخل متصفحك ونطلع الجرامات ووقت الطباعة. وإذا سوّيت له سلايس في Bambu Studio أو OrcaSlicer، اسحب ملف .gcode.3mf عشان تاخذ أرقام السلايسر بالضبط. الملف ما يطلع من جهازك.</span><span class="msg" id="dropM" role="status"></span></span><input type="file" id="f3mf" accept=".3mf,.stl,.obj" hidden></label>
       <div class="chips" id="chips" hidden></div>
+      <div class="card est" id="est" hidden><h3>إعدادات السلايس أونلاين</h3>
+        <div class="grid"><label>ارتفاع الطبقة (مم)<select id="elh"></select></label><label id="w_einf">نسبة الحشوة (%)<input id="einf" type="number" inputmode="decimal" min="0" step="any" step="5" min="0" max="100"></label><label id="w_ewall">عدد الجدران<input id="ewall" type="number" inputmode="decimal" min="0" step="any" step="1" min="1" max="10"></label><label>الدعامات<select id="esup"></select></label><label>سرعة الطابعة<select id="espd"></select></label></div>
+        <p class="note">محسوبة من شكل الموديل وهذي الإعدادات، ومضبوطة على نتائج Bambu Studio. عادةً الفرق عن السلايسر الكامل حوالي 15% أو أقل، والدعامات والموديلات الدقيقة جداً ممكن تختلف أكثر. للأرقام الدقيقة اسحب ملف .gcode.3mf بعد السلايس.</p>
+      </div>
       <div class="card"><h3>بليت واحد</h3><p class="hint">استخدم الجرامات والوقت اللي يعطيك إياها السلايسر لبليت واحد.</p>
         <div class="grid"><label>الفلامنت<select id="m1"></select></label><label id="w_p1">السعر لكل كيلو<input id="p1" type="number" inputmode="decimal" min="0" step="any"></label><label id="w_g1">جرام<input id="g1" type="number" inputmode="decimal" min="0" step="any"></label></div>
         <div class="two" id="two" hidden><div class="grid"><label>الفلامنت الثاني<select id="m2"></select></label><label id="w_p2">السعر لكل كيلو<input id="p2" type="number" inputmode="decimal" min="0" step="any"></label><label id="w_g2">جرام<input id="g2" type="number" inputmode="decimal" min="0" step="any"></label></div><button type="button" class="link" id="rm2">حذف</button></div>
@@ -235,7 +240,7 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
         <div class="grid" style="margin-top:10px"><label>درجة التعقيد<select id="cx"></select></label><label id="w_extra">إضافات لكل بليت <small>حلقات ميداليات، مغناطيس، تثبيتات، صبغ…</small><input id="extra" type="number" inputmode="decimal" min="0" step="any"></label></div>
         <label class="chk"><input type="checkbox" id="acOn">إضافة تكييف / تبريد الصيف</label>
       </div>
-      <details class="card rates" open><summary>أسعارك</summary><p class="hint">قيم للمثال فقط. غيّرها لأسعارك، وتنحفظ على هذا الجهاز فقط.</p>
+      <details class="card rates" open><summary>إعدادات</summary><p class="hint">قيم للمثال فقط. غيّرها لأسعارك، وتنحفظ على هذا الجهاز فقط.</p>
         <div class="grid"><label>العملة<select id="cur"></select></label><label id="w_hour">تكلفة الطابعة بالساعة<input id="hour" type="number" inputmode="decimal" min="0" step="any"></label><label id="w_ac">التكييف / التبريد بالساعة<input id="ac" type="number" inputmode="decimal" min="0" step="any"></label><label id="w_markup">نسبة الربح (×)<input id="markup" type="number" inputmode="decimal" min="0" step="any"></label><label id="w_setup">رسوم التجهيز لكل طلب<input id="setup" type="number" inputmode="decimal" min="0" step="any"></label><label id="w_min">أقل سعر<input id="min" type="number" inputmode="decimal" min="0" step="any"></label><label>التقريب لأعلى إلى<select id="round"></select></label></div>
         <button type="button" class="link" id="reset">رجوع لقيم المثال</button>
       </details>
@@ -250,7 +255,7 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
   <section class="soon"><span class="pill">قريباً</span><h2>برنامج تللي لمحلات الطباعة ثلاثية الأبعاد</h2><p>هذه الحاسبة مأخوذة من البرنامج اللي ندير فيه محل الطباعة حقنا. قريباً تقدر تستخدمه أنت بعد:</p><ul class="make"><li>عروض أسعار وفواتير مسعّرة بنفس هذه الطريقة</li><li>العميل يوافق على العرض بلمسة من رابط</li><li>إيصال PDF يوصل للعميل على واتساب بعد الدفع</li><li>مطابقة التحويلات البنكية مع فواتيرها</li><li>تذكيرات تلقائية بالدفع وعروض الأسعار</li><li>التسعير من ملف 3MF: الجرامات والوقت تنعبّى لك</li></ul></section>
   <section class="faq"><h2>أسئلة</h2><details open><summary>كيف ينحسب السعر؟</summary><p>لبليت واحد: تكلفة الفلامنت (الجرامات × سعر الكيلو ÷ 1000)، زائد وقت الطابعة (الساعات × تكلفة الساعة)، زائد الإضافات. هذا ينضرب في عدد البليتات، وبعدها في نسبة الربح ودرجة التعقيد، وتنضاف رسوم التجهيز مرة وحدة. السعر ما ينزل تحت أقل سعر حددته، وينقرّب لأعلى حسب الخطوة اللي تختارها.</p></details>
 <details><summary>وإذا البليت الأخير مو ممتلئ؟</summary><p>اكتب القطع المطلوبة. الحاسبة تحسب لك كم بليت بتطبع، والبليت الأخير ينحسب فقط على القطع اللي عليه. مثلاً 25 قطعة و8 في كل بليت تساوي 3 بليتات كاملة وقطعة وحدة، محسوبة 3.125 بليت.</p></details>
-<details><summary>من وين أجيب الجرامات ووقت الطباعة؟</summary><p>من السلايسر (Bambu Studio أو OrcaSlicer أو PrusaSlicer أو Cura وغيرها) بعد ما تسوي سلايس لبليت واحد. اكتب أرقام بليت واحد والحاسبة تضربها.</p></details>
+<details><summary>من وين تجي الجرامات ووقت الطباعة؟</summary><p>اسحب ملف STL أو OBJ أو 3MF والحاسبة تسوّي له سلايس أونلاين داخل متصفحك، حسب ارتفاع الطبقة والحشوة والجدران والدعامات اللي تختارها. أو اسحب ملف .gcode.3mf سوّيت له سلايس في Bambu Studio أو OrcaSlicer عشان تاخذ أرقام السلايسر بالضبط. وتقدر بعد تكتب أرقام بليت واحد من أي سلايسر.</p></details>
 <details><summary>وش الفرق بين طابعة بنوزل واحد وطابعة بأكثر من نوزل؟</summary><p>في الطابعة بنوزل واحد (مثلاً مع AMS)، كل تغيير لون يهدر فلامنت وياخذ وقت، فالحاسبة تضيف جرامات ودقائق لكل تغيير. الطابعة بأكثر من نوزل أو بتبديل الرؤوس تخلي كل لون في نوزل خاص فيه، فالتغيير ياخذ بس وقت تبديل قصير، إلا إذا استخدمت ألوان أكثر من عدد النوزلات. وإذا سحبت ملف 3MF بعد السلايس، هذي كلها محسوبة أصلاً في أرقام السلايسر.</p></details>
 <details><summary>كم أحط تكلفة الطابعة بالساعة؟</summary><p>مبلغ يغطي الكهرباء والنوزلات وباقي القطع والصيانة، وسعر الطابعة نفسها على مدى عمرها. الأرقام المكتوبة مجرد مثال، غيّرها لأرقامك.</p></details>
 <details><summary>هل هي مجانية؟ وهل بياناتي تنحفظ؟</summary><p>مجانية وبدون تسجيل. أسعارك وآخر طلب تنحفظ فقط في هذا المتصفح على جهازك، وما يتم إرسال أي شيء تكتبه لأي مكان.</p></details></section>
@@ -258,11 +263,11 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
 </div>
 <a class="bar" id="bar" href="#res"><b id="barP"></b><span id="barU"></span></a>
 <script>
-var L={"dropT":"تسعير بخطوة وحدة","reading":"جاري قراءة الملف…","notSliced":"ملف 3MF هذا ما انعمل له سلايس، فما فيه وقت طباعة ولا وزن. سوّ له سلايس، وبعدها اختر File › Export › Export plate sliced file (.gcode.3mf) واسحب الملف هنا.","bad":"ما قدرنا نقرأ الملف. هل هو ملف 3MF؟","oldBrowser":"هذا المتصفح ما يقدر يفتح ملفات 3MF. جرّب آخر إصدار من Chrome أو Edge أو Safari أو Firefox.","inSliced":"تغييرات اللون محسوبة أصلاً في أرقام السلايسر","bChg":"تغييرات اللون (بليت واحد)","bPer":"إجمالي البليت الواحد","cxO":[["1","بسيط ×1"],["1.2","متوسط ×1.2"],["1.5","معقّد ×1.5"],["2","خاص ×2"]],"roundO":[["0","بدون تقريب"],["0.5","0.5"],["1","1"],["5","5"],["10","10"]],"otherMat":"أخرى (اكتب السعر)","price":"السعر","perPiece":"للقطعة","pcs":"قطعة","pc1":"قطعة","bFil":"الفلامنت (بليت واحد)","bMach":"وقت الطابعة (بليت واحد)","bAc":"التكييف / التبريد (بليت واحد)","bExtra":"الإضافات (بليت واحد)","bPlate":"تكلفة البليت الواحد","bPlates":"البليتات المحسوبة","bCost":"التكلفة الكلية","bMark":"× نسبة الربح","bCx":"× درجة التعقيد","bSetup":"+ رسوم التجهيز","bMin":"تم تطبيق أقل سعر","bRound":"التقريب لأعلى","bProfit":"ربحك","margin":"هامش",full:(f, pp) => `${f} ${f === 1 ? "بليت كامل" : "بليتات كاملة"} فيها ${pp}`,part:r => ` + بليت فيه ${r}`,charged:n => ` (محسوبة ${n} بليت)`,perPlate:(pp, n) => `${pp} في كل بليت × ${n} بليت`,allPlates:n => `كل البليتات (${n})`,plateN:i => `بليت ${i}`,filled:f => `تمت التعبئة من ${f}`,same:n => `${n} بليتات متطابقة`,chgV:(c, g, m) => `${c}: +${g} جرام، +${m} دقيقة`,perV:(g, h, m) => `${g} جرام · ${h} س ${m} د`};
+var L={"dropT":"تسعير بخطوة وحدة","slicing":"جاري السلايس أونلاين…","noMesh":"ما لقينا موديل ثلاثي الأبعاد في هذا الملف.","esupO":[["0","بدون"],["1","تلقائي"]],"espdO":[["1","سريعة (مثل Bambu)"],["2.2","عادية (مثل Ender)"]],"reading":"جاري قراءة الملف…","notSliced":"ملف 3MF هذا ما انعمل له سلايس، فما فيه وقت طباعة ولا وزن. سوّ له سلايس، وبعدها اختر File › Export › Export plate sliced file (.gcode.3mf) واسحب الملف هنا.","bad":"ما قدرنا نقرأ الملف. هل هو ملف 3MF؟","oldBrowser":"هذا المتصفح ما يقدر يفتح ملفات 3MF. جرّب آخر إصدار من Chrome أو Edge أو Safari أو Firefox.","inSliced":"تغييرات اللون محسوبة أصلاً في أرقام السلايسر","bChg":"تغييرات اللون (بليت واحد)","bPer":"إجمالي البليت الواحد","cxO":[["1","بسيط ×1"],["1.2","متوسط ×1.2"],["1.5","معقّد ×1.5"],["2","خاص ×2"]],"roundO":[["0","بدون تقريب"],["0.5","0.5"],["1","1"],["5","5"],["10","10"]],"otherMat":"أخرى (اكتب السعر)","price":"السعر","perPiece":"للقطعة","pcs":"قطعة","pc1":"قطعة","bFil":"الفلامنت (بليت واحد)","bMach":"وقت الطابعة (بليت واحد)","bAc":"التكييف / التبريد (بليت واحد)","bExtra":"الإضافات (بليت واحد)","bPlate":"تكلفة البليت الواحد","bPlates":"البليتات المحسوبة","bCost":"التكلفة الكلية","bMark":"× نسبة الربح","bCx":"× درجة التعقيد","bSetup":"+ رسوم التجهيز","bMin":"تم تطبيق أقل سعر","bRound":"التقريب لأعلى","bProfit":"ربحك","margin":"هامش",full:(f, pp) => `${f} ${f === 1 ? "بليت كامل" : "بليتات كاملة"} فيها ${pp}`,part:r => ` + بليت فيه ${r}`,charged:n => ` (محسوبة ${n} بليت)`,perPlate:(pp, n) => `${pp} في كل بليت × ${n} بليت`,allPlates:n => `كل البليتات (${n})`,plateN:i => `بليت ${i}`,filled:f => `تمت التعبئة من ${f}`,same:n => `${n} بليتات متطابقة`,chgV:(c, g, m) => `${c}: +${g} جرام، +${m} دقيقة`,perV:(g, h, m) => `${g} جرام · ${h} س ${m} د`,estDone:f => `تم السلايس أونلاين: ${f}`,estSize:(x, y, z, v, o) => `${x} × ${y} × ${z} مم · ${v} سم³` + (o > 1 ? ` · ${o} قطع` : "")};
 
 var MATS=[["PLA",70],["PLA Silk",90],["PETG",75],["ABS",70],["ASA",95],["TPU",120],["x",""]];
 var CURS=["AED","SAR","QAR","KWD","BHD","OMR","EGP","JOD","USD","EUR","GBP","INR"];
-var DEF={cur:"AED",hour:0.6,ac:0.1,acOn:false,markup:3,setup:10,min:0,round:"1",m1:"PLA",p1:70,g1:40,two:false,m2:"PETG",p2:75,g2:15,th:2,tm:0,cx:"1",extra:0,pp:1,need:"",plates:1,noz:"single",cols:1,nn:2,chg:0,pg:1,ps:60,tg:0.1,ts:15};
+var DEF={cur:"AED",hour:0.6,ac:0.1,acOn:false,markup:3,setup:10,min:0,round:"1",m1:"PLA",p1:70,g1:40,two:false,m2:"PETG",p2:75,g2:15,th:2,tm:0,cx:"1",extra:0,pp:1,need:"",plates:1,noz:"single",cols:1,nn:2,chg:0,pg:1,ps:60,tg:0.1,ts:15,elh:"0.2",einf:15,ewall:2,esup:"0",espd:"1"};
 var KEY="talli.calc.v1", S={}, $=function(id){return document.getElementById(id)};
 function n(v){v=parseFloat(String(v).replace(/,/g,"."));return isFinite(v)?v:0}
 function load(){var s=null;try{s=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){} S=Object.assign({},DEF,s&&typeof s==="object"?s:{})}
@@ -271,6 +276,7 @@ function opts(sel,list,val){sel.innerHTML=list.map(function(o){return '<option v
 function fill(){
   opts($("m1"),MATS.map(function(m){return [m[0],m[0]==="x"?L.otherMat:m[0]]}),S.m1); opts($("m2"),MATS.map(function(m){return [m[0],m[0]==="x"?L.otherMat:m[0]]}),S.m2);
   opts($("cur"),CURS.map(function(c){return [c,c]}),S.cur); opts($("cx"),L.cxO,S.cx); opts($("round"),L.roundO,S.round);
+  opts($("elh"),["0.08","0.12","0.16","0.2","0.24","0.28"].map(function(v){return [v,v]}),S.elh); opts($("esup"),L.esupO,S.esup); opts($("espd"),L.espdO,S.espd); $("einf").value=S.einf; $("ewall").value=S.ewall;
   ["hour","ac","markup","setup","min","p1","g1","p2","g2","th","tm","extra","pp","need","plates","cols","nn","chg","pg","ps","tg","ts"].forEach(function(k){$(k).value=S[k]});
   $("acOn").checked=!!S.acOn; $("two").hidden=!S.two; $("add2").hidden=!!S.two;
 }
@@ -329,7 +335,87 @@ function read(e){
   if(k==="m1"||k==="m2"){var m=MATS.filter(function(x){return x[0]===el.value})[0]; if(m&&m[1]!==""){S[k==="m1"?"p1":"p2"]=m[1];$(k==="m1"?"p1":"p2").value=m[1]}}
   if(k==="plates"&&n(S.need)>0){S.need="";$("need").value=""}
   if((k==="need"||k==="pp")&&n(S.need)>0){S.plates=Math.ceil(Math.round(n(S.need))/Math.max(1,Math.round(n(S.pp))||1));$("plates").value=S.plates}
+  if(G&&/^(elh|einf|ewall|esup|espd|m1)$/.test(k)){est();["g1","th","tm"].forEach(function(x){$(x).value=S[x]})}
   save(); render();
+}
+// ---- online slicing (estimate): mesh volume, surface and overhangs -> grams and time, tuned on Bambu Studio results ----
+// grams = density × (shell + infill × (rest) + supports); shell = surface × max(0.42 mm × walls, 0.8 mm), capped at the volume
+// time  = 400 s + 162.7 s/cm³ shell × (0.2/layer) + 72.7 s/cm³ infill × √(0.2/layer) + 6 s/layer + 100 s/cm³ supports, × printer speed
+var DENS={"PLA":1.24,"PLA Silk":1.24,"PETG":1.27,"ABS":1.04,"ASA":1.07,"TPU":1.21,"x":1.24},G=null;
+function est(){
+  if(!G)return;
+  var lh=Math.min(.4,Math.max(.05,n(S.elh)||.2)),inf=Math.min(100,Math.max(0,n(S.einf)))/100,w=Math.max(1,Math.round(n(S.ewall))||2);
+  var V=G.V/1000,A=G.A/100,sh=Math.min(V,A*Math.max(.042*w,.08)),fi=Math.max(0,V-sh)*inf,sup=S.esup==="1"?G.ovh*.08/1000:0,k=.2/lh;
+  S.g1=+((DENS[S.m1]||1.24)*(sh+fi+sup)).toFixed(1);S.two=false;
+  var t=hm((400+162.7*sh*k+72.7*fi*Math.sqrt(k)+6*G.H/lh+100*sup)*(n(S.espd)||1));S.th=t[0];S.tm=t[1];
+}
+function M12(a){var v=String(a||"").trim().split(/\s+/).map(Number);return v.length===12&&v.every(isFinite)?v:[1,0,0,0,1,0,0,0,1,0,0,0]}
+function mul(a,b){var r=new Array(12);for(var i=0;i<3;i++)for(var j=0;j<3;j++)r[i*3+j]=a[i*3]*b[j]+a[i*3+1]*b[3+j]+a[i*3+2]*b[6+j];for(j=0;j<3;j++)r[9+j]=a[9]*b[j]+a[10]*b[3+j]+a[11]*b[6+j]+b[9+j];return r}
+function mesh3mf(files){
+  var U={micron:.001,millimeter:1,centimeter:10,inch:25.4,foot:304.8,meter:1000},mods={},main=null;
+  Object.keys(files).forEach(function(nm){
+    var x=new TextDecoder().decode(files[nm]),um=/<model[^>]*\sunit="(\w+)"/.exec(x),objs={};
+    var re=/<object\s([^>]*)>([\s\S]*?)<\/object>/g,m;
+    while((m=re.exec(x))){var a=attrs(m[1]),b=m[2],o={v:null,t:null,c:[]};
+      var vm=b.match(/<vertex\s[^>]*\/>/g);if(vm){o.v=new Float64Array(vm.length*3);vm.forEach(function(e,i){var q=attrs(e);o.v[i*3]=+q.x;o.v[i*3+1]=+q.y;o.v[i*3+2]=+q.z})}
+      var tm=b.match(/<triangle\s[^>]*\/>/g);if(tm){o.t=new Uint32Array(tm.length*3);tm.forEach(function(e,i){var q=/v1="(\d+)"[^>]*v2="(\d+)"[^>]*v3="(\d+)"/.exec(e);if(q){o.t[i*3]=+q[1];o.t[i*3+1]=+q[2];o.t[i*3+2]=+q[3]}})}
+      (b.match(/<component\s[^>]*\/>/g)||[]).forEach(function(e){var q={};e.replace(/([\w:]+)="([^"]*)"/g,function(_,k2,v){q[k2]=v});o.c.push({p:(q["p:path"]||"").replace(/^\//,""),id:q.objectid,M:M12(q.transform)})});
+      objs[a.id]=o}
+    var items=[];(x.match(/<item\s[^>]*\/?>/g)||[]).forEach(function(e){var q={};e.replace(/([\w:]+)="([^"]*)"/g,function(_,k2,v){q[k2]=v});if(q.printable!=="0")items.push({id:q.objectid,M:M12(q.transform)})});
+    mods[nm]={o:objs,items:items,u:U[um&&um[1]]||1};if(/^3D\/3dmodel\.model$/i.test(nm))main=nm});
+  if(!main)return [];
+  var out=[],u=mods[main].u,S0=[u,0,0,0,u,0,0,0,u,0,0,0];
+  function walk(nm,id,M,acc,d){var md=mods[nm]||mods[main],o=md.o[id];if(!o||d>8)return;
+    if(o.v&&o.t&&o.t.length){var T=new Float32Array(o.t.length*3);for(var i=0;i<o.t.length;i++){var vi=o.t[i]*3,x=o.v[vi],y=o.v[vi+1],z=o.v[vi+2];T[i*3]=x*M[0]+y*M[3]+z*M[6]+M[9];T[i*3+1]=x*M[1]+y*M[4]+z*M[7]+M[10];T[i*3+2]=x*M[2]+y*M[5]+z*M[8]+M[11]}acc.push(T)}
+    o.c.forEach(function(c){walk(c.p&&mods[c.p]?c.p:nm,c.id,mul(c.M,M),acc,d+1)})}
+  mods[main].items.forEach(function(it){var acc=[];walk(main,it.id,mul(it.M,S0),acc,0);if(acc.length)out.push(acc)});
+  return out}
+function meshStl(buf){
+  var dv=new DataView(buf);
+  if(buf.byteLength>=84){var nt=dv.getUint32(80,true);if(84+nt*50===buf.byteLength){var T=new Float32Array(nt*9);for(var i=0;i<nt;i++)for(var j=0;j<9;j++)T[i*9+j]=dv.getFloat32(84+i*50+12+j*4,true);return [[T]]}}
+  var s2=new TextDecoder().decode(buf),m=s2.match(/vertex\s+\S+\s+\S+\s+\S+/g)||[];T=new Float32Array(Math.floor(m.length/3)*9);
+  for(i=0;i<T.length/3;i++){var q=m[i].split(/\s+/);T[i*3]=+q[1];T[i*3+1]=+q[2];T[i*3+2]=+q[3]}
+  return T.length?[[T]]:[]}
+function meshObj(buf){
+  var v=[],t=[];new TextDecoder().decode(buf).split(/\r?\n/).forEach(function(l){var q=l.trim().split(/\s+/);
+    if(q[0]==="v")v.push(+q[1],+q[2],+q[3]);
+    else if(q[0]==="f"){var ix=q.slice(1).map(function(e){var k2=parseInt(e,10);return k2<0?v.length/3+k2:k2-1});for(var i=1;i+1<ix.length;i++)t.push(ix[0],ix[i],ix[i+1])}});
+  var T=new Float32Array(t.length*3);for(var i=0;i<t.length;i++){T[i*3]=v[t[i]*3];T[i*3+1]=-v[t[i]*3+2];T[i*3+2]=v[t[i]*3+1]}   // OBJ is Y-up
+  return t.length?[[T]]:[]}
+function stats(objs){
+  var zmin=Infinity,b=[Infinity,-Infinity,Infinity,-Infinity,-Infinity],V=0,A=0,ovh=0,i,T;
+  objs.forEach(function(acc){acc.forEach(function(T){for(i=0;i<T.length;i+=3){var x=T[i],y=T[i+1],z=T[i+2];if(z<zmin)zmin=z;if(x<b[0])b[0]=x;if(x>b[1])b[1]=x;if(y<b[2])b[2]=y;if(y>b[3])b[3]=y;if(z>b[4])b[4]=z}})});
+  objs.forEach(function(acc){var v=0;acc.forEach(function(T){for(i=0;i<T.length;i+=9){
+    var ax=T[i],ay=T[i+1],az=T[i+2],bx=T[i+3]-ax,by=T[i+4]-ay,bz=T[i+5]-az,cx=T[i+6]-ax,cy=T[i+7]-ay,cz=T[i+8]-az;
+    var nx=by*cz-bz*cy,ny=bz*cx-bx*cz,nz=bx*cy-by*cx,l=Math.sqrt(nx*nx+ny*ny+nz*nz);
+    A+=l/2; v+=(ax*(T[i+4]*T[i+8]-T[i+5]*T[i+7])-ay*(T[i+3]*T[i+8]-T[i+5]*T[i+6])+az*(T[i+3]*T[i+7]-T[i+4]*T[i+6]))/6;
+    if(l>0&&nz/l<-.707){var zc=(az+T[i+5]+T[i+8])/3-zmin;if(zc>.4)ovh+=-nz/2*zc}}});V+=Math.abs(v)});
+  return {V:V,A:A,ovh:ovh,H:b[4]-zmin,X:b[1]-b[0],Y:b[3]-b[2],objs:objs.length}}
+function thumb(objs){
+  try{var c=document.createElement("canvas"),W=120;c.width=c.height=W;var g=c.getContext("2d"),all=[],tot=0;
+    objs.forEach(function(acc){acc.forEach(function(T){all.push(T);tot+=T.length/9})});
+    var st=Math.max(1,Math.ceil(tot/60000)),P=[],r=[.707,.707,0],u=[-.375,.375,.848],cv=[.6,-.6,.53],li=[.3,-.5,.8],mn=[1e9,1e9],mx=[-1e9,-1e9],k2=0;
+    all.forEach(function(T){for(var i=0;i<T.length;i+=9){if((k2++)%st)continue;var p=[],d=0;
+      for(var j=0;j<9;j+=3){var x=T[i+j],y=T[i+j+1],z=T[i+j+2],sx=x*r[0]+y*r[1],sy=-(x*u[0]+y*u[1]+z*u[2]);p.push(sx,sy);d+=x*cv[0]+y*cv[1]+z*cv[2];
+        if(sx<mn[0])mn[0]=sx;if(sx>mx[0])mx[0]=sx;if(sy<mn[1])mn[1]=sy;if(sy>mx[1])mx[1]=sy}
+      var bx=T[i+3]-T[i],by=T[i+4]-T[i+1],bz=T[i+5]-T[i+2],cx=T[i+6]-T[i],cy=T[i+7]-T[i+1],cz=T[i+8]-T[i+2],nx=by*cz-bz*cy,ny=bz*cx-bx*cz,nz=bx*cy-by*cx,l=Math.sqrt(nx*nx+ny*ny+nz*nz)||1;
+      P.push([d,p,.35+.65*Math.abs((nx*li[0]+ny*li[1]+nz*li[2])/l/1.0)])}});
+    P.sort(function(a,b){return a[0]-b[0]});
+    var sc=(W-14)/Math.max(mx[0]-mn[0],mx[1]-mn[1],1e-6),ox=(W-(mx[0]-mn[0])*sc)/2,oy=(W-(mx[1]-mn[1])*sc)/2;
+    g.fillStyle="#fff";g.fillRect(0,0,W,W);
+    P.forEach(function(q){var p=q[1],s=Math.min(1,q[2]);g.fillStyle="rgb("+Math.round(20+60*s)+","+Math.round(90+90*s)+","+Math.round(85+80*s)+")";g.strokeStyle=g.fillStyle;g.beginPath();
+      for(var j=0;j<6;j+=2){var X=ox+(p[j]-mn[0])*sc,Y=oy+(p[j+1]-mn[1])*sc;j?g.lineTo(X,Y):g.moveTo(X,Y)}g.closePath();g.fill();g.stroke()});
+    return c.toDataURL("image/png")}catch(e){return null}}
+async function sliceOnline(file,name,files,png){
+  var M=$("dropM"),objs;M.textContent=L.slicing;await new Promise(function(r){setTimeout(r,30)});
+  var ext=(/\.(\w+)$/.exec(file.name)||[])[1]||"";ext=ext.toLowerCase();
+  if(ext==="stl")objs=meshStl(await file.arrayBuffer());else if(ext==="obj")objs=meshObj(await file.arrayBuffer());else objs=mesh3mf(files);
+  var st=objs.length?stats(objs):null;
+  if(!st||!(st.V>0)){M.className="msg err";M.textContent=L.noMesh;return}
+  G=st;F3=null;$("est").hidden=false;$("chips").hidden=true;
+  var im=png?URL.createObjectURL(new Blob([png],{type:"image/png"})):thumb(objs);$("dropI").innerHTML=im?'<img alt="" src="'+im+'">':"🧊";
+  S.pp=Math.max(1,st.objs);S.need="";S.plates=1;S.chg=0;S.cols=1;est();fill();save();render();
+  M.className="msg";M.textContent=L.estDone(name)+" · "+L.estSize(Math.round(st.X),Math.round(st.Y),Math.round(st.H),+(st.V/1000).toFixed(1),st.objs);
 }
 // ---- sliced 3MF: Metadata/slice_info.config has per plate: prediction (seconds), weight (g), filaments (type, used_g), objects ----
 async function inflate(u8){var s=new Blob([u8]).stream().pipeThrough(new DecompressionStream("deflate-raw"));return new Uint8Array(await new Response(s).arrayBuffer())}
@@ -376,9 +462,13 @@ async function read3mf(file){
   if(!file)return; if(!("DecompressionStream" in window)){M.className="msg err";M.textContent=L.oldBrowser;return}
   z.classList.add("busy");M.textContent=L.reading;$("chips").hidden=true;
   try{
-    var files=await unzip(await file.arrayBuffer(),function(nm){return nm==="Metadata/slice_info.config"||/^Metadata\/plate_\d+\.png$/.test(nm)});
+    var nm0=file.name.replace(/\.gcode\.3mf$|\.(3mf|stl|obj)$/i,"");
+    if(/\.(stl|obj)$/i.test(file.name)){await sliceOnline(file,nm0,null,null);return}
+    var buf=await file.arrayBuffer();
+    var files=await unzip(buf,function(nm){return nm==="Metadata/slice_info.config"||/^Metadata\/plate_\d+\.png$/.test(nm)});
     var info=files["Metadata/slice_info.config"],ps=info?plates3mf(new TextDecoder().decode(info)).filter(function(p){return p.sec>0||p.g>0}):[];
-    if(!ps.length){M.className="msg err";M.textContent=L.notSliced;return}
+    if(!ps.length){var mf=await unzip(buf,function(nm){return /\.model$/i.test(nm)});await sliceOnline(file,nm0,mf,files["Metadata/plate_1.png"]);return}
+    G=null;$("est").hidden=true;
     var a=ps[0],same=ps.length>1&&ps.every(function(p){return Math.abs(p.sec-a.sec)<=Math.max(30,a.sec*.01)&&Math.abs(p.g-a.g)<=Math.max(.5,a.g*.01)&&p.objs===a.objs});
     F3={name:file.name.replace(/\.gcode\.3mf$|\.3mf$/i,""),plates:ps,same:same};
     var png=files["Metadata/plate_"+a.index+".png"];
