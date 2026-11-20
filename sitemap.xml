@@ -28,4 +28,100 @@
     <loc>https://talli3d.github.io/llms.txt</loc>
     <lastmod>2026-11-14</lastmod>
   </url>
+  <url>
+    <loc>https://talli3d.github.io/3d-printed-keychains</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printed-keychains"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printed-keychains"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/key.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/en/3d-printed-keychains</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printed-keychains"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printed-keychains"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/key.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/3d-printed-figures</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printed-figures"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printed-figures"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/fig.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/en/3d-printed-figures</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printed-figures"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printed-figures"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/fig.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/replacement-parts</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/replacement-parts"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/replacement-parts"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/part.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/en/replacement-parts</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/replacement-parts"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/replacement-parts"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/part.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/3d-logos-and-signs</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-logos-and-signs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-logos-and-signs"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/logo.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/en/3d-logos-and-signs</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-logos-and-signs"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-logos-and-signs"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/logo.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/3d-printed-gifts</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printed-gifts"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printed-gifts"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/gift.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/en/3d-printed-gifts</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printed-gifts"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printed-gifts"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/gift.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/custom-3d-printing</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/custom-3d-printing"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/custom-3d-printing"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/other.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/en/custom-3d-printing</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/custom-3d-printing"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/custom-3d-printing"/>
+    <lastmod>2026-11-14</lastmod>
+    <image:image><image:loc>https://talli3d.github.io/samples/v2/other.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/3d-printing-price-calculator</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printing-price-calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printing-price-calculator"/>
+    <lastmod>2026-11-20</lastmod>
+  </url>
+  <url>
+    <loc>https://talli3d.github.io/en/3d-printing-price-calculator</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://talli3d.github.io/3d-printing-price-calculator"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://talli3d.github.io/en/3d-printing-price-calculator"/>
+    <lastmod>2026-11-20</lastmod>
+  </url>
 </urlset>

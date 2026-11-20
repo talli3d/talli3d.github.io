@@ -10,6 +10,17 @@
 - Gifts and home décor: vases, holders and gifts for occasions (Eid, National Day, Flag Day, graduations, birthdays).
 - Your own idea: tell us what you need and we design it and print it.
 
+## Product pages (questions and answers)
+- Name keychains and tags: https://talli3d.github.io/en/3d-printed-keychains (العربية: https://talli3d.github.io/3d-printed-keychains)
+- Figures and characters: https://talli3d.github.io/en/3d-printed-figures (العربية: https://talli3d.github.io/3d-printed-figures)
+- Replacement parts: https://talli3d.github.io/en/replacement-parts (العربية: https://talli3d.github.io/replacement-parts)
+- Logos and signs: https://talli3d.github.io/en/3d-logos-and-signs (العربية: https://talli3d.github.io/3d-logos-and-signs)
+- Gifts and home décor: https://talli3d.github.io/en/3d-printed-gifts (العربية: https://talli3d.github.io/3d-printed-gifts)
+- Your own idea: https://talli3d.github.io/en/custom-3d-printing (العربية: https://talli3d.github.io/custom-3d-printing)
+
+## Free tool for makers
+- 3D printing price calculator (filament, print time, plates, part-full last plate, complexity, extras, markup, setup fee; any currency): https://talli3d.github.io/en/3d-printing-price-calculator (العربية: https://talli3d.github.io/3d-printing-price-calculator)
+
 ## How it works
 1. Send your idea: pictures, size and colours on the order page (https://talli3d.github.io/order). There is also a quick AI order: describe the item in one sentence and we draw a picture of it.
 2. Get your quote: we study it and reply on WhatsApp.

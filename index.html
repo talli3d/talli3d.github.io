@@ -242,6 +242,7 @@ h2{font:700 26px/1.2 "Bricolage Grotesque",sans-serif;margin:0 0 6px}
 .flagp .small{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:center}
 .sec{padding:26px 0}
 .sub{color:var(--muted);margin:0 0 16px}
+.plinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.plinks a{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:14px;font-weight:600;text-decoration:none;transition:border-color .3s}.plinks a:hover{border-color:var(--teal)}.plinks b{color:var(--muted);font-weight:500}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .aiopt{display:flex;align-items:center;gap:14px;margin-bottom:12px;padding:16px 18px;border-radius:16px;text-decoration:none;color:#fff;background:linear-gradient(120deg,#0f766e,#1d4ed8 70%,#7c3aed)}
 .aiopt .e{font-size:32px;line-height:1;flex:none}.aiopt b{display:block;font-size:17px}.aiopt span span{display:block;font-size:13.5px;opacity:.9}
@@ -502,6 +503,7 @@ body{padding-bottom:84px}
     <div class="prt" id="prt"><div class="prtIn"><div class="prtWin" id="prtWin"></div></div></div>
     <p class="prtAll" id="prtAll">كل الأنواع بنظرة واحدة</p>
     <div class="cards" id="cards"><!--ssr--><a class="card" href="/order?type=key&amp;lang=ar"><img src="/samples/sample-key.jpg" alt="ميداليات وأسماء" width="480" height="320" loading="lazy"><b>ميداليات وأسماء</b><span>أسماء، حروف، شعارات</span></a><a class="card" href="/order?type=fig&amp;lang=ar"><img src="/samples/sample-fig.jpg" alt="مجسّمات وشخصيات" width="480" height="320" loading="lazy"><b>مجسّمات وشخصيات</b><span>ألعاب، نماذج، زينة كيك</span></a><a class="card" href="/order?type=part&amp;lang=ar"><img src="/samples/sample-part.jpg" alt="قطع بديلة" width="480" height="320" loading="lazy"><b>قطع بديلة</b><span>مشابك، مقابض، حوامل مكسورة</span></a><a class="card" href="/order?type=logo&amp;lang=ar"><img src="/samples/sample-logo.jpg" alt="شعارات ولافتات" width="480" height="320" loading="lazy"><b>شعارات ولافتات</b><span>لوحات، حروف، حوامل</span></a><a class="card" href="/order?type=gift&amp;lang=ar"><img src="/samples/sample-gift.jpg" alt="هدايا وديكور" width="480" height="320" loading="lazy"><b>هدايا وديكور</b><span>مزهريات، حوامل، مناسبات</span></a><a class="card" href="/order?type=other&amp;lang=ar"><img src="/samples/sample-other.jpg" alt="فكرتك الخاصة" width="480" height="320" loading="lazy"><b>فكرتك الخاصة</b><span>أخبرنا بما تحتاجه</span></a><!--/ssr--></div>
+    <nav class="plinks" id="plinks" aria-label="Guides"><!--ssr--><b>اعرف أكثر:</b><a href="/3d-printed-keychains">🔑 ميداليات وأسماء</a><a href="/3d-printed-figures">🧸 مجسّمات وشخصيات</a><a href="/replacement-parts">🔧 قطع بديلة</a><a href="/3d-logos-and-signs">🏷️ شعارات ولافتات</a><a href="/3d-printed-gifts">🎁 هدايا وديكور</a><a href="/custom-3d-printing">✨ فكرتك الخاصة</a><!--/ssr--></nav>
   </section>
 
   <section class="sec">
@@ -524,23 +526,25 @@ body{padding-bottom:84px}
 
   <footer>
     <div><b>Talli 3D Printing</b> · <span data-t="where">الإمارات العربية المتحدة</span></div>
+    <div style="margin-top:6px"><a id="calcL" href="/3d-printing-price-calculator">🧮 <span data-t="calc">حاسبة سعر الطباعة للمصنّعين</span></a></div>
     <div style="margin-top:6px"><a id="wa2" href="https://wa.me/971585579070?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%20Talli!%20%D8%A3%D9%88%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%B7%D8%A8%D8%A7%D8%B9%D8%A9%20%D8%AB%D9%84%D8%A7%D8%AB%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A3%D8%A8%D8%B9%D8%A7%D8%AF.">WhatsApp 058 557 9070</a></div>
   </footer>
 </div>
 <script>
 var PHONE = "971585579070";
+var PSLUG = {"key": "3d-printed-keychains", "fig": "3d-printed-figures", "part": "replacement-parts", "logo": "3d-logos-and-signs", "gift": "3d-printed-gifts", "other": "custom-3d-printing"};
 var TX = {
  en:{h1:"Custom 3D printing in the UAE", lead:"Name keychains, gifts, replacement parts, logos and more, designed and printed for you. Send your idea in a few taps and get your quote on WhatsApp.",
      order:"Order a print", wa:"WhatsApp us", waMsg:"Hi Talli! I'd like to ask about a 3D print.",
      instT:"Get the Talli app", instIos:"On iPhone: tap Share, then Add to Home Screen.", instAnd:"Add Talli to your home screen for quick ordering.", instBtn:"Install",
      makeT:"What we print", makeS:"Tap one to start your order.",
-     prtGo:"Start this order", prtAll:"All types at a glance",
+     prtGo:"Start this order", prtAll:"All types at a glance", plinks:"Learn more:",
      prtL:{key:"Your name in your colours, ready in a few days.",fig:"Characters, toys and cake toppers with fine detail.",part:"Send a photo of the broken piece and we print a new one.",logo:"Signs, plaques and letters for your shop or school.",gift:"Vases, holders and gifts for every occasion.",other:"Tell us your idea. We design it and print it."},
      types:[["key","🔑","Keychains and name tags","Names, initials, logos"],["fig","🧸","Figures and characters","Toys, models, cake toppers"],["part","🔧","Replacement parts","Broken clips, knobs, holders"],["logo","🏷️","Logos and signs","Plaques, letters, stands"],["gift","🎁","Gifts and home décor","Vases, holders, occasions"],["other","✨","Your own idea","Tell us what you need"]],
      howT:"How it works", howS:"From idea to your door, all on your phone.",
      steps:[["Send your idea","Pictures, size and colours in a few taps."],["Get your quote","We study it and reply on WhatsApp."],["Approve on your phone","Check each item and approve with one tap."],["We print and deliver","Printed in the UAE, delivered or ready for pickup."]],
      whyT:"Why Talli", why:[["Multi-colour","Up to 4 colours in one print."],["Strong materials","PLA for detail, PETG for strength and heat."],["Fair prices","Clear quotes before we start."],["Across the UAE","Delivery or pickup."]],
-     where:"United Arab Emirates", langBtn:"عربي",
+     where:"United Arab Emirates", calc:"Price calculator for 3D printing makers", langBtn:"عربي",
      seoT:"Talli 3D Printing | Custom 3D printing in the UAE", seoD:"Custom 3D printing in the UAE: name keychains, figures, replacement parts, logos, signs and gifts in up to 4 colours. Order in a few taps and get your quote on WhatsApp.",
      ls:[["It starts with a line","Every print begins as a single path."],["Layer by layer","Hundreds of thin layers stack into your piece."],["Woven in colour","Up to four colours, printed together."],["Talli 3D Printing","Your idea, made real in the UAE."]],
      tv:["What is Talli?","The Emirati craft behind our name · video"], tvH:"Al Talli: the UAE's traditional embroidery",
@@ -554,13 +558,13 @@ var TX = {
      order:"اطلب طباعة", wa:"راسلنا على واتساب", waMsg:"مرحبًا Talli! أود الاستفسار عن طباعة ثلاثية الأبعاد.",
      instT:"حمّل تطبيق Talli", instIos:"على الآيفون: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية».", instAnd:"أضف Talli إلى شاشتك الرئيسية للطلب بسرعة.", instBtn:"تثبيت",
      makeT:"ماذا نطبع", makeS:"اختر نوعًا لتبدأ طلبك.",
-     prtGo:"ابدأ هذا الطلب", prtAll:"كل الأنواع بنظرة واحدة",
+     prtGo:"ابدأ هذا الطلب", prtAll:"كل الأنواع بنظرة واحدة", plinks:"اعرف أكثر:",
      prtL:{key:"اسمك بألوانك، جاهز خلال أيام قليلة.",fig:"شخصيات وألعاب وزينة كيك بتفاصيل دقيقة.",part:"أرسل صورة القطعة المكسورة ونطبع لك واحدة جديدة.",logo:"لافتات ولوحات وحروف لمتجرك أو مدرستك.",gift:"مزهريات وحوامل وهدايا لكل مناسبة.",other:"أخبرنا بفكرتك، نصممها ونطبعها لك."},
      types:[["key","🔑","ميداليات وأسماء","أسماء، حروف، شعارات"],["fig","🧸","مجسّمات وشخصيات","ألعاب، نماذج، زينة كيك"],["part","🔧","قطع بديلة","مشابك، مقابض، حوامل مكسورة"],["logo","🏷️","شعارات ولافتات","لوحات، حروف، حوامل"],["gift","🎁","هدايا وديكور","مزهريات، حوامل، مناسبات"],["other","✨","فكرتك الخاصة","أخبرنا بما تحتاجه"]],
      howT:"كيف نعمل", howS:"من الفكرة إلى باب بيتك، كله من هاتفك.",
      steps:[["أرسل فكرتك","صور، مقاسات وألوان بخطوات بسيطة."],["استلم عرض السعر","ندرس طلبك ونرد عبر واتساب."],["وافق من هاتفك","راجع كل منتج ووافق بلمسة واحدة."],["نطبع ونوصل","طباعة داخل الإمارات مع توصيل أو استلام."]],
      whyT:"لماذا Talli", why:[["ألوان متعددة","حتى 4 ألوان في قطعة واحدة."],["خامات قوية","PLA للتفاصيل وPETG للقوة والحرارة."],["أسعار عادلة","عرض سعر واضح قبل البدء."],["في كل الإمارات","توصيل أو استلام."]],
-     where:"الإمارات العربية المتحدة", langBtn:"English",
+     where:"الإمارات العربية المتحدة", calc:"حاسبة سعر الطباعة للمصنّعين", langBtn:"English",
      seoT:"تللي للطباعة ثلاثية الأبعاد | طباعة ثلاثية الأبعاد حسب الطلب في الإمارات", seoD:"طباعة ثلاثية الأبعاد حسب الطلب في الإمارات: ميداليات بالأسماء، مجسّمات، قطع بديلة، شعارات ولافتات وهدايا بحتى 4 ألوان. اطلب بخطوات بسيطة واستلم عرض السعر عبر واتساب.",
      ls:[["تبدأ بخط","كل قطعة تبدأ بمسار واحد."],["طبقة فوق طبقة","مئات الطبقات الرقيقة تتراكم لتصنع قطعتك."],["منسوجة بالألوان","حتى أربعة ألوان في طباعة واحدة."],["Talli للطباعة ثلاثية الأبعاد","فكرتك تتحقق في الإمارات."]],
      tv:["ما هو التلي؟","الحرفة الإماراتية وراء اسمنا · فيديو"], tvH:"التلي: التطريز الإماراتي التقليدي",
@@ -588,6 +592,7 @@ function draw(){
   var T = TX[LANG];
   document.documentElement.lang = LANG; document.documentElement.dir = LANG==="ar" ? "rtl" : "ltr";
   document.querySelectorAll("[data-t]").forEach(function(el){ el.textContent = T[el.dataset.t]; });
+  var cl = document.getElementById("calcL"); if(cl) cl.href = (LANG==="en" ? "/en/" : "/") + "3d-printing-price-calculator";
   seoHead(T);
   var lb = document.getElementById("lang"); lb.textContent = T.langBtn; lb.lang = LANG==="ar" ? "en" : "ar";
   var wa = "https://wa.me/" + PHONE + "?text=" + encodeURIComponent(T.waMsg);
@@ -595,6 +600,7 @@ function draw(){
   var ai = LANG==="ar" ? ["طلب سريع بالذكاء الاصطناعي","صف طلبك بجملة واحدة، نرسم لك صورة ونتخطى الأسئلة."] : ["Quick order with AI","Describe it in one sentence. We draw a picture and skip the questions."];
   var ao = document.getElementById("aiopt"); ao.href = "/order?type=ai&lang=" + LANG;
   ao.innerHTML = '<span class="e" aria-hidden="true">✨</span><span><b>' + esc(ai[0]) + '</b><span>' + esc(ai[1]) + '</span></span>';
+  var pl = document.getElementById("plinks"); if(pl) pl.innerHTML = '<b>' + esc(T.plinks) + '</b>' + T.types.map(function(x){ return '<a href="' + (LANG==="en" ? "/en/" : "/") + PSLUG[x[0]] + '">' + x[1] + ' ' + esc(x[2]) + '</a>'; }).join("");
   document.getElementById("cards").innerHTML = T.types.map(function(x){ return '<a class="card" href="/order?type=' + x[0] + '&lang=' + LANG + '"><img src="/samples/sample-' + x[0] + '.jpg" alt="" width="480" height="320" loading="lazy"><b>' + esc(x[2]) + '</b><span>' + esc(x[3]) + '</span></a>'; }).join("");
   document.getElementById("steps").innerHTML = T.steps.map(function(x){ return '<div class="step"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
   document.getElementById("why").innerHTML = T.why.map(function(x){ return '<div><b>' + esc(x[0]) + '</b>' + esc(x[1]) + '</div>'; }).join("");
