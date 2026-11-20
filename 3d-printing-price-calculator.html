@@ -172,6 +172,9 @@ details.rates[open]>summary::after{transform:rotate(45deg)}details.rates[open]>s
 .bd td{padding:6px 0;border-top:1px solid rgba(255,255,255,.1)}.bd td:last-child{text-align:end;white-space:nowrap;padding-inline-start:10px}
 .bd tr.sum td{font-weight:700;color:#fff}.bd td{color:#d7e6e2}.bd tr.pr td{color:#7fe0c9;font-weight:700;border-top:1px solid rgba(255,255,255,.25)}
 .bar{display:none}
+.bdd{align-self:start}.bdd>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600;color:#d7e6e2;padding:10px 14px;border:1px solid rgba(255,255,255,.18);border-radius:12px}
+.bdd>summary::-webkit-details-marker{display:none}.bdd>summary::after{content:"+";color:#7fe0c9;font-size:20px;line-height:1;transition:transform .3s}
+.bdd[open]>summary::after{transform:rotate(45deg)}.bdd[open]>summary{margin-bottom:6px}
 .alert{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:#fff4d6;color:#5c3d00;border-radius:14px;padding:10px 12px;font-size:13.5px;line-height:1.45;margin:4px 0 6px}
 .alert span{flex:1 1 200px;padding-inline-start:28px;position:relative}.alert span::before{content:"!";position:absolute;inset-inline-start:0;top:0;width:20px;height:20px;border-radius:50%;background:#e0a100;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px}
 .alert button{font:inherit;font-size:13.5px;font-weight:700;border:0;border-radius:999px;background:#5c3d00;color:#fff;padding:7px 14px;cursor:pointer}
@@ -222,17 +225,19 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
   <nav class="crumbs" aria-label="Breadcrumb"><a href="/">تللي للطباعة ثلاثية الأبعاد</a> › حاسبة السعر</nav>
   <div class="hero rise"><h1>حاسبة سعر الطباعة ثلاثية الأبعاد</h1><p>سعّر أي طبعة في ثوانٍ بنفس الطريقة اللي نستخدمها في تللي. كل بليت له تكلفة الفلامنت ووقت الطابعة، وبعدها تضيف نسبة ربحك ورسوم التجهيز. ولما يكون البليت الأخير غير ممتلئ، تحاسب فقط على القطع اللي عليه. الحاسبة مجانية وبدون تسجيل، وأسعارك تبقى على جهازك.</p></div>
   <div class="calc">
+    <div class="rise">
+      <label class="drop" id="drop" tabindex="0"><span class="ic" id="dropI" aria-hidden="true">🧊</span><span><b id="dropT">تسعير بخطوة وحدة</b><span id="dropS">اسحب ملف ثلاثي الأبعاد هنا أو اضغط لاختياره: STL أو OBJ أو 3MF. نسوّي له سلايس أونلاين داخل متصفحك ونطلع الجرامات ووقت الطباعة. وإذا سوّيت له سلايس في Bambu Studio أو OrcaSlicer، اسحب ملف .gcode.3mf عشان تاخذ أرقام السلايسر بالضبط. الملف ما يطلع من جهازك.</span><span class="msg" id="dropM" role="status"></span></span><input type="file" id="f3mf" accept=".3mf,.stl,.obj" hidden></label>
+      <div class="chips" id="chips" hidden></div>
+    </div>
     <div class="rise"><div class="res" id="res" aria-live="polite">
       <div class="rt"><div class="lab">السعر</div>
       <div class="big"><span id="big">0.00</span><small id="curL">AED</small></div>
       <div class="pp" id="unit"></div><div class="pt" id="pt"></div>
       <div class="alert" id="alert" role="note"><span id="alertT"></span><button type="button" id="alertB">راجع الإعدادات ↓</button></div>
       </div>
-      <table class="bd"><tbody id="bd"></tbody></table>
+      <details class="bdd"><summary>تفاصيل السعر</summary><table class="bd"><tbody id="bd"></tbody></table></details>
     </div></div>
     <div class="rise inputs">
-      <label class="drop" id="drop" tabindex="0"><span class="ic" id="dropI" aria-hidden="true">🧊</span><span><b id="dropT">تسعير بخطوة وحدة</b><span id="dropS">اسحب ملف ثلاثي الأبعاد هنا أو اضغط لاختياره: STL أو OBJ أو 3MF. نسوّي له سلايس أونلاين داخل متصفحك ونطلع الجرامات ووقت الطباعة. وإذا سوّيت له سلايس في Bambu Studio أو OrcaSlicer، اسحب ملف .gcode.3mf عشان تاخذ أرقام السلايسر بالضبط. الملف ما يطلع من جهازك.</span><span class="msg" id="dropM" role="status"></span></span><input type="file" id="f3mf" accept=".3mf,.stl,.obj" hidden></label>
-      <div class="chips" id="chips" hidden></div>
       <div class="card est" id="est" hidden><h3>إعدادات السلايس أونلاين</h3>
         <div class="grid"><label>ارتفاع الطبقة (مم)<select id="elh"></select></label><label id="w_einf">نسبة الحشوة (%)<input id="einf" type="number" inputmode="decimal" min="0" step="any" step="5" min="0" max="100"></label><label id="w_ewall">عدد الجدران<input id="ewall" type="number" inputmode="decimal" min="0" step="any" step="1" min="1" max="10"></label><label>الدعامات<select id="esup"></select></label><label>سرعة الطابعة<select id="espd"></select></label></div>
         <p class="note">محسوبة من شكل الموديل وهذي الإعدادات، ومضبوطة على نتائج Bambu Studio. عادةً الفرق عن السلايسر الكامل حوالي 15% أو أقل، والدعامات والموديلات الدقيقة جداً ممكن تختلف أكثر. للأرقام الدقيقة اسحب ملف .gcode.3mf بعد السلايس.</p>
@@ -274,10 +279,12 @@ var L={"dropT":"تسعير بخطوة وحدة","alEx":"هذي أسعار للم
 
 var MATS=[["PLA",70],["PLA Silk",90],["PETG",75],["ABS",70],["ASA",95],["TPU",120],["x",""]];
 var CURS=["AED","SAR","QAR","KWD","BHD","OMR","EGP","JOD","USD","EUR","GBP","INR"];
-var DEF={cur:"AED",hour:0.6,ac:0.1,acOn:false,markup:3,setup:10,min:0,round:"1",m1:"PLA",p1:70,g1:40,two:false,m2:"PETG",p2:75,g2:15,th:2,tm:0,cx:"1",extra:0,pp:1,need:"",plates:1,noz:"single",cols:1,nn:2,chg:0,pg:1,ps:60,tg:0.1,ts:15,elh:"0.2",einf:15,ewall:2,esup:"0",espd:"1"};
+var DEF={cur:"AED",hour:0.6,ac:0.1,acOn:false,markup:3,setup:10,min:0,round:"1",m1:"PLA",p1:70,g1:0,two:false,m2:"PETG",p2:75,g2:0,th:0,tm:0,cx:"1",extra:0,pp:1,need:"",plates:1,noz:"single",cols:1,nn:2,chg:0,pg:1,ps:60,tg:0.1,ts:15,elh:"0.2",einf:15,ewall:2,esup:"0",espd:"1"};
 var KEY="talli.calc.v1", S={}, $=function(id){return document.getElementById(id)};
 function n(v){v=parseFloat(String(v).replace(/,/g,"."));return isFinite(v)?v:0}
-function load(){var s=null;try{s=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){} S=Object.assign({},DEF,s&&typeof s==="object"?s:{})}
+function load(){var s=null;try{s=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){} S=Object.assign({},DEF,s&&typeof s==="object"?s:{},JOB)}
+// every page load starts a new job at zero; only the rates and settings are remembered
+var JOB={g1:0,g2:0,two:false,th:0,tm:0,extra:0,pp:1,need:"",plates:1,chg:0,cols:1,cx:"1"};
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function opts(sel,list,val){sel.innerHTML=list.map(function(o){return '<option value="'+o[0]+'"'+(String(o[0])===String(val)?" selected":"")+">"+o[1]+"</option>"}).join("")}
 function fill(){
@@ -300,12 +307,12 @@ function calc(){
   var pp=Math.max(1,Math.round(n(S.pp))||1), need=Math.round(n(S.need)); need=need>0?need:0;
   var plates=need?need/pp:Math.max(1,n(S.plates)||1), full=need?Math.ceil(need/pp):plates, qty=need||Math.max(1,Math.round(pp*plates));
   var cost=plate*plates, mk=n(S.markup), cx=n(S.cx)||1, setup=n(S.setup);
-  var raw=cost*mk*cx+setup, total=raw, minUsed=false;
-  if(total<n(S.min)){total=n(S.min);minUsed=true}
+  var empty=!(plate>0), raw=empty?0:cost*mk*cx+setup, total=raw, minUsed=false;   // nothing to print yet: price 0
+  if(!empty&&total<n(S.min)){total=n(S.min);minUsed=true}
   var r=n(S.round), before=total; if(r>0) total=Math.ceil(total/r-1e-9)*r;
-  return {chg:chg,wG:wG,wS:wS,gTot:g1+g2+wG,hours:hours,fil:fil,mach:mach,ac:ac,extra:extra,plate:plate,pp:pp,need:need,plates:plates,full:full,qty:qty,cost:cost,mk:mk,cx:cx,setup:setup,raw:raw,minUsed:minUsed,rounded:Math.abs(total-before)>0.004,total:total,unit:total/qty,profit:total-cost};
+  return {empty:empty,chg:chg,wG:wG,wS:wS,gTot:g1+g2+wG,hours:hours,fil:fil,mach:mach,ac:ac,extra:extra,plate:plate,pp:pp,need:need,plates:plates,full:full,qty:qty,cost:cost,mk:mk,cx:cx,setup:setup,raw:raw,minUsed:minUsed,rounded:Math.abs(total-before)>0.004,total:total,unit:total/qty,profit:total-cost};
 }
-function f2(v){return (Math.round(v*100)/100).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function f2(v){return ((Math.round(v*100)/100)||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
 function plateText(c){
   if(!c.need) return L.perPlate(c.pp,+c.plates.toFixed(3));
   var f=Math.floor(c.need/c.pp), r=c.need-f*c.pp;
@@ -324,7 +331,7 @@ function render(){
   $("pt").textContent=plateText(c);
   var hT=hm(c.hours*3600);
   var h=(c.chg?row(L.bChg,L.chgV(c.chg,+c.wG.toFixed(1),Math.round(c.wS/60)),"info"):"")+row(L.bPer,L.perV(+c.gTot.toFixed(1),hT[0],String(hT[1]).padStart(2,"0")),"info")+row(L.bFil,f2(c.fil))+row(L.bMach,f2(c.mach))+(S.acOn?row(L.bAc,f2(c.ac)):"")+(c.extra?row(L.bExtra,f2(c.extra)):"")+row(L.bPlate,f2(c.plate),"sum")
-   +row(L.bPlates,"× "+(+c.plates.toFixed(3)))+row(L.bCost,f2(c.cost),"sum")+row(L.bMark,"× "+c.mk)+(c.cx!==1?row(L.bCx,"× "+c.cx):"")+(c.setup?row(L.bSetup,f2(c.setup)):"")
+   +row(L.bPlates,"× "+(+c.plates.toFixed(3)))+row(L.bCost,f2(c.cost),"sum")+row(L.bMark,"× "+c.mk)+(c.cx!==1?row(L.bCx,"× "+c.cx):"")+(c.setup&&!c.empty?row(L.bSetup,f2(c.setup)):"")
    +(c.minUsed?row(L.bMin,f2(n(S.min))):"")+(c.rounded?row(L.bRound,f2(c.total)):"")+row(L.price,cur+" "+f2(c.total),"sum")
    +row(L.bProfit+(c.total>0?" · "+Math.round(c.profit/c.total*100)+"% "+L.margin:""),cur+" "+f2(c.profit),"pr");
   $("bd").innerHTML=h; vis();
