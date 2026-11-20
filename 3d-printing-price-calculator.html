@@ -172,6 +172,11 @@ details.rates[open]>summary::after{transform:rotate(45deg)}details.rates[open]>s
 .bd td{padding:6px 0;border-top:1px solid rgba(255,255,255,.1)}.bd td:last-child{text-align:end;white-space:nowrap;padding-inline-start:10px}
 .bd tr.sum td{font-weight:700;color:#fff}.bd td{color:#d7e6e2}.bd tr.pr td{color:#7fe0c9;font-weight:700;border-top:1px solid rgba(255,255,255,.25)}
 .bar{display:none}
+.rsl{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:12px 0 2px}.rsl span{font-size:13.5px;font-weight:600;color:#9a5b00;flex:1 1 200px}
+.rsl button{font:inherit;font-size:14.5px;font-weight:700;border:0;border-radius:999px;background:var(--line);color:var(--muted);padding:9px 18px;cursor:not-allowed;transition:background .25s,color .25s,transform .2s}
+.est.dirty .rsl button{background:var(--teal);color:#fff;cursor:pointer;box-shadow:0 8px 20px -10px var(--teal);animation:pulse 1.6s ease-in-out infinite}
+.rsl button.busy{animation:none;opacity:.7}@keyframes pulse{50%{transform:scale(1.05)}}
+.est.dirty{border-color:#e0a100}
 .bdd{align-self:start}.bdd>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600;color:#d7e6e2;padding:10px 14px;border:1px solid rgba(255,255,255,.18);border-radius:12px}
 .bdd>summary::-webkit-details-marker{display:none}.bdd>summary::after{content:"+";color:#7fe0c9;font-size:20px;line-height:1;transition:transform .3s}
 .bdd[open]>summary::after{transform:rotate(45deg)}.bdd[open]>summary{margin-bottom:6px}
@@ -216,7 +221,7 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
 @media (max-width:820px){.res,.inputs{grid-template-columns:minmax(0,1fr)}
  .bar{display:flex;position:fixed;z-index:30;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(20,32,29,.92);color:#fff;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:0 18px 44px -18px rgba(20,32,29,.6);font-weight:700;text-decoration:none;transition:transform .35s,opacity .35s;font-variant-numeric:tabular-nums}
  .bar span{color:#a9c2bc;font-weight:500;font-size:14px}.bar.off{transform:translateY(150%);opacity:0}.wrap{padding-bottom:90px}}
-@media (prefers-reduced-motion:reduce){.card.look,.rise,.pill,.flash,.drop.busy .ic{animation:none}}
+@media (prefers-reduced-motion:reduce){.est.dirty .rsl button,.card.look,.rise,.pill,.flash,.drop.busy .ic{animation:none}}
 </style>
 </head>
 <body>
@@ -239,7 +244,8 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
     </div></div>
     <div class="rise inputs">
       <div class="card est" id="est" hidden><h3>إعدادات السلايس أونلاين</h3>
-        <div class="grid"><label>ارتفاع الطبقة (مم)<select id="elh"></select></label><label id="w_einf">نسبة الحشوة (%)<input id="einf" type="number" inputmode="decimal" min="0" step="any" step="5" min="0" max="100"></label><label id="w_ewall">عدد الجدران<input id="ewall" type="number" inputmode="decimal" min="0" step="any" step="1" min="1" max="10"></label><label>الدعامات<select id="esup"></select></label><label>سرعة الطابعة<select id="espd"></select></label></div>
+        <div class="grid"><label>ارتفاع الطبقة (مم)<select id="elh"></select></label><label id="w_einf">نسبة الحشوة (%)<input id="einf" type="number" inputmode="decimal" min="0" step="any" step="5" min="0" max="100"></label><label id="w_ewall">عدد الجدران<input id="ewall" type="number" inputmode="decimal" min="0" step="any" step="1" min="1" max="10"></label><label>الدعامات<select id="esup"></select></label><label style="grid-column:1/-1">سرعة الطابعة<select id="espd"></select></label></div>
+        <div class="rsl"><button type="button" id="reslice" disabled>⟳ إعادة السلايس</button><span id="rslN" role="status"></span></div>
         <p class="note">محسوبة من شكل الموديل وهذي الإعدادات، ومضبوطة على نتائج Bambu Studio. عادةً الفرق عن السلايسر الكامل حوالي 15% أو أقل، والدعامات والموديلات الدقيقة جداً ممكن تختلف أكثر. للأرقام الدقيقة اسحب ملف .gcode.3mf بعد السلايس.</p>
       </div>
       <div class="card" id="plate"><h3>بليت واحد</h3><p class="hint">استخدم الجرامات والوقت اللي يعطيك إياها السلايسر لبليت واحد.</p>
@@ -275,7 +281,7 @@ footer a{color:var(--ink);font-weight:600;text-decoration:none}
 </div>
 <a class="bar" id="bar" href="#res"><b id="barP"></b><span id="barU"></span></a>
 <script>
-var L={"dropT":"تسعير بخطوة وحدة","alEx":"هذي أسعار للمثال فقط. راجع الإعدادات تحت عشان يطلع السعر حسب تكاليفك.","alEst":"تم السلايس أونلاين بالإعدادات اللي تحت. راجع ارتفاع الطبقة والحشوة والدعامات، وأسعارك.","alGen":"راجع الإعدادات تحت: الفلامنت ووقت الطباعة وعدد القطع وأسعارك كلها تغيّر السعر.","slicing":"جاري السلايس أونلاين…","noMesh":"ما لقينا موديل ثلاثي الأبعاد في هذا الملف.","esupO":[["0","بدون"],["1","تلقائي"]],"espdO":[["1","سريعة (مثل Bambu)"],["2.2","عادية (مثل Ender)"]],"reading":"جاري قراءة الملف…","notSliced":"ملف 3MF هذا ما انعمل له سلايس، فما فيه وقت طباعة ولا وزن. سوّ له سلايس، وبعدها اختر File › Export › Export plate sliced file (.gcode.3mf) واسحب الملف هنا.","bad":"ما قدرنا نقرأ الملف. هل هو ملف 3MF؟","oldBrowser":"هذا المتصفح ما يقدر يفتح ملفات 3MF. جرّب آخر إصدار من Chrome أو Edge أو Safari أو Firefox.","inSliced":"تغييرات اللون محسوبة أصلاً في أرقام السلايسر","bChg":"تغييرات اللون (بليت واحد)","bPer":"إجمالي البليت الواحد","cxO":[["1","بسيط ×1"],["1.2","متوسط ×1.2"],["1.5","معقّد ×1.5"],["2","خاص ×2"]],"roundO":[["0","بدون تقريب"],["0.5","0.5"],["1","1"],["5","5"],["10","10"]],"otherMat":"أخرى (اكتب السعر)","price":"السعر","perPiece":"للقطعة","pcs":"قطعة","pc1":"قطعة","bFil":"الفلامنت (بليت واحد)","bMach":"وقت الطابعة (بليت واحد)","bAc":"التكييف / التبريد (بليت واحد)","bExtra":"الإضافات (بليت واحد)","bPlate":"تكلفة البليت الواحد","bPlates":"البليتات المحسوبة","bCost":"التكلفة الكلية","bMark":"× نسبة الربح","bCx":"× درجة التعقيد","bSetup":"+ رسوم التجهيز","bMin":"تم تطبيق أقل سعر","bRound":"التقريب لأعلى","bProfit":"ربحك","margin":"هامش",full:(f, pp) => `${f} ${f === 1 ? "بليت كامل" : "بليتات كاملة"} فيها ${pp}`,part:r => ` + بليت فيه ${r}`,charged:n => ` (محسوبة ${n} بليت)`,perPlate:(pp, n) => `${pp} في كل بليت × ${n} بليت`,allPlates:n => `كل البليتات (${n})`,plateN:i => `بليت ${i}`,filled:f => `تمت التعبئة من ${f}`,same:n => `${n} بليتات متطابقة`,chgV:(c, g, m) => `${c}: +${g} جرام، +${m} دقيقة`,perV:(g, h, m) => `${g} جرام · ${h} س ${m} د`,estDone:f => `تم السلايس أونلاين: ${f}`,estSize:(x, y, z, v, o) => `${x} × ${y} × ${z} مم · ${v} سم³` + (o > 1 ? ` · ${o} قطع` : "")};
+var L={"dropT":"تسعير بخطوة وحدة","alEx":"هذي أسعار للمثال فقط. راجع الإعدادات تحت عشان يطلع السعر حسب تكاليفك.","alEst":"تم السلايس أونلاين بالإعدادات اللي تحت. راجع ارتفاع الطبقة والحشوة والدعامات، وأسعارك.","alGen":"راجع الإعدادات تحت: الفلامنت ووقت الطباعة وعدد القطع وأسعارك كلها تغيّر السعر.","resliceN":"تغيّرت الإعدادات. اضغط إعادة السلايس عشان تتحدث الجرامات والوقت والسعر.","slicing":"جاري السلايس أونلاين…","noMesh":"ما لقينا موديل ثلاثي الأبعاد في هذا الملف.","esupO":[["0","بدون"],["1","تلقائي"]],"espdO":[["1","سريعة (مثل Bambu)"],["2.2","عادية (مثل Ender)"]],"reading":"جاري قراءة الملف…","notSliced":"ملف 3MF هذا ما انعمل له سلايس، فما فيه وقت طباعة ولا وزن. سوّ له سلايس، وبعدها اختر File › Export › Export plate sliced file (.gcode.3mf) واسحب الملف هنا.","bad":"ما قدرنا نقرأ الملف. هل هو ملف 3MF؟","oldBrowser":"هذا المتصفح ما يقدر يفتح ملفات 3MF. جرّب آخر إصدار من Chrome أو Edge أو Safari أو Firefox.","inSliced":"تغييرات اللون محسوبة أصلاً في أرقام السلايسر","bChg":"تغييرات اللون (بليت واحد)","bPer":"إجمالي البليت الواحد","cxO":[["1","بسيط ×1"],["1.2","متوسط ×1.2"],["1.5","معقّد ×1.5"],["2","خاص ×2"]],"roundO":[["0","بدون تقريب"],["0.5","0.5"],["1","1"],["5","5"],["10","10"]],"otherMat":"أخرى (اكتب السعر)","price":"السعر","perPiece":"للقطعة","pcs":"قطعة","pc1":"قطعة","bFil":"الفلامنت (بليت واحد)","bMach":"وقت الطابعة (بليت واحد)","bAc":"التكييف / التبريد (بليت واحد)","bExtra":"الإضافات (بليت واحد)","bPlate":"تكلفة البليت الواحد","bPlates":"البليتات المحسوبة","bCost":"التكلفة الكلية","bMark":"× نسبة الربح","bCx":"× درجة التعقيد","bSetup":"+ رسوم التجهيز","bMin":"تم تطبيق أقل سعر","bRound":"التقريب لأعلى","bProfit":"ربحك","margin":"هامش",full:(f, pp) => `${f} ${f === 1 ? "بليت كامل" : "بليتات كاملة"} فيها ${pp}`,part:r => ` + بليت فيه ${r}`,charged:n => ` (محسوبة ${n} بليت)`,perPlate:(pp, n) => `${pp} في كل بليت × ${n} بليت`,allPlates:n => `كل البليتات (${n})`,plateN:i => `بليت ${i}`,filled:f => `تمت التعبئة من ${f}`,same:n => `${n} بليتات متطابقة`,chgV:(c, g, m) => `${c}: +${g} جرام، +${m} دقيقة`,perV:(g, h, m) => `${g} جرام · ${h} س ${m} د`,estDone:f => `تم السلايس أونلاين: ${f}`,estSize:(x, y, z, v, o) => `${x} × ${y} × ${z} مم · ${v} سم³` + (o > 1 ? ` · ${o} قطع` : "")};
 
 var MATS=[["PLA",70],["PLA Silk",90],["PETG",75],["ABS",70],["ASA",95],["TPU",120],["x",""]];
 var CURS=["AED","SAR","QAR","KWD","BHD","OMR","EGP","JOD","USD","EUR","GBP","INR"];
@@ -351,7 +357,8 @@ function read(e){
   if(k==="m1"||k==="m2"){var m=MATS.filter(function(x){return x[0]===el.value})[0]; if(m&&m[1]!==""){S[k==="m1"?"p1":"p2"]=m[1];$(k==="m1"?"p1":"p2").value=m[1]}}
   if(k==="plates"&&n(S.need)>0){S.need="";$("need").value=""}
   if((k==="need"||k==="pp")&&n(S.need)>0){S.plates=Math.ceil(Math.round(n(S.need))/Math.max(1,Math.round(n(S.pp))||1));$("plates").value=S.plates}
-  if(G&&/^(elh|einf|ewall|esup|espd|m1)$/.test(k)){est();["g1","th","tm"].forEach(function(x){$(x).value=S[x]})}
+  if(G&&k==="m1"){est();["g1","th","tm"].forEach(function(x){$(x).value=S[x]})}
+  if(G&&/^(elh|einf|ewall|esup|espd)$/.test(k)){$("reslice").disabled=false;$("est").classList.add("dirty");$("rslN").textContent=L.resliceN}
   save(); render();
 }
 // ---- online slicing (estimate): mesh volume, surface and overhangs -> grams and time, tuned on Bambu Studio results ----
@@ -422,6 +429,13 @@ function thumb(objs){
     P.forEach(function(q){var p=q[1],s=Math.min(1,q[2]);g.fillStyle="rgb("+Math.round(20+60*s)+","+Math.round(90+90*s)+","+Math.round(85+80*s)+")";g.strokeStyle=g.fillStyle;g.beginPath();
       for(var j=0;j<6;j+=2){var X=ox+(p[j]-mn[0])*sc,Y=oy+(p[j+1]-mn[1])*sc;j?g.lineTo(X,Y):g.moveTo(X,Y)}g.closePath();g.fill();g.stroke()});
     return c.toDataURL("image/png")}catch(e){return null}}
+function clean(){$("reslice").disabled=true;$("est").classList.remove("dirty");$("rslN").textContent=""}
+async function reslice(){
+  if(!G)return; var b=$("reslice"),M=$("dropM"),keep=M.textContent; b.disabled=true;b.classList.add("busy");$("rslN").textContent=L.slicing;
+  await new Promise(function(r){setTimeout(r,450)});
+  est();["g1","th","tm"].forEach(function(x){$(x).value=S[x]});save();render();clean();b.classList.remove("busy");M.textContent=keep;
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
 async function sliceOnline(file,name,files,png){
   var M=$("dropM"),objs;M.textContent=L.slicing;await new Promise(function(r){setTimeout(r,30)});
   var ext=(/\.(\w+)$/.exec(file.name)||[])[1]||"";ext=ext.toLowerCase();
@@ -430,7 +444,7 @@ async function sliceOnline(file,name,files,png){
   if(!st||!(st.V>0)){M.className="msg err";M.textContent=L.noMesh;return}
   G=st;F3=null;$("est").hidden=false;$("chips").hidden=true;
   var im=png?URL.createObjectURL(new Blob([png],{type:"image/png"})):thumb(objs);$("dropI").innerHTML=im?'<img alt="" src="'+im+'">':"🧊";
-  S.pp=Math.max(1,st.objs);S.need="";S.plates=1;S.chg=0;S.cols=1;est();fill();save();render();
+  S.pp=Math.max(1,st.objs);S.need="";S.plates=1;S.chg=0;S.cols=1;clean();est();fill();save();render();
   M.className="msg";M.textContent=L.estDone(name)+" · "+L.estSize(Math.round(st.X),Math.round(st.Y),Math.round(st.H),+(st.V/1000).toFixed(1),st.objs);
 }
 // ---- sliced 3MF: Metadata/slice_info.config has per plate: prediction (seconds), weight (g), filaments (type, used_g), objects ----
@@ -508,6 +522,7 @@ document.addEventListener("input",read); document.addEventListener("change",read
 [].forEach.call(document.querySelectorAll("[data-noz]"),function(b){b.onclick=function(){S.noz=b.dataset.noz;save();render()}});
 $("add2").onclick=function(){S.two=true;fill();save();render();$("g2").focus()};
 $("rm2").onclick=function(){S.two=false;fill();save();render()};
+$("reslice").onclick=reslice;
 $("alertB").onclick=function(){var el=$(G?"est":["hour","ac","markup","setup","min","p1"].every(function(k){return n(S[k])===n(DEF[k])})?"rates":"plate");if(el.tagName==="DETAILS")el.open=true;el.scrollIntoView({behavior:"smooth",block:"start"});el.classList.remove("look");void el.offsetWidth;el.classList.add("look")};
 $("reset").onclick=function(){S=Object.assign({},DEF);fill();save();render()};
 if("IntersectionObserver" in window){new IntersectionObserver(function(es){$("bar").classList.toggle("off",es[0].isIntersecting)},{threshold:0}).observe($("res"))}
