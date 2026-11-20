@@ -357,8 +357,8 @@ function read(e){
   if(k==="m1"||k==="m2"){var m=MATS.filter(function(x){return x[0]===el.value})[0]; if(m&&m[1]!==""){S[k==="m1"?"p1":"p2"]=m[1];$(k==="m1"?"p1":"p2").value=m[1]}}
   if(k==="plates"&&n(S.need)>0){S.need="";$("need").value=""}
   if((k==="need"||k==="pp")&&n(S.need)>0){S.plates=Math.ceil(Math.round(n(S.need))/Math.max(1,Math.round(n(S.pp))||1));$("plates").value=S.plates}
-  if(G&&k==="m1"){est();["g1","th","tm"].forEach(function(x){$(x).value=S[x]})}
-  if(G&&/^(elh|einf|ewall|esup|espd)$/.test(k)){$("reslice").disabled=false;$("est").classList.add("dirty");$("rslN").textContent=L.resliceN}
+  if(G&&k==="m1"){est();["g1","th","tm","cols","chg"].forEach(function(x){$(x).value=S[x]})}
+  if(/^(elh|einf|ewall|esup|espd|cols|nn|pg|ps|tg|ts)$/.test(k))dirty();
   save(); render();
 }
 // ---- online slicing (estimate): mesh volume, surface and overhangs -> grams and time, tuned on Bambu Studio results ----
@@ -371,12 +371,20 @@ function est(){
   var V=G.V/1000,A=G.A/100,sh=Math.min(V,A*Math.max(.042*w,.08)),fi=Math.max(0,V-sh)*inf,sup=S.esup==="1"?G.ovh*.08/1000:0,k=.2/lh;
   S.g1=+((DENS[S.m1]||1.24)*(sh+fi+sup)).toFixed(1);S.two=false;
   var t=hm((400+162.7*sh*k+72.7*fi*Math.sqrt(k)+6*G.H/lh+100*sup)*(n(S.espd)||1));S.th=t[0];S.tm=t[1];
+  var nl=Math.max(1,Math.ceil(G.H/lh)),chg=0;
+  if(G.er&&G.er.length>1){for(var l=0;l<nl;l++){var z=(l+.5)*lh,c=0;G.er.forEach(function(r){if(z>=r[0]-1e-6&&z<=r[1]+1e-6)c++});if(c>1)chg+=c-1}S.cols=G.er.length;S.chg=chg}
+  else if(Math.round(n(S.cols))>1&&!(n(S.chg)>0))S.chg=(Math.round(n(S.cols))-1)*nl;   // colours typed in for an STL: assume every layer
 }
 function M12(a){var v=String(a||"").trim().split(/\s+/).map(Number);return v.length===12&&v.every(isFinite)?v:[1,0,0,0,1,0,0,0,1,0,0,0]}
 function mul(a,b){var r=new Array(12);for(var i=0;i<3;i++)for(var j=0;j<3;j++)r[i*3+j]=a[i*3]*b[j]+a[i*3+1]*b[3+j]+a[i*3+2]*b[6+j];for(j=0;j<3;j++)r[9+j]=a[9]*b[j]+a[10]*b[3+j]+a[11]*b[6+j]+b[9+j];return r}
 function mesh3mf(files){
-  var U={micron:.001,millimeter:1,centimeter:10,inch:25.4,foot:304.8,meter:1000},mods={},main=null;
-  Object.keys(files).forEach(function(nm){
+  var U={micron:.001,millimeter:1,centimeter:10,inch:25.4,foot:304.8,meter:1000},mods={},main=null,OX={},PX={};
+  var ms=files["Metadata/model_settings.config"];   // Bambu/Orca: filament (extruder) per object and per part
+  if(ms){(new TextDecoder().decode(ms).match(/<object id="[^"]+">[\s\S]*?<\/object>/g)||[]).forEach(function(ob){
+    var oid=/<object id="([^"]+)"/.exec(ob)[1],e=/key="extruder" value="(\d+)"/.exec(ob.split("<part")[0]);OX[oid]=e?+e[1]:1;PX[oid]={};
+    (ob.match(/<part id="[^"]+"[\s\S]*?<\/part>/g)||[]).forEach(function(pt){var pid=/<part id="([^"]+)"/.exec(pt)[1],pe=/key="extruder" value="(\d+)"/.exec(pt);
+      PX[oid][pid]=/subtype="(negative_part|modifier_part|support_blocker|support_enforcer)"/.test(pt)?-1:(pe?+pe[1]:0)})})}
+  Object.keys(files).filter(function(nm){return /\.model$/i.test(nm)}).forEach(function(nm){
     var x=new TextDecoder().decode(files[nm]),um=/<model[^>]*\sunit="(\w+)"/.exec(x),objs={};
     var re=/<object\s([^>]*)>([\s\S]*?)<\/object>/g,m;
     while((m=re.exec(x))){var a=attrs(m[1]),b=m[2],o={v:null,t:null,c:[]};
@@ -388,10 +396,11 @@ function mesh3mf(files){
     mods[nm]={o:objs,items:items,u:U[um&&um[1]]||1};if(/^3D\/3dmodel\.model$/i.test(nm))main=nm});
   if(!main)return [];
   var out=[],u=mods[main].u,S0=[u,0,0,0,u,0,0,0,u,0,0,0];
-  function walk(nm,id,M,acc,d){var md=mods[nm]||mods[main],o=md.o[id];if(!o||d>8)return;
-    if(o.v&&o.t&&o.t.length){var T=new Float32Array(o.t.length*3);for(var i=0;i<o.t.length;i++){var vi=o.t[i]*3,x=o.v[vi],y=o.v[vi+1],z=o.v[vi+2];T[i*3]=x*M[0]+y*M[3]+z*M[6]+M[9];T[i*3+1]=x*M[1]+y*M[4]+z*M[7]+M[10];T[i*3+2]=x*M[2]+y*M[5]+z*M[8]+M[11]}acc.push(T)}
-    o.c.forEach(function(c){walk(c.p&&mods[c.p]?c.p:nm,c.id,mul(c.M,M),acc,d+1)})}
-  mods[main].items.forEach(function(it){var acc=[];walk(main,it.id,mul(it.M,S0),acc,0);if(acc.length)out.push(acc)});
+  function walk(nm,id,M,acc,d,ex,top){var md=mods[nm]||mods[main],o=md.o[id];if(!o||d>8)return;
+    if(o.v&&o.t&&o.t.length){var T=new Float32Array(o.t.length*3);for(var i=0;i<o.t.length;i++){var vi=o.t[i]*3,x=o.v[vi],y=o.v[vi+1],z=o.v[vi+2];T[i*3]=x*M[0]+y*M[3]+z*M[6]+M[9];T[i*3+1]=x*M[1]+y*M[4]+z*M[7]+M[10];T[i*3+2]=x*M[2]+y*M[5]+z*M[8]+M[11]}T.e=ex;acc.push(T)}
+    o.c.forEach(function(c){var pe=d===0&&PX[top]?PX[top][c.id]:0;if(pe===-1)return;   // negative / modifier parts are not printed
+      walk(c.p&&mods[c.p]?c.p:nm,c.id,mul(c.M,M),acc,d+1,pe>0?pe:ex,top)})}
+  mods[main].items.forEach(function(it){var acc=[];walk(main,it.id,mul(it.M,S0),acc,0,OX[it.id]||1,it.id);if(acc.length)out.push(acc)});
   return out}
 function meshStl(buf){
   var dv=new DataView(buf);
@@ -407,13 +416,14 @@ function meshObj(buf){
   return t.length?[[T]]:[]}
 function stats(objs){
   var zmin=Infinity,b=[Infinity,-Infinity,Infinity,-Infinity,-Infinity],V=0,A=0,ovh=0,i,T;
-  objs.forEach(function(acc){acc.forEach(function(T){for(i=0;i<T.length;i+=3){var x=T[i],y=T[i+1],z=T[i+2];if(z<zmin)zmin=z;if(x<b[0])b[0]=x;if(x>b[1])b[1]=x;if(y<b[2])b[2]=y;if(y>b[3])b[3]=y;if(z>b[4])b[4]=z}})});
+  var ER={};
+  objs.forEach(function(acc){acc.forEach(function(T){var e=T.e||1,r=ER[e]||(ER[e]=[Infinity,-Infinity]);for(i=0;i<T.length;i+=3){var x=T[i],y=T[i+1],z=T[i+2];if(z<r[0])r[0]=z;if(z>r[1])r[1]=z;if(z<zmin)zmin=z;if(x<b[0])b[0]=x;if(x>b[1])b[1]=x;if(y<b[2])b[2]=y;if(y>b[3])b[3]=y;if(z>b[4])b[4]=z}})});
   objs.forEach(function(acc){var v=0;acc.forEach(function(T){for(i=0;i<T.length;i+=9){
     var ax=T[i],ay=T[i+1],az=T[i+2],bx=T[i+3]-ax,by=T[i+4]-ay,bz=T[i+5]-az,cx=T[i+6]-ax,cy=T[i+7]-ay,cz=T[i+8]-az;
     var nx=by*cz-bz*cy,ny=bz*cx-bx*cz,nz=bx*cy-by*cx,l=Math.sqrt(nx*nx+ny*ny+nz*nz);
     A+=l/2; v+=(ax*(T[i+4]*T[i+8]-T[i+5]*T[i+7])-ay*(T[i+3]*T[i+8]-T[i+5]*T[i+6])+az*(T[i+3]*T[i+7]-T[i+4]*T[i+6]))/6;
     if(l>0&&nz/l<-.707){var zc=(az+T[i+5]+T[i+8])/3-zmin;if(zc>.4)ovh+=-nz/2*zc}}});V+=Math.abs(v)});
-  return {V:V,A:A,ovh:ovh,H:b[4]-zmin,X:b[1]-b[0],Y:b[3]-b[2],objs:objs.length}}
+  return {V:V,A:A,ovh:ovh,H:b[4]-zmin,X:b[1]-b[0],Y:b[3]-b[2],objs:objs.length,er:Object.keys(ER).map(function(e){return [ER[e][0]-zmin,ER[e][1]-zmin]})}}
 function thumb(objs){
   try{var c=document.createElement("canvas"),W=120;c.width=c.height=W;var g=c.getContext("2d"),all=[],tot=0;
     objs.forEach(function(acc){acc.forEach(function(T){all.push(T);tot+=T.length/9})});
@@ -429,11 +439,12 @@ function thumb(objs){
     P.forEach(function(q){var p=q[1],s=Math.min(1,q[2]);g.fillStyle="rgb("+Math.round(20+60*s)+","+Math.round(90+90*s)+","+Math.round(85+80*s)+")";g.strokeStyle=g.fillStyle;g.beginPath();
       for(var j=0;j<6;j+=2){var X=ox+(p[j]-mn[0])*sc,Y=oy+(p[j+1]-mn[1])*sc;j?g.lineTo(X,Y):g.moveTo(X,Y)}g.closePath();g.fill();g.stroke()});
     return c.toDataURL("image/png")}catch(e){return null}}
+function dirty(){if(!G)return;$("reslice").disabled=false;$("est").classList.add("dirty");$("rslN").textContent=L.resliceN}
 function clean(){$("reslice").disabled=true;$("est").classList.remove("dirty");$("rslN").textContent=""}
 async function reslice(){
   if(!G)return; var b=$("reslice"),M=$("dropM"),keep=M.textContent; b.disabled=true;b.classList.add("busy");$("rslN").textContent=L.slicing;
   await new Promise(function(r){setTimeout(r,450)});
-  est();["g1","th","tm"].forEach(function(x){$(x).value=S[x]});save();render();clean();b.classList.remove("busy");M.textContent=keep;
+  est();fill();save();render();clean();b.classList.remove("busy");M.textContent=keep;
   $("res").scrollIntoView({behavior:"smooth",block:"start"});
 }
 async function sliceOnline(file,name,files,png){
@@ -497,7 +508,7 @@ async function read3mf(file){
     var buf=await file.arrayBuffer();
     var files=await unzip(buf,function(nm){return nm==="Metadata/slice_info.config"||/^Metadata\/plate_\d+\.png$/.test(nm)});
     var info=files["Metadata/slice_info.config"],ps=info?plates3mf(new TextDecoder().decode(info)).filter(function(p){return p.sec>0||p.g>0}):[];
-    if(!ps.length){var mf=await unzip(buf,function(nm){return /\.model$/i.test(nm)});await sliceOnline(file,nm0,mf,files["Metadata/plate_1.png"]);return}
+    if(!ps.length){var mf=await unzip(buf,function(nm){return /\.model$/i.test(nm)||nm==="Metadata/model_settings.config"});await sliceOnline(file,nm0,mf,files["Metadata/plate_1.png"]);return}
     G=null;$("est").hidden=true;
     var a=ps[0],same=ps.length>1&&ps.every(function(p){return Math.abs(p.sec-a.sec)<=Math.max(30,a.sec*.01)&&Math.abs(p.g-a.g)<=Math.max(.5,a.g*.01)&&p.objs===a.objs});
     F3={name:file.name.replace(/\.gcode\.3mf$|\.3mf$/i,""),plates:ps,same:same};
@@ -519,12 +530,12 @@ async function read3mf(file){
 })();
 load(); fill(); render();
 document.addEventListener("input",read); document.addEventListener("change",read);
-[].forEach.call(document.querySelectorAll("[data-noz]"),function(b){b.onclick=function(){S.noz=b.dataset.noz;save();render()}});
+[].forEach.call(document.querySelectorAll("[data-noz]"),function(b){b.onclick=function(){S.noz=b.dataset.noz;save();render();dirty()}});
 $("add2").onclick=function(){S.two=true;fill();save();render();$("g2").focus()};
 $("rm2").onclick=function(){S.two=false;fill();save();render()};
 $("reslice").onclick=reslice;
 $("alertB").onclick=function(){var el=$(G?"est":["hour","ac","markup","setup","min","p1"].every(function(k){return n(S[k])===n(DEF[k])})?"rates":"plate");if(el.tagName==="DETAILS")el.open=true;el.scrollIntoView({behavior:"smooth",block:"start"});el.classList.remove("look");void el.offsetWidth;el.classList.add("look")};
-$("reset").onclick=function(){S=Object.assign({},DEF);fill();save();render()};
+$("reset").onclick=function(){var keep={};if(G)Object.keys(JOB).forEach(function(k){keep[k]=S[k]});S=Object.assign({},DEF,keep);if(G){est();clean()}fill();save();render()};
 if("IntersectionObserver" in window){new IntersectionObserver(function(es){$("bar").classList.toggle("off",es[0].isIntersecting)},{threshold:0}).observe($("res"))}
 
 </script>
